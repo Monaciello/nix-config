@@ -7,22 +7,9 @@
   programs.zellij = {
     enable = true;
     package = pkgs.unstable.zellij;
-    #    enableZshIntegration = false; # NOTE: true forces zellij upon opening zsh
-    #    settings = {
-    #      default_mode = "locked";
-    #      #default_layout = "compact"; # NOTE: compact removes the keybindings hint
-    #      pane_frames = false;
-    #      show_startup_tips = false;
-    #      ui.pane_frames = {
-    #        rounded_corners = true;
-    #        hide_session_name = true;
-    #      };
-    #      #keybinds = import ./keybinds.nix;
-    #    };
-    #    extraConfig = ''
-    #      // Test
-    #    '';
   };
+  # See https://github.com/dj95/zjstatus/discussions/44 for some ricing ideas
+  # Use manual file until extraConfig PR is fixed
   home.file.".config/zellij/config.kdl".source = ./config.kdl;
 
   programs.zsh = {
