@@ -3,47 +3,50 @@
 [README](../README.md) > Roadmap of TODOs
 
 ## Short Term
-
-- fix nvim/neo-tree default directory
-- flesh out the nix-config-starter README as per alexschombs git comment
-
 - Write up on future project evolution
 - Shorts re: you-should-use and comma
 
-- Blocked:
-    - Setup backup for ghost 'extra' drive
-    - Genoa backup
-- Genoa: knownhosts not written
 
-- Asserts to check that host and home level packages of the same name are using the same pkg source.
-
-- Stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
 - Start using issues more than fixmes
 - Consider tagging with version numbers that match roadmap
 - Ticket for refactor yubikey module to include u2f stuff
-- Declarative audio output device for gusto if possible
 
 ### Current roadmap focus items
 
 6.1 - genoa
 - issues:
     - knownhosts not written
-- blocked: enable backup
+- Blocked:
+    - Setup backup for ghost 'extra' drive
+    - Genoa backup
 
 7.0 - QoL and Ricing
 
+QoL
+- stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
+- change how hyprland and/or hy3 focus a window that's been moved to another monitor. Have never liked the way it works currently
+- fix nvim/neo-tree default directory
 - Monitors Module improvements
     - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
+- hyprland and hy3
+    - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
+        - ws 8
+        - ~~ws 9~~
+        - ~~ws 10~~
+        - special
+- Declarative audio output device for gusto if possible
+- Asserts to check that host and home level packages of the same name are using the same pkg source.
+
+
+Rice
 - ui dev
-  - ~~ascendancy color set~~
+  - ascendancy color set
     - ~~colors~~
     - repo
     - add to tinted gallery
   - host specific colours (terminal in particular) via stylix?
   - centralize color palette
 - eww as a potential replacement to waybar
-- hyprland and hy3
-    - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
 - hyprcursor
     - recreate ascendancy cursor as a hyprcursor... the existing themes out there are really underwhelming
 - plymouth
@@ -51,7 +54,7 @@
 - maybe rEFInd
 - sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
 - p10k - consider config so that line glyphs don't interfere with yanking
-- fonts - https://old.reddit.com/r/vim/comments/fonzfi/what_is_your_favorite_font_for_coding_in_vim/
+- ~~font~~ Decided on FiraMono
 - dunst
 - lualine
 
@@ -257,33 +260,35 @@ Add laptop support to the mix to handle stuff like power, lid state, wifi, and t
 
 #### 7. QoL and Ricing
 
+QoL
+- change how hyprland and/or hy3 focus a window that's been moved to another monitor. Have never liked the way it works currently
+- fix nvim/neo-tree default directory
 - Monitors Module improvements
     - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
+- hyprland and hy3
+    - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
+        - ws 8
+        - ~~ws 9~~
+        - ~~ws 10~~
+        - special
 
-- gui dev
-  - ~~ascendancy color set~~
+Rice
+- ui dev
+  - ascendancy color set
     - ~~colors~~
     - repo
     - add to tinted gallery
   - host specific colours (terminal in particular) via stylix?
   - centralize color palette
-
 - eww as a potential replacement to waybar
-
-hyprland and hy3
-- layouts
-    - the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
-
 - hyprcursor
     - recreate ascendancy cursor as a hyprcursor... the existing themes out there are really underwhelming
-
 - plymouth
 - grub - https://www.gnome-look.org/browse?cat=109&ord=latest
-
 - maybe rEFInd
 - sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
 - p10k - consider config so that line glyphs don't interfere with yanking
-- fonts - https://old.reddit.com/r/vim/comments/fonzfi/what_is_your_favorite_font_for_coding_in_vim/
+- ~~font~~ - decided on FiraMono
 - dunst
 - lualine
 
