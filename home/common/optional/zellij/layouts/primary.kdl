@@ -1,0 +1,96 @@
+layout {
+    tab name="introdus" focus=true hide_floating_panes=true {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane split_direction="vertical" {
+            pane command="/nix/store/99mraj58037wa3wwhv47iqafy922zqhi-neovim-unwrapped-0.11.2/bin/nvim" cwd="/home/ta/src/nix/introdus" size="60%" {
+                args "--cmd" "lua" "vim.g.loaded_node_provider=0;vim.g.loaded_perl_provider=0;vim.g.loaded_python_provider=0;vim.g.python3_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-python3';vim.g.ruby_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-ruby'" "--cmd" "set" "packpath^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir" "--cmd" "set" "rtp^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir" "doc/TODO.md"
+                start_suspended true
+            }
+            pane size="40%" {
+                pane cwd="/home/ta/src/nix/introdus" focus=true size="75%" {
+                }
+                pane command="just" cwd="/home/ta/src/nix/introdus" size="25%" {
+                    args "rebuild"
+                    start_suspended true
+                }
+            }
+        }
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+        floating_panes {
+            pane cwd="/home/ta/src/nix/introdus" {
+                height 44
+                width 173
+                x 87
+                y 23
+            }
+        }
+    }
+    tab name="nix-config"  hide_floating_panes=true {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane split_direction="vertical" {
+            pane command="/nix/store/99mraj58037wa3wwhv47iqafy922zqhi-neovim-unwrapped-0.11.2/bin/nvim" cwd="/home/ta/src/nix/nix-config" size="60%" {
+                args "--cmd" "lua" "vim.g.loaded_node_provider=0;vim.g.loaded_perl_provider=0;vim.g.loaded_python_provider=0;vim.g.python3_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-python3';vim.g.ruby_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-ruby'" "--cmd" "set" "packpath^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir" "--cmd" "set" "rtp^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir" "doc/TODO.md"
+                start_suspended true
+            }
+            pane size="40%" {
+                pane cwd="src/nix/nix-config" focus=true size="75%" {
+                }
+                pane command="just" cwd="/home/ta/src/nix/nix-config" size="25%" {
+                    args "rebuild"
+                    start_suspended true
+                }
+            }
+        }
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+        floating_panes {
+            pane cwd="src/nix/nix-config" {
+                height 44
+                width 173
+                x 87
+                y 23
+            }
+        }
+    }
+    tab name="wiki" hide_floating_panes=true {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane command="/nix/store/99mraj58037wa3wwhv47iqafy922zqhi-neovim-unwrapped-0.11.2/bin/nvim" cwd="/home/ta" {
+            args "--cmd" "lua" "vim.g.loaded_node_provider=0;vim.g.loaded_perl_provider=0;vim.g.loaded_python_provider=0;vim.g.python3_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-python3';vim.g.ruby_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-ruby'" "--cmd" "set" "packpath^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir" "--cmd" "set" "rtp^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir"
+            start_suspended true
+        }
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+    tab name="abbot-wiki" hide_floating_panes=true {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane command="/nix/store/99mraj58037wa3wwhv47iqafy922zqhi-neovim-unwrapped-0.11.2/bin/nvim" cwd="/home/ta/src/abbot-wiki" {
+            args "--cmd" "lua" "vim.g.loaded_node_provider=0;vim.g.loaded_perl_provider=0;vim.g.loaded_python_provider=0;vim.g.python3_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-python3';vim.g.ruby_host_prog='/nix/store/cybm4svq1rcyd4hx47pbz2g8mr7rn4xj-neovim-0.11.2/bin/nvim-ruby'" "--cmd" "set" "packpath^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir" "--cmd" "set" "rtp^=/nix/store/xsp9wz0hagranrryavxm0pksld0x9xqh-vim-pack-dir"
+            start_suspended true
+        }
+
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+    new_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane cwd="/home/ta"
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+}

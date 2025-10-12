@@ -11,6 +11,7 @@
   # See https://github.com/dj95/zjstatus/discussions/44 for some ricing ideas
   # Use manual file until extraConfig PR is fixed
   home.file.".config/zellij/config.kdl".source = ./config.kdl;
+  home.file.".config/zellij/layouts".source = ./layouts;
 
   programs.zsh = {
     shellAliases = {
