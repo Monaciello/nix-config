@@ -125,6 +125,5 @@ plugins {
 //simplified_ui true
 pane_frames true
 
-theme "stylix"
 //default_layout "simple"
 copy_on_select true
