@@ -45,8 +45,8 @@
 
     fonts = rec {
       monospace = {
-        package = pkgs.unstable.nerd-fonts.fira-code;
-        name = "FiraCode Nerd Font Mono";
+        package = pkgs.unstable.nerd-fonts.fira-mono;
+        name = "FiraMono Nerd Font Mono"; # Like FiraCode but without ligatures
       };
       sansSerif = monospace;
       serif = monospace;
@@ -55,10 +55,10 @@
         name = "Noto Color Emoji";
       };
       sizes = {
-        #        applications https://github.com/tinted-theming/schemes= 12;
-        terminal = 12;
-        desktop = 12;
-        popups = 10;
+        #FiraCode/FiraMono is great but hard to read at 12 on 4k
+        terminal = 14;
+        desktop = 14;
+        popups = 12;
       };
     };
     # program specific exclusions

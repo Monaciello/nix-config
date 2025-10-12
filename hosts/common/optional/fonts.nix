@@ -21,44 +21,34 @@
 
           source-sans
           source-serif
-
-          meslo-lgs-nf
-          julia-mono
-          dejavu_fonts
           ;
         inherit (pkgs.unstable.nerd-fonts)
-          fira-code
+          fira-mono
           iosevka
           jetbrains-mono
           symbols-only
           ;
       }
     );
-
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig.defaultFonts = {
       serif = [
         "Noto Color Emoji"
         "Iosevka Nerd Font Mono"
-        "MesloLGS NF"
         "Nerd Fonts Symbols Only"
-        "FiraCode Nerd Font Mono"
       ];
       sansSerif = [
         "Noto Color Emoji"
-        "Iosevka Nerd Font Mono"
-        "MesloLGS NF"
         "Nerd Fonts Symbols Only"
-        "FiraCode Nerd Font Mono"
+        "FiraMono Nerd Font Mono"
       ];
       monospace = [
         "JetBrainsMono Nerd Font"
         "Noto Color Emoji"
         "Iosevka Nerd Font Mono"
-        "MesloLGS NF"
         "Nerd Fonts Symbols Only"
-        "FiraCode Nerd Font Mono"
+        "FiraMono Nerd Font Mono"
       ];
       emoji = [
         "Noto Color Emoji"
