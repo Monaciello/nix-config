@@ -29,7 +29,8 @@
           "atuin.nix"
           "xdg.nix" # file associations
           "sops.nix"
-          "zellij/default.nix"
+          "zellij" # multiplexer
+          "yazi" # tui file manager
         ])
     )
   );
