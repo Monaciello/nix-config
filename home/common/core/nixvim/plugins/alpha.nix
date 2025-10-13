@@ -20,6 +20,7 @@
             type = "text";
             opts = {
               position = "center";
+              hl = "type";
             };
             val = [
               ""
@@ -73,19 +74,20 @@
             ];
           }
           {
+            type = "padding";
+            val = 4;
+          }
+          {
+            #NOTE: No actions assigned to buttons. Learn the commands.
             type = "group";
             val = [
               {
-                type = "padding";
-                val = 2;
-              }
-              #NOTE: No actions assigned to buttons. Learn the commands.
-              {
                 type = "button";
-                val = "  New file                 ";
+                val = "  New file   ";
                 opts = {
                   shortcut = "                   <Leader>ene  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {
@@ -98,18 +100,20 @@
               }
               {
                 type = "button";
-                val = "  File files              ";
+                val = "  File files   ";
                 opts = {
                   shortcut = "                   <Leader>ff  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {
                 type = "button";
-                val = "  Buffers                 ";
+                val = "  Buffers   ";
                 opts = {
                   shortcut = "                   <Leader>fb  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {
@@ -118,6 +122,7 @@
                 opts = {
                   shortcut = "                   <Leader>fg  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {
@@ -126,6 +131,7 @@
                 opts = {
                   shortcut = "                   <Leader>ft  ";
                   position = "center";
+                  width = "60";
                 };
               }
               #NOTE: not used
@@ -143,6 +149,7 @@
                 opts = {
                   shortcut = "                   <Leader>fh  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {
@@ -159,6 +166,7 @@
                 opts = {
                   shortcut = "                 <leader>gs  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {
@@ -167,6 +175,7 @@
                 opts = {
                   shortcut = "                 <leader>gg  ";
                   position = "center";
+                  width = "60";
                 };
               }
               {

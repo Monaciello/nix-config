@@ -4,6 +4,7 @@
     nixvim-config.plugins.neo-tree.enable = lib.mkEnableOption "enables neo-tree module";
   };
 
+  #FIXME(nvim): opening neo-tree if there is no file open will freeze nvim
   config = lib.mkIf config.nixvim-config.plugins.neo-tree.enable {
     programs.nixvim = {
       plugins.neo-tree = {
