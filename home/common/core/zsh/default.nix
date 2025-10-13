@@ -128,6 +128,6 @@
       '';
     };
 
-    shellAliases = import ./aliases.nix;
+    shellAliases = import ./aliases.nix { inherit config; };
   };
 }

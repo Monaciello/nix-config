@@ -1,3 +1,4 @@
+{ config, ... }:
 let
   devDirectory = "~/src";
   devNix = "${devDirectory}/nix";
@@ -15,12 +16,11 @@ in
   #------------Navigation------------
   clr = "clear";
   rst = "reset";
-  doc = "cd $HOME/documents";
-  scripts = "cd $HOME/scripts";
-  ts = "cd $HOME/.talon/user/fidget";
+  doc = "cd $HOME/doc";
   src = "cd $HOME/src";
   edu = "cd $HOME/src/edu";
   wiki = "cd $HOME/sync/obsidian-vault-01/wiki";
+  abbot = "cd $HOME/src/abbot-wiki";
   uc = "cd $HOME/src/unmoved-centre";
   l = "eza -lah";
   la = "eza -lah";
@@ -55,6 +55,8 @@ in
 
   #-------------SSH---------------
   ssh = "TERM=xterm ssh";
+  pinghosts = "nmap -sP ${config.hostSpec.networking.subnets.grove.cidr}";
+  scanhostson10022 = "sudo nmap -sS ${config.hostSpec.networking.subnets.grove.cidr} -p ${toString config.hostSpec.networking.ports.tcp.ssh}";
 
   #-------------rmtrash---------------
   # Path to real rm and rmdir in coreutils. This is so we can not use rmtrash for big files
