@@ -8,7 +8,7 @@ default:
   @just --list
 
 # Update commonly changing flakes and prep for a rebuild
-rebuild-pre: update-nix-secrets
+rebuild-pre: update-nix-secrets update-nix-assets update-nix-index-database
   @git add --intent-to-add .
 
 # Run post-rebuild checks, like if sops is running properly afterwards
@@ -52,6 +52,14 @@ age-key:
 # Check if sops-nix activated successfully
 check-sops:
   scripts/check-sops.sh
+
+# Update nix-index-database
+update-nix-index-database:
+  nix flake update nix-index-database --timeout 5
+
+# Update nix-assets
+update-nix-assets:
+  nix flake update nix-assets --timeout 5
 
 # Update nix-secrets flake
 update-nix-secrets:

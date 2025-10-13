@@ -17,7 +17,7 @@ in
     inputs.home-manager.${platformModules}.home-manager
     inputs.sops-nix.${platformModules}.sops
     inputs.nix-index-database.${platformModules}.nix-index
-    { programs.nix-index-database.comma.enable = true; }
+    { programs.nix-index-database.comma.enable = true; } # NOTE: don't enable in hm as well because it will barf eventually
 
     (map lib.custom.relativeToRoot [
       "modules/common"
