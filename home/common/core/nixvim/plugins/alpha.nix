@@ -9,6 +9,8 @@
       web-devicons.enable = true; # Required for plugins.alpha
       alpha = {
         enable = true;
+        #TODO(rice): redo this in lua to take advantage of tables or maybe there is a way to do in nix
+        #example alpha themes: https://github.com/goolord/alpha-nvim/discussions/16
         layout = [
           {
             type = "padding";
@@ -74,20 +76,108 @@
             type = "group";
             val = [
               {
+                type = "padding";
+                val = 2;
+              }
+              #NOTE: No actions assigned to buttons. Learn the commands.
+              {
                 type = "button";
-                val = "   New file";
-                on_press.raw = "function() vim.cmd[[ene]] end";
+                val = "  New file                 ";
                 opts = {
-                  shortcut = " <Leader>cn ";
+                  shortcut = "                   <Leader>ene  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "text";
+                val = "   Telescope ";
+                opts = {
+                  hl = "Keyword";
                   position = "center";
                 };
               }
               {
                 type = "button";
-                val = "   Quit Neovim";
-                on_press.raw = "function() vim.cmd[[qa]] end";
+                val = "  File files              ";
                 opts = {
-                  shortcut = " :q ";
+                  shortcut = "                   <Leader>ff  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "button";
+                val = "  Buffers                 ";
+                opts = {
+                  shortcut = "                   <Leader>fb  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "button";
+                val = "  Live grep               ";
+                opts = {
+                  shortcut = "                   <Leader>fg  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "button";
+                val = "  TODOTelescope           ";
+                opts = {
+                  shortcut = "                   <Leader>ft  ";
+                  position = "center";
+                };
+              }
+              #NOTE: not used
+              #{
+              #  type = "button";
+              #  val = "  repo list               ";
+              #  opts = {
+              #    shortcut = "                   <Leader>fr  ";
+              #    position = "center";
+              #  };
+              #}
+              {
+                type = "button";
+                val = "󰮥  Help tags               ";
+                opts = {
+                  shortcut = "                   <Leader>fh  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "text";
+                val = "   git       ";
+                opts = {
+                  hl = "Keyword";
+                  position = "center";
+                };
+              }
+              {
+                type = "button";
+                val = "   fugitive                ";
+                opts = {
+                  shortcut = "                 <leader>gs  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "button";
+                val = "   Neogit                  ";
+                opts = {
+                  shortcut = "                 <leader>gg  ";
+                  position = "center";
+                };
+              }
+              {
+                type = "padding";
+                val = 1;
+              }
+              {
+                type = "button";
+                val = "  Quit Neovim             ";
+                opts = {
+                  shortcut = "                           :q  ";
                   position = "center";
                 };
               }

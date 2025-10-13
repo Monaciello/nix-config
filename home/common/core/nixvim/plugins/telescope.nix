@@ -53,10 +53,20 @@
           key = "<Leader>ft";
           action = "<cmd>TodoTelescope<CR>";
           options = {
-            desc = "find TODOs";
+            desc = "Todo Telescope";
             noremap = true;
           };
         }
+        #NOTE: needs plugin and I also don't telescope repos
+        #{
+        #   mode = [ "n" ];
+        #   key = "<Leader>fr";
+        #   action = "<cmd>Telescope repo list<CR>";
+        #   options = {
+        #     desc = "repo list";
+        #     noremap = true;
+        #   };
+        #}
 
       ];
     };
