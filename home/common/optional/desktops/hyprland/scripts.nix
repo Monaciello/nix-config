@@ -17,7 +17,7 @@ let
           hyprctl dispatch -- "$1"
       }
 
-      # Arrange upper tiles
+      # Arrange ws 9 tiles
       dispatch "focuswindow class:signal"
       dispatch "hy3:movewindow l"
       dispatch "hy3:movewindow l" #make sure signal starts in the left most position
@@ -30,7 +30,7 @@ let
       dispatch "hy3:movewindow r" #make sure brave exits the group #TODO: is the a bind to move drop it from group
       dispatch "hy3:makegroup v"
 
-      # arrange rightside tiles
+      # Arrange ws 10 tiles
       dispatch "focuswindow title:Virtual Machine Manager"
       dispatch "hy3:movewindow l"
       dispatch "resizeactive exact 500 900" #these values are fuzzy because hypr has some sort of multiple that reduces the values here
@@ -42,6 +42,12 @@ let
       dispatch "focuswindow class:spotify"
       dispatch "hy3:movewindow d"
       dispatch "hy3:movewindow d" #move down twice to handle scenarios where spotify launches early than usual
+
+
+      # Arrange ws special tiles
+      dispatch "focuswindow title:keymapp"
+      dispatch "focuswindow title:keymapp"
+      dispatch "hy3:movewindow d"
     '';
   };
 
