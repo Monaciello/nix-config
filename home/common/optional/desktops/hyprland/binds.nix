@@ -201,7 +201,7 @@
         #
         # ========== Misc ==========
         #
-        "SUPER, t, exec, arrangeTiles" # custom function in ./scripts.nix
+        "SUPERSUPER, t, exec, arrangeTiles" # custom function in ./scripts.nix
         "SHIFTSUPER,r,exec,hyprctl reload" # reload the configuration file
         "SUPER,e,exec,wlogout" # display wlogout
       ];

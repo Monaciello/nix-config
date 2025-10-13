@@ -28,11 +28,12 @@ in
   ls = "eza";
   lsa = "eza -lah";
 
-  #------------Nix src navigation------------
+  #------------ src navigation------------
   cnc = "cd ${devNix}/nix-config";
   cns = "cd ${devNix}/nix-secrets";
   cnh = "cd ${devNix}/nixos-hardware";
   cnp = "cd ${devNix}/nixpkgs";
+  cin = "cd ${devNix}/introdus";
 
   #-----------Nix commands----------------
   nfc = "nix flake check";
