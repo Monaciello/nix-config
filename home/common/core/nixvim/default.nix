@@ -156,7 +156,7 @@
 
            let wiki_1 = {}
            let wiki_1.path = '~/src/abbot-wiki/'
-           let wiki_1.index = 'home'
+           let wiki_1.index = '0_home'
            let wiki_1.syntax = 'markdown'
            let wiki_1.ext = '.md'
 
