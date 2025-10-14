@@ -5,7 +5,7 @@
 ## Short Term
 - Write up on future project evolution
 - Shorts re: you-should-use and comma
-
+- sort out dap-ui binds
 
 - Start using issues more than fixmes
 - Consider tagging with version numbers that match roadmap
@@ -25,7 +25,7 @@
 QoL
 - stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
 - change how hyprland and/or hy3 focus a window that's been moved to another monitor. Have never liked the way it works currently
-- fix nvim/neo-tree default directory
+- ~~fix nvim/neo-tree default directory~~
 - Monitors Module improvements
     - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
 - hyprland and hy3

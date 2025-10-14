@@ -66,7 +66,9 @@
     #
     # ========== sessions ==========
     #
-    nixvim-config.plugins.auto-session.enable = lib.mkDefault true;
+    # NOTE: disabled because it fucks up neo-tree when nvim opens without a file.
+    # Also using zellij for sessions so not really needed anymore
+    nixvim-config.plugins.auto-session.enable = lib.mkDefault false;
     #
     # ========== utils ==========
     #
