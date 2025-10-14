@@ -21,6 +21,16 @@
     nixvim-config.plugins.bufferline.enable = lib.mkDefault false;
     nixvim-config.plugins.lualine.enable = lib.mkDefault true;
     #
+    # ========== debug ==========
+    #
+    nixvim-config.plugins.dap.enable = lib.mkDefault true;
+    nixvim-config.plugins.dap-ui.enable = lib.mkDefault true;
+    nixvim-config.plugins.dap-virtual-text.enable = lib.mkDefault true; # Shows values dynamically next to code as comments while debugger is running
+    nixvim-config.plugins.dap-lldb.enable = lib.mkDefault true; # C, C++, Rust
+    nixvim-config.plugins.dap-python.enable = lib.mkDefault true; # Python
+    #nixvim-config.plugins.dap-go.enable = lib.mkDefault true; # Golang
+    #nixvim-config.plugins.dap-rr.enable = lib.mkDefault true; # Record and replay debugger
+    #
     # ========== trees ==========
     #
     nixvim-config.plugins.neo-tree.enable = lib.mkDefault true;
@@ -28,6 +38,7 @@
     #
     # ========== git ==========
     #
+    nixvim-config.plugins.gitsigns.enable = lib.mkDefault true;
     nixvim-config.plugins.neogit.enable = lib.mkDefault true;
     nixvim-config.plugins.fugitive.enable = lib.mkDefault true;
     #nixvim-config.plugins.lazygit.enable = lib.mkDefault false;
