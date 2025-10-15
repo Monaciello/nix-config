@@ -3,6 +3,10 @@
 [README](../README.md) > Roadmap of TODOs
 
 ## Short Term
+
+- why tmpfs not bound by ram
+- nvim using lots of proc
+
 - Write up on future project evolution
 - Shorts re: you-should-use and comma
 - sort out dap-ui binds
@@ -36,7 +40,6 @@ QoL
         - special
 - Declarative audio output device for gusto if possible
 - Asserts to check that host and home level packages of the same name are using the same pkg source.
-
 
 Rice
 - ui dev

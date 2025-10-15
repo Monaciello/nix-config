@@ -8,7 +8,7 @@
       enable = true;
       protontricks = {
         enable = true;
-        package = pkgs.protontricks;
+        package = pkgs.unstable.protontricks;
       };
       #      package = pkgs.steam.override {
       #        extraPkgs =

@@ -30,7 +30,8 @@ in
 
   # Let it try to start a few more times
   systemd.user.services.waybar = {
-    Unit.StartLimitBurst = 30;
+    Unit.StartLimitInterval = 0;
+    #Unit.StartLimitBurst = 30;
   };
 
   programs.waybar = {

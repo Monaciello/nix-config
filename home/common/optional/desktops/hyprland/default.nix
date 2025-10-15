@@ -27,7 +27,7 @@
 
     settings = {
       debug = {
-        disable_logs = false;
+        disable_logs = true;
       };
       #
       # ========== Environment Vars ==========
@@ -155,36 +155,36 @@
       #
       # ========== Auto Launch ==========
       #
-      # exec-once = ''${startupScript}/path'';
+      # exec-once = "${startupScript}/path";
       # To determine path, run `which foo`
       exec-once =
         if config.hostSpec.hostName == "ghost" then
           [
-            ''${pkgs.waypaper}/bin/waypaper --restore''
-            ''[workspace 8 silent]${pkgs.obsidian}/bin/obsidian''
-            ''[workspace 8 silent]${pkgs.copyq}/bin/copyq''
-            ''[workspace 9 silent]${pkgs.signal-desktop}/bin/signal-desktop''
-            ''[workspace 9 silent]${pkgs.discord}/bin/discord''
-            ''[workspace 9 silent]${pkgs.brave}/bin/brave''
-            ''[workspace 10 silent]${pkgs.virt-manager}/bin/virt-manager''
-            ''[workspace 10 silent]${pkgs.ghostty}/bin/ghostty --title=btop -e btop''
-            ''[workspace 10 silent]${pkgs.ghostty}/bin/ghostty --title=amdgpu_top -e amdgpu_top --dark''
-            ''[workspace 10 silent]${pkgs.spotify}/bin/spotify''
-            ''[workspace special silent]/run/current-system/sw/bin/protonvpn-app''
-            ''[workspace special silent]${pkgs.yubioath-flutter}/bin/yubioath-flutter''
-            ''[workspace special silent]${pkgs.keymapp}/bin/keymapp''
+            "waypaper --restore"
+            "[workspace 8 silent]obsidian"
+            "[workspace 8 silent]copyq"
+            "[workspace 9 silent]signal-desktop"
+            "[workspace 9 silent]discord"
+            "[workspace 9 silent]brave"
+            "[workspace 10 silent]virt-manager"
+            "[workspace 10 silent]'sudo ghostty --title=btop -e btop'"
+            "[workspace 10 silent]'sudo ghostty --title=amdgpu_top -e amdgpu_top --dark'"
+            "[workspace 10 silent]spotify"
+            "[workspace special silent]/run/current-system/sw/bin/protonvpn-app"
+            "[workspace special silent]yubioath-flutter"
+            "[workspace special silent]keymapp"
           ]
         else if config.hostSpec.isMobile then
           [
-            ''${pkgs.waypaper}/bin/waypaper --restore''
-            ''[workspace 9 silent]${pkgs.signal-desktop}/bin/signal-desktop''
-            ''[workspace 1 silent]${pkgs.copyq}/bin/copyq''
-            ''[workspace special silent]${pkgs.yubioath-flutter}/bin/yubioath-flutter''
-            ''[workspace special silent]/run/current-system/sw/bin/protonvpn-app''
+            "waypaper --restore"
+            "[workspace 9 silent]signal-desktop"
+            "[workspace 1 silent]copyq"
+            "[workspace special silent]yubioath-flutter"
+            "[workspace special silent]/run/current-system/sw/bin/protonvpn-app"
           ]
         else
           [
-            ''${pkgs.waypaper}/bin/waypaper --restore''
+            "waypaper --restore"
           ];
 
       #

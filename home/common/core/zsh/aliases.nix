@@ -1,39 +1,53 @@
 { config, ... }:
 let
-  devDirectory = "~/src";
+  devDirectory = "$HOME/src";
   devNix = "${devDirectory}/nix";
 in
 {
   # Overrides those provided by OMZ libs, plugins, and themes.
   # For a full list of active aliases, run `alias`.
 
+  whichreal = ''function _whichreal(){ (alias "$1" >/dev/null 2>&1 && (alias "$1" | sed "s/.*=.\(.*\).../\1/" | xargs which)) || which "$1"; }; _whichreal'';
+
   #-------------Bat related------------
   cat = "bat --paging=never";
   diff = "batdiff";
-  rg = "batgrep";
   man = "batman";
+  less = "bat --style=plain";
+  rg = "batgrep";
+  #rg = "rg -M300";
 
   #------------Navigation------------
-  clr = "clear";
+  c = "clear";
   rst = "reset";
   doc = "cd $HOME/doc";
-  src = "cd $HOME/src";
-  edu = "cd $HOME/src/edu";
+  edu = "cd $HOME/edu";
   wiki = "cd $HOME/sync/obsidian-vault-01/wiki";
-  abbot = "cd $HOME/src/abbot-wiki";
-  uc = "cd $HOME/src/unmoved-centre";
   l = "eza -lah";
   la = "eza -lah";
+  ldt = "eza -TD"; # list directory tree
   ll = "eza -lh";
   ls = "eza";
   lsa = "eza -lah";
+  tree = "eza -T";
+  ".h" = "cd ~"; # Because I find pressing ~ tedious"
+  cdr = "cd-gitroot";
+  ".r" = "cd-gitroot";
+  cdpr = "..; cd-gitroot";
+  "..r" = "..; cd-gitroot";
+
+  #------------compression------------
+  unzip = "7z x";
 
   #------------ src navigation------------
+  src = "cd ${devDirectory}";
   cnc = "cd ${devNix}/nix-config";
   cns = "cd ${devNix}/nix-secrets";
   cnh = "cd ${devNix}/nixos-hardware";
   cnp = "cd ${devNix}/nixpkgs";
   cin = "cd ${devNix}/introdus";
+  cab = "cd ${devDirectory}/abbot-wiki";
+  cuc = "cd ${devDirectory}/unmoved-centre";
 
   #-----------Nix commands----------------
   nfc = "nix flake check";
@@ -41,17 +55,27 @@ in
   nb = "nix build";
   ns = "nix shell";
 
+  # prevent accidental killing of single characters
+  pkill = "pkill -x";
+
+  #-------------direnv---------------
+  da = "direnv allow";
+  dr = "direnv reload";
+
   #-------------justfiles---------------
   jr = "just rebuild";
+  jrup = "just rebuild-update";
   jrt = "just rebuild-trace";
   jl = "just --list";
-  jc = "$just check";
-  jct = "$just check-trace";
 
   #-------------Neovim---------------
   e = "nvim";
   vi = "nvim";
   vim = "nvim";
+
+  #-------------journalctl---------------
+  jc = "journalctl";
+  jcu = "journalctl --user";
 
   #-------------SSH---------------
   ssh = "TERM=xterm ssh";
@@ -66,5 +90,45 @@ in
   rmdir = "rmdirtrash";
 
   #-------------Git Goodness-------------
-  # just reference `$ alias` and use the defaults, they're good.
+  gcm = "git commit -m";
+  gcmcf = "git commit -m 'chore: update flake.lock'";
+  gca = "git commit --amend";
+  gcan = "git commit --amend --no-edit";
+  gcam = "git commit --amend -m";
+
+  # We use source because we want it to use other aliases, which allow yubikey signing over ssh
+  gsr = "git_smart_rebase";
+  grst = "git reset --soft ";
+
+  gr = "git restore";
+  gra = "git restore :/";
+  grs = "git restore --staged";
+  grsa = "git restore --staged :/";
+
+  ga = "git add";
+  # "git add again" - Re-add changes for anything that was already staged. Useful for pre-commit changes, etc
+  gaa = "git update-index --again";
+  gau = "git add --update";
+
+  # Only add updates to files that are already staged
+  gas = "git add --update $(git diff --name-only --cached)";
+  gs = "git status --untracked-files=no";
+  gsa = "git status";
+  gst = "git stash";
+  gstp = "git stash pop";
+  gsw = "git switch";
+  gswc = "git switch -c";
+  gco = "git checkout";
+  gf = "git fetch";
+  gfa = "git fetch --all";
+  gfu = "git fetch upstream";
+  gfm = "git fetch origin master";
+  gds = "git diff --staged";
+  gd = "git diff";
+  gp = "git push";
+  gpf = "git push --force-with-lease";
+  gpl = "git pull";
+  gl = "git log";
+  gc = "git clone";
+
 }
