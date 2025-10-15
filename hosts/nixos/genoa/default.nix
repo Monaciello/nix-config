@@ -118,6 +118,9 @@
 
   boot.initrd = {
     systemd.enable = true;
+    kernelModules = [
+      "nvme"
+    ];
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion

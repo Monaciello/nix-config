@@ -113,13 +113,16 @@
 
   boot.initrd = {
     systemd.enable = true;
-    kernelModules = [ "amdgpu" ];
+    kernelModules = [
+      "amdgpu"
+      "nvme"
+    ];
   };
   boot = {
     kernelModules = [
       "amdgpu-i2c"
     ];
-    kernelPackages = pkgs.unstable.linuxPackages_latest;
+    kernelPackages = pkgs.stable.linuxPackages_latest;
     kernelParams = [
       "amdgpu.ppfeaturemask=0xfffd3fff" # https://kernel.org/doc/html/latest/gpu/amdgpu/module-parameters.html#ppfeaturemask-hexint
       "amdgpu.dcdebugmask=0x400" # Allegedly might help with some crashes
@@ -150,10 +153,18 @@
   services.backup = {
     enable = true;
     borgBackupStartTime = "02:00:00";
-    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.oops.ip}";
-    borgUser = "${config.hostSpec.username}";
+
+    #oops    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.oops.ip}";
+    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.myth.ip}";
+    #oops    borgUser = "${config.hostSpec.username}";
+    borgUser = "borg";
     borgPort = "${builtins.toString config.hostSpec.networking.ports.tcp.oops}";
-    borgBackupPath = "/var/services/homes/${config.hostSpec.username}/backups";
+
+    #temp added for myth
+    borgRemotePath = "/run/current-system/sw/bin/borg";
+    #oops path    borgBackupPath = "/var/services/homes/${config.hostSpec.username}/backups";
+
+    borgBackupPath = "/mnt/storage/backup";
     borgNotifyFrom = "${config.hostSpec.email.notifier}";
     borgNotifyTo = "${config.hostSpec.email.backup}";
   };
