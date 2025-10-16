@@ -13,7 +13,9 @@
 
       # Productivity
       drawio
-      grimblast
+
+      #FIXME: stable grimblast requires stably hyprland. need unstable grimblast or better yet, see if flameshot works for multimmonitors yet. not working with unstable hyprlan
+      #grimblast
       libreoffice
 
       # Privacy
