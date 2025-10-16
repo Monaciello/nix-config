@@ -1,5 +1,5 @@
 layout {
-    tab name="dev" hide_floating_panes=true {
+    tab name="default" hide_floating_panes=true {
         pane size=1 borderless=true {
             plugin location="compact-bar"
         }

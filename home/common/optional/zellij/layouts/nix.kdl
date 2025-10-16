@@ -1,20 +1,18 @@
 layout {
-    tab name="nix" focus=true hide_floating_panes=true {
+    tab name="nix" hide_floating_panes=true {
         pane size=1 borderless=true {
-            plugin location="zellij:tab-bar"
+            plugin location="compact-bar"
         }
         pane split_direction="vertical" {
-            pane size="60%" {
+            pane focus=true size="60%" {
             }
             pane size="40%" {
-                pane command="nix repl" focus=true size="75%" {
+                pane command="nix repl" size="75%" {
+                    start_suspended true
                 }
                 pane size="25%" {
                 }
             }
-        }
-        pane size=1 borderless=true {
-            plugin location="zellij:status-bar"
         }
         floating_panes {
             pane {
