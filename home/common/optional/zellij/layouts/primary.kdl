@@ -66,7 +66,13 @@ layout {
             plugin location="compact-bar"
         }
         pane command="nvim" cwd="$HOME/src/abbot-wiki" size="50%"
-        pane command="nvim" cwd="$HOME/src/abbot-wiki" size="50%"
+        pane split_direction="vertical" {
+            pane command="nvim" cwd="$HOME/src/abbot-wiki" size="50%" {
+                start_suspended true
+            }
+            pane cwd="$HOME/src/abbot-wiki" size="50%"
+        }
+
     }
     tab name="FidgetingBits" hide_floating_panes=true {
         pane size=1 borderless=true {
