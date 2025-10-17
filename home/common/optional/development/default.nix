@@ -36,6 +36,7 @@ in
         delta # diffing
         act # github workflow runner
         gh # github cli
+        gdb
         glab # gitlab cli
         yq-go # Parser for Yaml and Toml Files, that mirrors jq
 
@@ -56,15 +57,6 @@ in
         man-pages-posix
         ;
     })
-
-    #    (lib.optionals pkgs.stdenv.isLinux (
-    #      builtins.attrValues {
-    #        inherit (pkgs)
-    #          gdb
-    #          pwndbg
-    #          ;
-    #      }
-    #    ))
   ];
 
   #NOTE: Already enabled earlier, this is just extra config
