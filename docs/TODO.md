@@ -2,19 +2,6 @@
 
 [README](../README.md) > Roadmap of TODOs
 
-## Short Term
-
-- why tmpfs not bound by ram
-- nvim using lots of proc
-
-- Write up on future project evolution
-- Shorts re: you-should-use and comma
-- sort out dap-ui binds
-
-- Start using issues more than fixmes
-- Consider tagging with version numbers that match roadmap
-- Ticket for refactor yubikey module to include u2f stuff
-
 ### Current roadmap focus items
 
 6.1 - genoa
@@ -25,6 +12,11 @@
     - Genoa backup
 
 7.0 - QoL and Ricing
+
+- Blocked:
+    - hyprland not working
+    - stable now
+    - WIP cleanging up related issues
 
 QoL
 - stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
