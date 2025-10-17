@@ -20,12 +20,9 @@ let
     # example = prev.example.overrideAttrs (previousAttrs: let ... in {
     # ...
     # });
-    hyprland = prev.hyprland.overrideAttrs {
-      package = final.stable.hyprland;
-      mesa = final.unstable.mesa;
-    };
     steam = prev.steam.overrideAttrs {
-      mesa = final.unstable.mesa;
+      #      package = final.unstable.steam;
+      #      mesa = final.unstable.mesa;
     };
   };
 

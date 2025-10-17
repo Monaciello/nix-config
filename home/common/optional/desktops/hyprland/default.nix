@@ -15,14 +15,14 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    package = pkgs.unstable.hyprland;
     systemd = {
       enable = true;
       variables = [ "--all" ]; # fix for https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
     };
 
     plugins = [
-      pkgs.hyprlandPlugins.hy3
-      #pkgs.unstable.hyprlandPlugins.hy3
+      pkgs.unstable.hyprlandPlugins.hy3
     ];
 
     settings = {
@@ -167,8 +167,8 @@
             "[workspace 9 silent]discord"
             "[workspace 9 silent]brave"
             "[workspace 10 silent]virt-manager"
-            "[workspace 10 silent]'sudo ghostty --title=btop -e btop'"
-            "[workspace 10 silent]'sudo ghostty --title=amdgpu_top -e amdgpu_top --dark'"
+            "[workspace 10 silent]ghostty --title=btop -e btop"
+            "[workspace 10 silent]ghostty --title=amdgpu_top -e amdgpu_top --dark"
             "[workspace 10 silent]spotify"
             "[workspace special silent]/run/current-system/sw/bin/protonvpn-app"
             "[workspace special silent]yubioath-flutter"
