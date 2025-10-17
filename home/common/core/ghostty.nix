@@ -1,7 +1,8 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.ghostty = {
     enable = true;
+    package = pkgs.unstable.ghostty;
     settings = {
       scrollback-limit = 10000;
       #NOTE(ghostty): not using ghostty for splits or tabs so nearly all default binds conflict Hypr, nvim, or zellij
