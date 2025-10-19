@@ -105,7 +105,7 @@
     systemd-boot = {
       enable = true;
       # When using plymouth, initrd can expand by a lot each time, so limit how many we keep around
-      configurationLimit = lib.mkDefault 10;
+      configurationLimit = lib.mkDefault 20; # 10 is too low when mesa, hyprland, et al is fucking me over
     };
     efi.canTouchEfiVariables = true;
     timeout = 3;
@@ -134,14 +134,14 @@
 
   hardware = {
     graphics.package = pkgs.unstable.mesa;
-    #graphics.package = pkgs.stable.mesa;
+    graphics.package32 = pkgs.unstable.pkgsi686Linux.mesa; # force the same mesa for when steams requires separate system32 mesa dep
     #amdgpu.initrd.enable = true; # load amdgpu kernelModules in stage 1.
     #amdgpu.opencl.enable = true; # OpenCL support - general compute API for gpu
     #amdgpu.amdvlk.enable = true; # additional, alternative drivers
   };
 
   environment.systemPackages = builtins.attrValues {
-    inherit (pkgs)
+    inherit (pkgs.unstable)
       #clinfo # opencl testing
       vulkan-tools # vulkaninfo
       ;

@@ -36,6 +36,7 @@ in
 
   programs.waybar = {
     enable = true;
+    package = pkgs.unstable.waybar;
     systemd = {
       enable = true;
     };

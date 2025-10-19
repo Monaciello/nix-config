@@ -292,12 +292,8 @@
       #
       # ========== hy3 config ==========
       #
-      #TODO enable this and config
       general.layout = "hy3";
       plugin.hy3 = {
-      };
-      plugin.wslayout = {
-        default_layout = "master";
       };
     };
   };
