@@ -29,9 +29,9 @@ QoL
         - ws 8
         - ~~ws 9~~
         - ~~ws 10~~
-        - special
+        - ~~special~~
 - Declarative audio output device for gusto if possible
-- Asserts to check that host and home level packages of the same name are using the same pkg source.
+- ~~Asserts to check that host and home level hyprland packages of the same name are using the same pkg source.~~
 
 Rice
 - ui dev
