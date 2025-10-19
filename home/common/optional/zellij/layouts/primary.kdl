@@ -1,11 +1,11 @@
 layout {
     cwd "$HOME"
-    tab name="1 TODO" hide_floating_panes=true {
+    tab name="1 TA_TODO" hide_floating_panes=true {
         pane size=1 borderless=true {
             plugin location="compact-bar"
         }
         pane command="nvim" cwd="$HOME/src/abbot-wiki" {
-            args "ta-wiki/0_TODO.md"
+            args "TA_TODO.md"
             start_suspended false
         }
     }
@@ -61,7 +61,7 @@ layout {
             }
         }
     }
-    tab name="4 Abbot" hide_floating_panes=true {
+    tab name="4 Wiki" hide_floating_panes=true {
         pane size=1 borderless=true {
             plugin location="compact-bar"
         }
@@ -85,16 +85,7 @@ layout {
             pane cwd="$HOME/pub/src/nix/fidgetingbits" size="50%"
         }
     }
-    tab name="6 Wiki" hide_floating_panes=true {
-        pane size=1 borderless=true {
-            plugin location="compact-bar"
-        }
-        pane command="nvim" cwd="$HOME/sync/obsidian-vault-01/wiki/" {
-            args "0_home.md"
-            start_suspended true
-        }
-    }
-    new_tab_template {
+   new_tab_template {
         pane size=1 borderless=true {
             plugin location="compact-bar"
         }
