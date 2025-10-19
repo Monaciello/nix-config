@@ -147,7 +147,7 @@
            " See :h vimwiki_list for info on registering wiki paths
            let wiki_0 = {}
            let wiki_0.path = '~/sync/obsidian-vault-01/wiki/'
-           let wiki_0.index = '0_home'
+           let wiki_0.index = 'abbot-wiki/ta-wiki/_TA-TASKS'
            let wiki_0.syntax = 'markdown'
            let wiki_0.ext = '.md'
 
