@@ -27,7 +27,7 @@
 
     settings = {
       debug = {
-        disable_logs = true;
+        disable_logs = false;
       };
       #
       # ========== Environment Vars ==========
