@@ -1,5 +1,15 @@
-.pre-commit-config.yaml
 .direnv
+.ruff_cache
 tmp
+
+# From build command testing
 result
-latest.iso
+*.iso
+
+node_modules
+/.pre-commit-config.yaml
+
+# Backup files for temporary changes
+*.bk
+
+/.git-crypt.key
