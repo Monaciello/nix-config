@@ -21,7 +21,8 @@
     nixpkgs.pkgs = import <nixpkgs> { };
 
     enable = true;
-    enableMan = true; # install man pages for nixvim options
+    #FIXME(vim): not working for many man pages.
+    #enableMan = true; # install man pages for nixvim options
 
     clipboard.register = "unnamedplus"; # use system clipboard instead of internal registers
 
