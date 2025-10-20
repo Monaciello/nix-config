@@ -110,7 +110,6 @@ in
             host = forwardAgentHostsString;
             forwardAgent = true;
           };
-
           "git" = {
             host = "gitlab.com github.com";
             user = "git";
@@ -125,6 +124,30 @@ in
             forwardAgent = true;
             identitiesOnly = true;
             identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+          };
+          "moon" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+            host = "moon";
+            hostname = "${inputs.nix-secrets.networking.domains.moon}";
+            user = "${config.hostSpec.username}";
+            port = config.hostSpec.networking.ports.tcp.moon;
+            forwardAgent = true;
+            identitiesOnly = true;
+            identityFile = [
+              "~/.ssh/id_yubikey"
+            ];
+          };
+          #FIXME(backup): revise oops and myth users once consolidated
+          "myth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+            host = "myth";
+            hostname = "${inputs.nix-secrets.networking.domains.myth}";
+            user = "${config.hostSpec.username}";
+            port = config.hostSpec.networking.ports.tcp.myth;
+            forwardAgent = true;
+            identitiesOnly = true;
+            identityFile = [
+              "~/.ssh/id_yubikey"
+              "~/.ssh/id_borg"
+            ];
           };
           "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
             host = "oops";

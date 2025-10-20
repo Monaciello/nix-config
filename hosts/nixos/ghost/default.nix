@@ -117,7 +117,6 @@
     systemd.enable = true;
     kernelModules = [
       "amdgpu"
-      "nvme"
     ];
   };
   boot = {
@@ -156,8 +155,9 @@
     enable = true;
     borgBackupStartTime = "02:00:00";
 
+    #FIXME(backup): revise when hosts relocated
     #oops    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.oops.ip}";
-    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.myth.ip}";
+    borgServer = "${config.hostSpec.networking.domains.myth}";
     #oops    borgUser = "${config.hostSpec.username}";
     borgUser = "borg";
     borgPort = "${builtins.toString config.hostSpec.networking.ports.tcp.oops}";

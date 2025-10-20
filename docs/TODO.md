@@ -14,8 +14,8 @@
 7.0 - QoL and Ricing
 
 - Blocked:
-    - hyprland not working
-    - stable now
+    - ~~hyprland not working~~
+    - stable-ish now
     - WIP cleanging up related issues
 
 QoL
@@ -26,10 +26,10 @@ QoL
     - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
 - hyprland and hy3
     - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
-        - ws 8
         - ~~ws 9~~
         - ~~ws 10~~
         - ~~special~~
+    - modify script to autoexec once requisite hyprctl clients are up
 - Declarative audio output device for gusto if possible
 - ~~Asserts to check that host and home level hyprland packages of the same name are using the same pkg source.~~
 
