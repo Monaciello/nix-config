@@ -3,7 +3,7 @@
   services.logrotate = {
     enable = true;
     settings = {
-      "$XDG_RUNTIME_DIR/hypr/hyprland.log" = {
+      "/run/user/*/hypr/*/hyprland.log" = {
         size = "1000M";
         rotate = 5;
         compress = true; # gzip compression by default
