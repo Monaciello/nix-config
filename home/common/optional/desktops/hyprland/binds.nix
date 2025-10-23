@@ -13,7 +13,7 @@
     #
     bindm = [
       # hold SUPER + leftlclick  to move/drag active window
-      "SUPER,mouse:272,movewindow"
+      "SUPER,mouse:272,movewindoworgroup"
       # hold SUPER + rightclick to resize active window
       "SUPER,mouse:273,resizewindow"
     ];
@@ -22,7 +22,7 @@
     #
     bindn = [
       # allow tab selection using mouse
-      ", mouse:272, hy3:focustab, mouse"
+      #FIXME      ", mouse:272, hy3:focustab, mouse"
     ];
     #
     # ========== Repeat Binds ==========
@@ -135,7 +135,7 @@
         "SUPER,minus,focuscurrentorlast"
 
         # Close the focused/active window
-        "SHIFTSUPER,q,hy3:killactive"
+        # "SHIFTSUPER,q,hy3:killactive"
         "SHIFTSUPER,q,killactive"
 
         # Fullscreen
@@ -147,13 +147,18 @@
         "SHIFTSUPER,p, pin, active" # pins a floating window (i.e. show it on all workspaces)
 
         # Splits groups
-        "SUPER,v,hy3:makegroup,v" # make a vertical split
-        "SHIFTSUPER,v,hy3:makegroup,h" # make a horizontal split
-        "SUPER,x,hy3:changegroup,opposite" # toggle btwn splits if untabbed
-        #"SUPER,x,togglesplit" # superseded by hy3:changegroup
+        # "SUPER,v,hy3:makegroup,v" # make a vertical split
+        # "SHIFTSUPER,v,hy3:makegroup,h" # make a horizontal split
+        # "SUPER,x,hy3:changegroup,opposite" # toggle btwn splits if untabbed
+        #"SUPER,v,hy3:makegroup,v" # make a vertical split
+        #"SHIFTSUPER,v,hy3:makegroup,h" # make a horizontal split
+        #"SUPER,x,hy3:changegroup,opposite" # toggle btwn splits if untabbed
+        "SUPER,x,togglesplit" # superseded by hy3:changegroup
 
         # Tab groups
-        "SUPER,g,hy3:changegroup,toggletab" # tab or untab the group
+        #"SUPER,g,hy3:changegroup,toggletab" # tab or untab the group
+        "SUPER,g,togglegroup" # toggle the current active window into a group
+
         #"SUPER,t,lockactivegroup,toggle"
         "SUPER,apostrophe,changegroupactive,f"
         "SHIFTSUPER,apostrophe,changegroupactive,b"
@@ -174,18 +179,22 @@
         (map (
           n:
           if n == "10" then
-            "SHIFTSUPER,0,hy3:movetoworkspace,name:10"
+            #"SHIFTSUPER,0,hy3:movetoworkspace,name:10"
+            "SHIFTSUPER,0,movetoworkspace,name:10"
           else
-            "SHIFTSUPER,${n},hy3:movetoworkspace,name:${n}"
+            #"SHIFTSUPER,${n},hy3:movetoworkspace,name:${n}"
+            "SHIFTSUPER,${n},movetoworkspace,name:${n}"
         ) workspaces)
 
         # Move focus from active window to window in specified direction
         #(lib.mapAttrsToList (key: direction: "SUPER,${key}, exec, customMoveFocus ${direction}") directions)
-        (lib.mapAttrsToList (key: direction: "SUPER,${key},hy3:movefocus,${direction},warp") directions)
+        #(lib.mapAttrsToList (key: direction: "SUPER,${key},hy3:movefocus,${direction},warp") directions)
+        (lib.mapAttrsToList (key: direction: "SUPER,${key},movefocus,${direction}") directions)
 
         # Move windows
         #(lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key}, exec, customMoveWindow ${direction}") directions)
-        (lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key},hy3:movewindow,${direction}") directions)
+        #(lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key},hy3:movewindow,${direction}") directions)
+        (lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key},movewindoworgroup,${direction}") directions)
 
         # Move workspace to monitor in specified direction
         (lib.mapAttrsToList (

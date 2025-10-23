@@ -21,13 +21,13 @@
       variables = [ "--all" ]; # fix for https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
     };
 
-    plugins = [
-      pkgs.unstable.hyprlandPlugins.hy3
-    ];
+    # plugins = [
+    #   pkgs.unstable.hyprlandPlugins.hy3
+    # ];
 
     settings = {
       debug = {
-        disable_logs = false;
+        disable_logs = true;
       };
       #
       # ========== Environment Vars ==========
@@ -131,7 +131,8 @@
         active_opacity = 1.0;
         inactive_opacity = 0.85;
         fullscreen_opacity = 1.0;
-        rounding = 10;
+        rounding = 15;
+        rounding_power = 1;
         blur = {
           enabled = true;
           size = 4;
@@ -143,14 +144,27 @@
           enabled = true;
           range = 12;
           #offset = "3 3";
-          color = lib.mkForce "0xffff9400";
-          color_inactive = lib.mkForce "0xff2d2d30";
+          color = lib.mkForce "0xFFFF9400";
+          color_inactive = lib.mkForce "0xFF2D2D30";
         };
       };
-      # group = {
-      #groupbar = {
-      #          };
-      #};
+      group = {
+        "col.border_active" = lib.mkForce "0xFFFF9400";
+        "col.border_inactive" = lib.mkForce "0xFF2D2D30";
+        groupbar = {
+          indicator_height = 0;
+          gradients = true;
+          gradient_rounding = 4;
+          gradient_rounding_power = 1;
+          font_size = 12;
+          font_weight_active = "bold";
+          font_weight_inactive = "bold";
+          text_color = lib.mkForce "0xFF212F3D";
+          text_color_inactive = lib.mkForce "0xFFD5C7A1";
+          "col.active" = lib.mkForce "0xAAFF9400";
+          "col.inactive" = lib.mkForce "0x55504945";
+        };
+      };
 
       #
       # ========== Auto Launch ==========
@@ -290,11 +304,19 @@
       # extraConfig = '''';
 
       #
+      # ========== layout rules ==========
+      #
+      dwindle = {
+        preserve_split = true;
+        pseudotile = true;
+      };
+
+      #
       # ========== hy3 config ==========
       #
-      general.layout = "hy3";
-      plugin.hy3 = {
-      };
+      # general.layout = "hy3";
+      # plugin.hy3 = {
+      # };
     };
   };
 }
