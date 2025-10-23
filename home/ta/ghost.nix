@@ -25,11 +25,12 @@
           "helper-scripts"
           "media"
           "tools"
+          "zellij"
 
           "atuin.nix"
-          "xdg.nix" # file associations
+          "xdg.nix"
           "sops.nix"
-          "zellij/default.nix"
+          "yazi.nix"
         ])
     )
   );
