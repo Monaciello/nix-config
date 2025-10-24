@@ -13,7 +13,7 @@
     #
     bindm = [
       # hold SUPER + leftlclick  to move/drag active window
-      "SUPER,mouse:272,movewindoworgroup"
+      "SUPER,mouse:272,movewindow" # NOTE: movewindoworgroup is not available for mouse
       # hold SUPER + rightclick to resize active window
       "SUPER,mouse:273,resizewindow"
     ];
@@ -22,7 +22,7 @@
     #
     bindn = [
       # allow tab selection using mouse
-      #FIXME      ", mouse:272, hy3:focustab, mouse"
+      #", mouse:272, hy3:focustab, mouse" #not needed unless using hy3
     ];
     #
     # ========== Repeat Binds ==========
