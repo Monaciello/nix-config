@@ -80,7 +80,7 @@
       name = "HDMI-A-1";
       width = 2560;
       height = 1440;
-      refreshRate = 240;
+      refreshRate = 144;
       y = -1440;
       transform = 2;
       workspace = "9";
