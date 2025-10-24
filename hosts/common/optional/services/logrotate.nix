@@ -4,10 +4,11 @@
     enable = true;
     settings = {
       "/run/user/*/hypr/*/hyprland.log" = {
-        size = "1000M";
+        size = "1G";
         rotate = 5;
+        frequency = "daily";
+        copytruncate = true; # maintain the original file so hyprland still logs to it
         compress = true; # gzip compression by default
-        nocompress = true; # don't compress the newest file
         missingok = true; # don't scream if the file is missing
         notifempty = true; # don't rotate empty files
         dateext = true; # timestamp files
