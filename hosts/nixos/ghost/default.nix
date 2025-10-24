@@ -17,10 +17,13 @@
     #
     # ========== Hardware ==========
     #
-    ./hardware-configuration.nix
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-amd
-    inputs.hardware.nixosModules.common-pc-ssd
+    # ./hardware-configuration.nix
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-gpu-amd
+    # inputs.hardware.nixosModules.common-pc-ssd
+
+    inputs.nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
 
     #
     # ========== Disk Layout ==========

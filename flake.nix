@@ -125,6 +125,9 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     hardware.url = "github:nixos/nixos-hardware";
+    # Modern nixos-hardware alternative
+    nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
