@@ -126,7 +126,7 @@ in
             identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
           };
           "moon" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "moon";
+            host = "moon ${inputs.nix-secrets.networking.domains.moon}";
             hostname = "${inputs.nix-secrets.networking.domains.moon}";
             user = "${config.hostSpec.username}";
             port = config.hostSpec.networking.ports.tcp.moon;
@@ -136,11 +136,10 @@ in
               "~/.ssh/id_yubikey"
             ];
           };
-          #FIXME(backup): revise oops and myth users once consolidated
           "myth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "myth";
+            host = "myth ${inputs.nix-secrets.networking.domains.myth}";
             hostname = "${inputs.nix-secrets.networking.domains.myth}";
-            user = "${config.hostSpec.username}";
+            user = "admin";
             port = config.hostSpec.networking.ports.tcp.myth;
             forwardAgent = true;
             identitiesOnly = true;
@@ -150,7 +149,7 @@ in
             ];
           };
           "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "oops";
+            host = "oops oops.${config.hostSpec.domain}";
             hostname = "oops.${config.hostSpec.domain}";
             user = "${config.hostSpec.username}";
             port = config.hostSpec.networking.ports.tcp.oops;
