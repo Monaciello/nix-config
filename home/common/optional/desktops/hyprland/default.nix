@@ -182,7 +182,7 @@
             "[workspace 9 silent]brave"
             "[workspace 10 silent]virt-manager"
             "[workspace 10 silent]ghostty --title=btop -e btop"
-            "[workspace 10 silent]ghostty --title=amdgpu_top -e amdgpu_top --dark"
+            #"[workspace 10 silent]ghostty --title=amdgpu_top -e amdgpu_top --dark" # don't reference often enough
             "[workspace 10 silent]spotify"
             "[workspace special silent]/run/current-system/sw/bin/protonvpn-app"
             "[workspace special silent]yubioath-flutter"
