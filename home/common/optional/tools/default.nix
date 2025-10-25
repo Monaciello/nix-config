@@ -27,13 +27,13 @@
       blender-hip # -hip variant includes h/w accelrated rendering with AMD RNDA gpus
       gimp
       inkscape
-      obs-studio
       # VM and RDP
       # remmina
       ;
 
     inherit (pkgs.unstable)
       grimblast # screenshot tool
+      obs-studio
       ;
   };
   #Disabled for now. grimblast
