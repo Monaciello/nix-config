@@ -131,6 +131,8 @@ ui {
         rounded_corners true
     }
 }
+//disable mouse hover effect and multiple select functionality (pane group)
+advanced_mouse_actions false
 
 pane_frames true
 copy_on_select true
