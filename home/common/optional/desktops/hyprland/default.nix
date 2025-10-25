@@ -21,10 +21,6 @@
       variables = [ "--all" ]; # fix for https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
     };
 
-    # plugins = [
-    #   pkgs.unstable.hyprlandPlugins.hy3
-    # ];
-
     settings = {
       debug = {
         disable_logs = true;
@@ -311,12 +307,6 @@
         pseudotile = true;
       };
 
-      #
-      # ========== hy3 config ==========
-      #
-      # general.layout = "hy3";
-      # plugin.hy3 = {
-      # };
     };
   };
 }

@@ -20,11 +20,11 @@
 
 QoL
 - stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
-- change how hyprland and/or hy3 focus a window that's been moved to another monitor. Have never liked the way it works currently
+- change how hyprland focus a window that's been moved to another monitor. Have never liked the way it works currently
 - ~~fix nvim/neo-tree default directory~~
 - Monitors Module improvements
     - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
-- hyprland and hy3
+- hyprland
     - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
         - ~~ws 9~~
         - ~~ws 10~~
@@ -256,11 +256,11 @@ Add laptop support to the mix to handle stuff like power, lid state, wifi, and t
 #### 7. QoL and Ricing
 
 QoL
-- change how hyprland and/or hy3 focus a window that's been moved to another monitor. Have never liked the way it works currently
+- change how hyprland  focus a window that's been moved to another monitor. Have never liked the way it works currently
 - fix nvim/neo-tree default directory
 - Monitors Module improvements
     - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
-- hyprland and hy3
+- hyprland
     - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
         - ws 8
         - ~~ws 9~~

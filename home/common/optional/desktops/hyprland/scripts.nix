@@ -18,36 +18,53 @@ let
       }
 
       # Arrange ws 9 tiles
+        # ideal signal location
+        # mapped: 1
+        # hidden: 1
+        # at: 6,-1380
+        # size: 1016,1374
+        # workspace: 9 (9)
+        # floating: 0
+        # pseudo: 0
+        # monitor: 3
+        # class: signal
+        # title: Signal
+        # initialClass: signal
+        # initialTitle: Signal
+        # xwayland: 0
+        # grouped: 5593f2f0fad0,5593f2f30980
       dispatch "focuswindow class:signal"
-      dispatch "hy3:movewindow l"
-      dispatch "hy3:movewindow l" #make sure signal starts in the left most position
-      dispatch "hy3:movewindow l"
-      dispatch "hy3:changegroup toggletab"
+      dispatch "movewindoworgroup l"
+      dispatch "movewindoworgroup l"#make sure signal starts in the left most position
+      dispatch "movewindoworgroup l"
+      dispatch "togglegroup"
+
         #TODO: detect if brave is a single window with "restore session" prompt or two windows
       dispatch "focuswindow class:brave-browser"
-      dispatch "hy3:movewindow r"
-      dispatch "hy3:movewindow r"
-      dispatch "hy3:movewindow r" #make sure brave exits the group #TODO: is the a bind to move drop it from group
-      dispatch "hy3:makegroup v"
+      dispatch "movewindoworgroup r"
+      dispatch "movewindoworgroup r"
+      dispatch "movewindoworgroup r"
+      dispatch "togglesplit" # set up horizontal for brave windows on 'restore'
+
+      dispatch "focuswindow class:discord"
+      dispatch "movewindoworgroup l" #move discord into group
 
       # Arrange ws 10 tiles
       dispatch "focuswindow title:Virtual Machine Manager"
-      dispatch "hy3:movewindow l"
+      dispatch "movewindoworgroup l"
       dispatch "resizeactive exact 500 900" #these values are fuzzy because hypr has some sort of multiple that reduces the values here
       dispatch "focuswindow title:amdgpu_top"
-      dispatch "hy3:movewindow r"
+      dispatch "movewindoworgroup r"
       dispatch "resizeactive exact 500, 900"
       dispatch "focuswindow title:btop"
       #dispatch "resizeactive exact 1350 900"
       dispatch "focuswindow class:spotify"
-      dispatch "hy3:movewindow d"
-      dispatch "hy3:movewindow d" #move down twice to handle scenarios where spotify launches early than usual
-
+      dispatch "movewindoworgroup d"
+      dispatch "movewindoworgroup d" #move down twice to handle scenarios where spotify launches early than usual
 
       # Arrange ws special tiles
       dispatch "focuswindow title:keymapp"
-      dispatch "focuswindow title:keymapp"
-      dispatch "hy3:movewindow d"
+      dispatch "movewindoworgroup d"
     '';
   };
 

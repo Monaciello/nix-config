@@ -1,4 +1,3 @@
-#NOTE: Actions prepended with `hy3;` are specific to the hy3 hyprland plugin
 {
   config,
   lib,
@@ -17,13 +16,13 @@
       # hold SUPER + rightclick to resize active window
       "SUPER,mouse:273,resizewindow"
     ];
+
     #
     # ========== Non-consuming Binds ==========
     #
     bindn = [
-      # allow tab selection using mouse
-      #", mouse:272, hy3:focustab, mouse" #not needed unless using hy3
     ];
+
     #
     # ========== Repeat Binds ==========
     #
@@ -41,6 +40,7 @@
       ", XF86AudioRaiseVolume, exec, pactl set-source-volume @DEFAULT_SOURCE@ +5%"
       ", XF86AudioLowerVolume, exec, pactl set-source-volume @DEFAULT_SOURCE@ -5%"
     ];
+
     #
     # ========== One-shot Binds ==========
     #
@@ -81,7 +81,7 @@
           k = up;
           j = down;
         };
-        #        pactl = lib.getExe' pkgs.pulseaudio "pactl"; # installed via /hosts/common/optional/audio.nix
+        #pactl = lib.getExe' pkgs.pulseaudio "pactl"; # installed via /hosts/common/optional/audio.nix
         terminal = config.home.sessionVariables.TERM;
         editor = config.home.sessionVariables.EDITOR;
 
@@ -114,10 +114,8 @@
         #
         # see "binde" above for volume ctrls that need repeat binding
         # Output
-        #", XF86AudioMute, exec, ${pactl} set-sink-mute @DEFAULT_SINK@ toggle"
         ", XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
         # Input
-        #", XF86AudioMute, exec, ${pactl} set-source-mute @DEFAULT_SOURCE@ toggle"
         ", XF86AudioMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle"
         # Player
         ", XF86AudioPlay, exec, playerctl --ignore-player=firefox,chromium,brave play-pause"
@@ -135,7 +133,6 @@
         "SUPER,minus,focuscurrentorlast"
 
         # Close the focused/active window
-        # "SHIFTSUPER,q,hy3:killactive"
         "SHIFTSUPER,q,killactive"
 
         # Fullscreen
@@ -146,22 +143,14 @@
         # Pin Active Floating window
         "SHIFTSUPER,p, pin, active" # pins a floating window (i.e. show it on all workspaces)
 
-        # Splits groups
-        # "SUPER,v,hy3:makegroup,v" # make a vertical split
-        # "SHIFTSUPER,v,hy3:makegroup,h" # make a horizontal split
-        # "SUPER,x,hy3:changegroup,opposite" # toggle btwn splits if untabbed
-        #"SUPER,v,hy3:makegroup,v" # make a vertical split
-        #"SHIFTSUPER,v,hy3:makegroup,h" # make a horizontal split
-        #"SUPER,x,hy3:changegroup,opposite" # toggle btwn splits if untabbed
-        "SUPER,x,togglesplit" # superseded by hy3:changegroup
+        # Splits
+        "SUPER,x,togglesplit"
 
         # Tab groups
-        #"SUPER,g,hy3:changegroup,toggletab" # tab or untab the group
         "SUPER,g,togglegroup" # toggle the current active window into a group
-
-        #"SUPER,t,lockactivegroup,toggle"
         "SUPER,apostrophe,changegroupactive,f"
         "SHIFTSUPER,apostrophe,changegroupactive,b"
+        #"SUPER,t,lockactivegroup,toggle"
 
         #
         # ========== Workspaces ==========
@@ -179,21 +168,15 @@
         (map (
           n:
           if n == "10" then
-            #"SHIFTSUPER,0,hy3:movetoworkspace,name:10"
             "SHIFTSUPER,0,movetoworkspace,name:10"
           else
-            #"SHIFTSUPER,${n},hy3:movetoworkspace,name:${n}"
             "SHIFTSUPER,${n},movetoworkspace,name:${n}"
         ) workspaces)
 
         # Move focus from active window to window in specified direction
-        #(lib.mapAttrsToList (key: direction: "SUPER,${key}, exec, customMoveFocus ${direction}") directions)
-        #(lib.mapAttrsToList (key: direction: "SUPER,${key},hy3:movefocus,${direction},warp") directions)
         (lib.mapAttrsToList (key: direction: "SUPER,${key},movefocus,${direction}") directions)
 
         # Move windows
-        #(lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key}, exec, customMoveWindow ${direction}") directions)
-        #(lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key},hy3:movewindow,${direction}") directions)
         (lib.mapAttrsToList (key: direction: "SHIFTSUPER,${key},movewindoworgroup,${direction}") directions)
 
         # Move workspace to monitor in specified direction
@@ -202,10 +185,10 @@
         ) directions)
 
         #
-        # ========== Monitors==========
+        # ========== Monitors ==========
         #
-        "SUPER, m, exec, toggleMonitors" # custom function in ./scripts.nix
-        "SUPER, n, exec, toggleMonitorsNonPrimary" # custom function in ./scripts.nix
+        "SUPER, m, exec, toggleMonitors" # toggle all monitors on/off. custom function in ./scripts.nix
+        "SUPER, n, exec, toggleMonitorsNonPrimary" # toggle on/off all but center monitor. custom function in ./scripts.nix
 
         #
         # ========== Misc ==========
