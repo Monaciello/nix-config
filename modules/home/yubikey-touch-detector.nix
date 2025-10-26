@@ -2,6 +2,7 @@
 # FIXME: Send a PR to HM to add this service
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -44,7 +45,8 @@ in
     };
     notificationSoundFile = lib.mkOption {
       type = lib.types.str;
-      default = "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/window-attention.oga";
+      #default = "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/window-attention.oga";
+      default = "${inputs.nix-assets}/notifications/john_spartan.ogg";
       description = ''
         Path to the sound file to play when the YubiKey is waiting for a touch.
       '';
