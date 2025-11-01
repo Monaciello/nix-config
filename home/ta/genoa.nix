@@ -21,7 +21,7 @@
           "comms"
           "desktops" # default is hyprland
           "development"
-          "gaming"
+          #          "gaming"
           "helper-scripts"
           "media"
           "tools"

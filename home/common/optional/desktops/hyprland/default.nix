@@ -40,7 +40,6 @@
         "WLR_NO_HARDWARE_CURSORS,1"
         "WLR_RENDERER_ALLOW_SOFTWARE,1"
         "QT_QPA_PLATFORM,wayland"
-        "HYPRCURSOR_THEME,rose-pine-hyprcursor" # this will be better than default for now
       ];
 
       #

@@ -35,7 +35,6 @@
     #
     # ========== Misc Inputs ==========
     #
-    inputs.stylix.nixosModules.stylix
 
     (map lib.custom.relativeToRoot [
       #
@@ -58,7 +57,7 @@
       "hosts/common/optional/obsidian.nix" # wiki
       "hosts/common/optional/plymouth.nix" # fancy boot screen
       "hosts/common/optional/protonvpn.nix" # vpn
-      "hosts/common/optional/stylix.nix" # quickrice
+      #"hosts/common/optional/stylix.nix" # quickrice
       "hosts/common/optional/thunar.nix" # gui file manager
       "hosts/common/optional/vlc.nix" # media player
       "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
@@ -74,6 +73,7 @@
   hostSpec = {
     hostName = "genoa";
     isMobile = lib.mkForce true;
+    isAutoStyled = lib.mkForce true;
     useYubikey = lib.mkForce true;
     hdr = lib.mkForce true;
     wifi = lib.mkForce true;
