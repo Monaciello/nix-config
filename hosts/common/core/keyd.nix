@@ -1,3 +1,4 @@
+# Host-specific binds should be in hosts/<system>/<host>/default.nix
 { ... }:
 {
   services.keyd = {
@@ -6,7 +7,7 @@
       ids = [ "*" ]; # Apply to all keyboards
       settings = {
         main = {
-          capslock = "noop"; # TODO(keyboard): should change this to be overload(\, |) to match moonlander
+          capslock = "\\";
           numlock = "noop"; # numlock state on by default via hyprland config
         };
       };

@@ -6,6 +6,7 @@
 ###############################################################
 
 {
+  config,
   inputs,
   lib,
   ...
@@ -78,6 +79,17 @@
     hdr = lib.mkForce true;
     wifi = lib.mkForce true;
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
+  };
+  #
+  # ========== Keyboard Remaps ==========
+  #
+  # swap meta and left alt on laptop keyboard to match moonlander
+  services.keyd.keyboards.default = lib.optionalAttrs config.services.keyd.enable {
+    ids = [ "17aa:5054" ];
+    settings.main = {
+      leftmeta = "leftalt";
+      leftalt = "leftmeta";
+    };
   };
 
   # set custom autologin options. see greetd.nix for details
