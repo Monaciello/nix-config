@@ -1,7 +1,7 @@
 #############################################################
 #
 #  Ghost - Main Desktop
-#  NixOS running on Ryzen 9 5900XT, Radeon RX 5700 XT, 64GB RAM
+#  NixOS running on Ryzen 9 5900XT, Radeon RX 9070 XT, 64GB RAM
 #
 ###############################################################
 

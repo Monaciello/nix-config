@@ -78,7 +78,7 @@ keybinds clear-defaults=true { normal {}
         bind "Alt l"             { MoveFocusOrTab "Right" ; }
         bind "Alt j"             { MoveFocus "Down" ; }
         bind "Alt k"             { MoveFocus "Up" ; }
-        bind "Alt -"             { FocusPreviousPane ; }
+        bind "Alt -"             { FocusPreviousPane ; } //Order is not guaranteed. "Previous" is previous pane in the layout tree, _not_ previously focused!
         bind "Alt 1"                 { GoToTab 1 ; }
         bind "Alt 2"                 { GoToTab 2 ; }
         bind "Alt 3"                 { GoToTab 3 ; }
