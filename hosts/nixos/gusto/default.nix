@@ -35,7 +35,6 @@
     #
     # ========== Misc Inputs ==========
     #
-    inputs.stylix.nixosModules.stylix
 
     (map lib.custom.relativeToRoot [
       #
@@ -56,7 +55,6 @@
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/fonts.nix" # fonts
       "hosts/common/optional/smbclient.nix" # mount the ghost mediashare
-      "hosts/common/optional/stylix.nix" # quickrice
       "hosts/common/optional/vlc.nix" # media player
     ])
   ];
@@ -68,15 +66,14 @@
   hostSpec = {
     hostName = "gusto";
     useYubikey = lib.mkForce true;
+    isAutoStyled = lib.mkForce true;
+    theme = lib.mkForce "rose-pine-moon";
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
 
     user = lib.mkForce [
       "ta"
       "media"
     ];
-
-    #TODO: style for gusto: Need to refactor hostSpec
-    #base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine-moon.yaml";
   };
 
   # Enable some basic X server options

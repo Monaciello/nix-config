@@ -34,7 +34,6 @@
     #
     # ========== Misc Inputs ==========
     #
-    inputs.stylix.nixosModules.stylix
 
     (map lib.custom.relativeToRoot [
       #
@@ -62,7 +61,6 @@
       "hosts/common/optional/plymouth.nix" # fancy boot screen
       "hosts/common/optional/protonvpn.nix" # vpn
       "hosts/common/optional/scanning.nix" # SANE and simple-scan
-      "hosts/common/optional/stylix.nix" # quickrice
       "hosts/common/optional/thunar.nix" # gui file manager
       "hosts/common/optional/vlc.nix" # media player
       "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
@@ -82,6 +80,8 @@
 
   hostSpec = {
     hostName = "ghost";
+    isAutoStyled = lib.mkForce true;
+    #theme = lib.mkForce TODO;
     useYubikey = lib.mkForce true;
     hdr = lib.mkForce true;
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
@@ -139,6 +139,13 @@
   hardware = {
     graphics.package = pkgs.unstable.mesa;
     graphics.package32 = pkgs.unstable.pkgsi686Linux.mesa; # force the same mesa for when steams requires separate system32 mesa dep
+    # graphics.extraPackages = builtins.attrValues {
+    #   inherit (pkgs.unstable)
+    #     vulkan-loader
+    #     vulkan-validation-layers
+    #     vulkan-extension-layer
+    #     ;
+    # };
     #amdgpu.initrd.enable = true; # load amdgpu kernelModules in stage 1.
     #amdgpu.opencl.enable = true; # OpenCL support - general compute API for gpu
     #amdgpu.amdvlk.enable = true; # additional, alternative drivers

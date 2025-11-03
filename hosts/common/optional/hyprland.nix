@@ -12,7 +12,6 @@
 
   environment.systemPackages = [
     # NOTE: hyprcursors loaded here will be used by hyprland in lieu of any xcursors declared elsewhere
-    # inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 
   assertions = [
