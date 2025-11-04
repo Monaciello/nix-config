@@ -45,17 +45,17 @@
       #
       # ========== Optional Configs ==========
       #
+      "hosts/common/optional/services/bluetooth.nix" # bluetooth
       "hosts/common/optional/services/greetd.nix" # display manager
       "hosts/common/optional/services/logrotate.nix" # log rotation
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
       "hosts/common/optional/services/printing.nix" # CUPS
-      "hosts/common/optional/services/bluetooth.nix" # bluetooth
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/fonts.nix" # fonts
       "hosts/common/optional/libvirt.nix" # vm tools
       "hosts/common/optional/gaming.nix" # steam, gamescope, gamemode, and related hardware
       "hosts/common/optional/hyprland.nix" # window manager
-      "hosts/common/optional/msmtp.nix" # for sending email notifications
+      "hosts/common/optional/mail.nix" # for sending email notifications
       "hosts/common/optional/nvtop.nix" # GPU monitor (not available in home-manager)
       "hosts/common/optional/amdgpu_top.nix" # GPU monitor (not available in home-manager)
       "hosts/common/optional/obsidian.nix" # wiki
