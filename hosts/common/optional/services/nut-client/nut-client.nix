@@ -1,12 +1,13 @@
 # Network UPS Tools (NUT) client
 # FIXME: This is partially specific to moth atm
 {
+  inputs,
   lib,
   config,
   ...
 }:
 let
-
+  sopsFolder = (builtins.toString inputs.nix-secrets) + "/sops";
   upsmonNotifyTypes = {
     ONLINE = "UPS is back online";
     ONBATT = "UPS is on battery";
@@ -54,15 +55,15 @@ in
     mode = "netclient";
     upsmon = {
       #enable = true;
-      monitor.ups =
+      monitor.cyberpower =
         let
           # FIXME: The client info should be set or configured externally to this module
           server = config.hostSpec.networking.subnets.grove.hosts.moth.ip;
           port = toString config.hostSpec.networking.ports.tcp.nut;
         in
         {
-          system = "ups@${server}:${port}";
-          user = "monuser";
+          system = "cyberpower@${server}:${port}";
+          user = "nut";
           passwordFile = config.sops.secrets."passwords/nut".path;
           type = "slave";
         };
@@ -156,6 +157,7 @@ in
 
   sops.secrets = {
     "passwords/nut" = {
+      sopsFile = "${sopsFolder}/shared.yaml";
       owner = config.power.ups.upsmon.user;
       group = config.power.ups.upsmon.group;
       mode = "0600";

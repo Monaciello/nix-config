@@ -62,45 +62,47 @@ in
   # rules or each event.
   power.ups.schedulerRules =
     ''
-      CMDSCRIPT ${lib.getExe upssched-cmd}
+            CMDSCRIPT ${lib.getExe upssched-cmd}
 
-      PIPEFN /var/state/ups/upssched.pipe
-      LOCKFN /var/state/ups/upssched.lock
+            PIPEFN /var/state/ups/upssched.pipe
+            LOCKFN /var/state/ups/upssched.lock
 
-      # Syntax:
-      # AT <notifyType> <upsName> <command>
-      # START-TIMER           <timername>     <interval>
-      # CANCEL-TIMER          <timername>     [cmd]
-      # EXECUTE               <command>
-
-
-      # If on battery -- start death timer
-      AT ONBATT    * START-TIMER halt ${systemGraceTime}
-      AT ONLINE    * CANCEL-TIMER halt
-
-      # Halt on low battery and or shutdown
-      AT LOWBATT   * EXECUTE halt
-      AT FSD       * EXECUTE halt
-
-      # If communication to the server is lost -- start death timer
-      AT COMMBAD   * START-TIMER halt ${systemGraceTime}
-      AT NOCOMM    * START-TIMER halt ${systemGraceTime}
-      AT NOCOMM    * EXECUTE NOCOMM
-      AT COMMOK    * CANCEL-TIMER halt
-      AT COMMOK    * EXECUTE COMMOK
+            # Syntax:
+            # AT <notifyType> <upsName> <command>
+            # START-TIMER           <timername>     <interval>
+            # CANCEL-TIMER          <timername>     [cmd]
+            # EXECUTE               <command>
 
 
-      # Log the following as unknown commands. Revisit these
-      AT REPLBATT  * EXECUTE REPLBATT
-      AT NOPARENT  * EXECUTE NOPARENT
-      AT CAL       * EXECUTE CAL
-      AT NOTCAL    * EXECUTE NOTCAL
-      AT OFF       * EXECUTE OFF
-      AT NOTOFF    * EXECUTE NOTOFF
-      AT BYPASS    * EXECUTE BYPASS
-      AT NOTBYPASS * EXECUTE NOTBYPASS
-      AT SUSPEND_STARTING * EXECUTE SUSPEND_STARTING
-      AT SUSPEND_FINISHED * EXECUTE SUSPEND_FINISHED
+            # If on battery -- start death timer
+            AT ONBATT    * START-TIMER halt ${systemGraceTime}
+            AT ONLINE    * CANCEL-TIMER halt
+
+            # Halt on low battery and or shutdown
+            AT LOWBATT   * EXECUTE halt
+            AT FSD       * EXECUTE halt
+
+            # If communication to the server is lost -- start death timer
+      #FIXME (nut): temporarily disabling start-timer until we can communicate correctly with the nut server
+            #AT COMMBAD   * START-TIMER halt ${systemGraceTime}
+            AT COMMBAD    * EXECUTE NOCOMM
+            #AT NOCOMM    * START-TIMER halt ${systemGraceTime}
+            AT NOCOMM    * EXECUTE NOCOMM
+            AT COMMOK    * CANCEL-TIMER halt
+            AT COMMOK    * EXECUTE COMMOK
+
+
+            # Log the following as unknown commands. Revisit these
+            AT REPLBATT  * EXECUTE REPLBATT
+            AT NOPARENT  * EXECUTE NOPARENT
+            AT CAL       * EXECUTE CAL
+            AT NOTCAL    * EXECUTE NOTCAL
+            AT OFF       * EXECUTE OFF
+            AT NOTOFF    * EXECUTE NOTOFF
+            AT BYPASS    * EXECUTE BYPASS
+            AT NOTBYPASS * EXECUTE NOTBYPASS
+            AT SUSPEND_STARTING * EXECUTE SUSPEND_STARTING
+            AT SUSPEND_FINISHED * EXECUTE SUSPEND_FINISHED
     ''
     |> (pkgs.writeText "upssched.conf")
     |> toString;
