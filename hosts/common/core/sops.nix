@@ -47,6 +47,13 @@ in
         sopsFile = "${sopsFolder}/shared.yaml";
         neededForUsers = true;
       };
+      # NOTE: This entry is duplicated in home sops and here because nix.nix can't
+      # directly check for sops usage due to recursion in some situations
+      # formatted as extra-access-tokens = github.com=<PAT token>
+      "tokens/nix-access-tokens" = {
+        sopsFile = "${sopsFolder}/shared.yaml";
+      };
+
       "passwords/msmtp" = {
         sopsFile = "${sopsFolder}/shared.yaml";
       };

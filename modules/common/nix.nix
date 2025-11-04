@@ -50,9 +50,8 @@
     };
 
     # Access token prevents github rate limiting if you have to nix flake update a bunch
-    #TODO
-    #extraOptions =
-    #  if config ? "sops" then "!include ${config.sops.secrets."tokens/nix-access-tokens".path}" else "";
+    extraOptions =
+      if config ? "sops" then "!include ${config.sops.secrets."tokens/nix-access-tokens".path}" else "";
 
     # Disabled because we use nh
     # gc = {

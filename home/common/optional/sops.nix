@@ -42,9 +42,10 @@ in
     validateSopsFiles = false;
 
     secrets = {
-      #placeholder for tokens that I haven't gotten to yet
-      #"tokens/foo" = {
-      #};
+      # formatted as extra-access-tokens = github.com=<PAT token>
+      "tokens/nix-access-tokens" = {
+        sopsFile = "${sopsFolder}/shared.yaml";
+      };
     }
     // yubikeySecrets;
   };
