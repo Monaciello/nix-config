@@ -114,7 +114,8 @@
       # Enabling too many plugins will slowdown shell startup
       plugins = [
         "git"
-        "sudo" # press Esc twice to get the previous command prefixed with sudo https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/sudo
+        # NOTE: disabling sudo plugin because it is super annoying with esc/ctrl mapped to same key
+        #"sudo" # press Esc twice to get the previous command prefixed with sudo https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/sudo
       ];
       extraConfig = ''
         # Display red dots whilst waiting for completion.
