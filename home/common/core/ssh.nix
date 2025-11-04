@@ -148,11 +148,11 @@ in
               "~/.ssh/id_borg"
             ];
           };
-          "oops" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "oops oops.${config.hostSpec.domain}";
-            hostname = "oops.${config.hostSpec.domain}";
+          "moth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+            host = "moth moth.${config.hostSpec.domain}";
+            hostname = "moth.${config.hostSpec.domain}";
             user = "${config.hostSpec.username}";
-            port = config.hostSpec.networking.ports.tcp.oops;
+            port = config.hostSpec.networking.ports.tcp.moth;
             forwardAgent = true;
             identitiesOnly = true;
             identityFile = [

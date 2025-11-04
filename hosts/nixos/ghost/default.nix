@@ -34,6 +34,7 @@
     #
     # ========== Misc Inputs ==========
     #
+    #    inputs.stylix.nixosModules.stylix
 
     (map lib.custom.relativeToRoot [
       #
@@ -165,18 +166,13 @@
     enable = true;
     borgBackupStartTime = "02:00:00";
 
-    #FIXME(backup): revise when hosts relocated
-    #oops    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.oops.ip}";
-    borgServer = "${config.hostSpec.networking.domains.myth}";
-    #oops    borgUser = "${config.hostSpec.username}";
-    borgUser = "borg";
-    borgPort = "${builtins.toString config.hostSpec.networking.ports.tcp.oops}";
+    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.moth.ip}";
+    borgUser = "${config.hostSpec.username}";
+    borgPort = "${builtins.toString config.hostSpec.networking.ports.tcp.moth}";
 
-    #temp added for myth
     borgRemotePath = "/run/current-system/sw/bin/borg";
-    #oops path    borgBackupPath = "/var/services/homes/${config.hostSpec.username}/backups";
 
-    borgBackupPath = "/mnt/storage/backup";
+    borgBackupPath = "/mnt/storage/backup/${config.hostSpec.username}";
     borgNotifyFrom = "${config.hostSpec.email.notifier}";
     borgNotifyTo = "${config.hostSpec.email.backup}";
   };
