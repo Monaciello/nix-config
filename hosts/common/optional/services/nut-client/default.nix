@@ -1,0 +1,6 @@
+{ ... }:
+{
+  imports = [
+    ./nut-client.nix
+  ];
+}
