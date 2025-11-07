@@ -139,3 +139,5 @@ copy_on_select true
 show_startup_tips false
 
 default_layout "default"
+// Prevent 90s pause on restart/shutdown
+on_force_close "quit"
