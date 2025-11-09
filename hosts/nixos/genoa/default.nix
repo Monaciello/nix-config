@@ -61,7 +61,6 @@
       "hosts/common/optional/thunar.nix" # gui file manager
       "hosts/common/optional/vlc.nix" # media player
       "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
-      "hosts/common/optional/wifi.nix" # wayland components and pkgs not available in home-manager
       "hosts/common/optional/yubikey.nix" # yubikey related packages and configs
     ])
   ];
@@ -72,7 +71,7 @@
 
   hostSpec = {
     hostName = "genoa";
-    isMobile = lib.mkForce true;
+    isRoaming = lib.mkForce true;
     isAutoStyled = lib.mkForce true;
     theme = lib.mkForce "darcula";
     useYubikey = lib.mkForce true;

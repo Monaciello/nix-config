@@ -187,7 +187,7 @@
             "[workspace special silent]yubioath-flutter"
             "[workspace special silent]keymapp"
           ]
-        else if config.hostSpec.isMobile then
+        else if config.hostSpec.isRoaming then
           [
             "waypaper --restore"
             "[workspace 9 silent]signal-desktop"

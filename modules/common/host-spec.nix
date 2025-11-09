@@ -106,10 +106,10 @@
           default = false;
           description = "Indicate a host used for development";
         };
-        isMobile = lib.mkOption {
+        isRoaming = lib.mkOption {
           type = lib.types.bool;
           default = false;
-          description = "Used to indicate a mobile host";
+          description = "Used to indicate a wireless roaming host";
         };
         useYubikey = lib.mkOption {
           type = lib.types.bool;
