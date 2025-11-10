@@ -48,7 +48,6 @@
       "hosts/common/optional/services/bluetooth.nix" # bluetooth
       "hosts/common/optional/services/greetd.nix" # display manager
       "hosts/common/optional/services/logrotate.nix" # log rotation
-      "hosts/common/optional/services/nut-client" # Network UPS Tool
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
       "hosts/common/optional/services/printing.nix" # CUPS
       "hosts/common/optional/audio.nix" # pipewire and cli controls
@@ -160,8 +159,14 @@
       ;
   };
 
-  #FIXME(clamav): something not working. disabled to reduce log spam
-  semi-active-av.enable = false;
+  # Connect our NUT client to the UPS on the network
+  services.ups = {
+    client.enable = true;
+    name = "cyberpower";
+    username = "nut";
+    ip = config.hostSpec.networking.subnets.grove.hosts.moth.ip;
+    powerDownTimeOut = (60 * 30); # 30m. UPS reports ~45min
+  };
 
   services.backup = {
     enable = true;
