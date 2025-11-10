@@ -76,7 +76,6 @@
     theme = lib.mkForce "darcula";
     useYubikey = lib.mkForce true;
     hdr = lib.mkForce true;
-    wifi = lib.mkForce true;
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
   };
 
