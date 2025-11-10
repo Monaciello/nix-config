@@ -31,43 +31,56 @@ in
   # the user doesn't have read permission for the ssh service private key. However, we can bootstrap the age key from
   # the secrets decrypted by the host key, which allows home-manager secrets to work without manually copying over
   # the age key.
-  sops.secrets = lib.mkMerge [
-    {
-      # These age keys are are unique for the user on each host and are generated on their own (i.e. they are not derived
-      # from an ssh key).
+  sops.secrets =
+    let
+      linuxEntries = (
+        lib.mergeAttrsList (
+          map (user: {
+            # FIXME: This might end up not being linux-specific depending on nix-darwin sops PR
+            "passwords/${user}" = {
+              sopsFile = "${sopsFolder}/shared.yaml";
+              neededForUsers = true;
+            };
+          }) config.hostSpec.users
+        )
+      );
+    in
+    lib.mkMerge [
+      {
+        # FIXME: We may need an age key per user technically?
+        "keys/age" = {
+          owner = config.users.users.${config.hostSpec.primaryUsername}.name;
+          group =
+            if pkgs.stdenv.isLinux then
+              config.users.users.${config.hostSpec.primaryUsername}.group
+            else
+              "staff";
+          # See later activation script for folder permission sanitization
+          path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
+        };
 
-      "keys/age" = {
-        owner = config.users.users.${config.hostSpec.username}.name;
-        inherit (config.users.users.${config.hostSpec.username}) group;
-        # We need to ensure the entire directory structure is that of the user...
-        path = "${config.hostSpec.home}/.config/sops/age/keys.txt";
-      };
-      # extract password/username to /run/secrets-for-users/ so it can be used to create the user
-      "passwords/${config.hostSpec.username}" = {
-        sopsFile = "${sopsFolder}/shared.yaml";
-        neededForUsers = true;
-      };
-      # NOTE: This entry is duplicated in home sops and here because nix.nix can't
-      # directly check for sops usage due to recursion in some situations
-      # formatted as extra-access-tokens = github.com=<PAT token>
-      "tokens/nix-access-tokens" = {
-        sopsFile = "${sopsFolder}/shared.yaml";
-      };
+        # NOTE: This entry is duplicated in home sops and here because nix.nix can't
+        # directly check for sops usage due to recursion in some situations
+        # formatted as extra-access-tokens = github.com=<PAT token>
+        "tokens/nix-access-tokens" = {
+          sopsFile = "${sopsFolder}/shared.yaml";
+        };
 
-      "passwords/msmtp" = {
-        sopsFile = "${sopsFolder}/shared.yaml";
-      };
-    }
-    # only reference borg password if host is using backup
-    (lib.mkIf config.services.backup.enable {
-      "passwords/borg" = {
-        owner = "root";
-        group = if pkgs.stdenv.isLinux then "root" else "wheel";
-        mode = "0600";
-        path = "/etc/borg/passphrase";
-      };
-    })
-  ];
+        "passwords/msmtp" = {
+          sopsFile = "${sopsFolder}/shared.yaml";
+        };
+      }
+      # only reference borg password if host is using backup
+      (lib.mkIf config.services.backup.enable {
+        "passwords/borg" = {
+          owner = "root";
+          group = if pkgs.stdenv.isLinux then "root" else "wheel";
+          mode = "0600";
+          path = "/etc/borg/passphrase";
+        };
+      })
+      (lib.mkIf pkgs.stdenv.isLinux linuxEntries)
+    ];
   # The containing folders are created as root and if this is the first ~/.config/ entry,
   # the ownership is busted and home-manager can't target because it can't write into .config...
   # FIXME(sops): We might not need this depending on how https://github.com/Mic92/sops-nix/issues/381 is fixed
