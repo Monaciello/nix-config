@@ -41,7 +41,7 @@ in
   ]
   ++ builtins.attrValues {
     inherit (pkgs.unstable)
-      path-of-building
+      #rusty-path-of-building
       ;
   };
 
