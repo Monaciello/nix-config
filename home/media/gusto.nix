@@ -14,7 +14,6 @@
       ++ (map (f: "home/common/optional/${f}") [
         # FIXME: need to setup a key first
         # "atuin.nix"
-        "ghostty.nix"
       ])
     )
   );

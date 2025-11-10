@@ -22,7 +22,6 @@
           "helper-scripts"
 
           "atuin.nix"
-          "ghostty.nix"
           "sops.nix"
           "xdg.nix" # file associations
         ])

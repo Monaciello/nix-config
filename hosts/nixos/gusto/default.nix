@@ -43,11 +43,6 @@
       "hosts/common/core"
 
       #
-      # ========== Non-Primary Users to Create ==========
-      #
-      "hosts/common/users/media"
-
-      #
       # ========== Optional Configs ==========
       #
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
@@ -69,8 +64,7 @@
     isAutoStyled = lib.mkForce true;
     theme = lib.mkForce "rose-pine-moon";
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
-
-    user = lib.mkForce [
+    users = lib.mkForce [
       "ta"
       "media"
     ];
