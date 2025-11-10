@@ -15,7 +15,12 @@
         # Data variables that don't dictate configuration settings
         primaryUsername = lib.mkOption {
           type = lib.types.str;
-          description = "The primary username of the host";
+          description = "The primary administrative username of the host";
+        };
+        primaryDesktopUsername = lib.mkOption {
+          type = lib.types.str;
+          description = "The primary desktop user on the host";
+          default = config.hostSpec.primaryUsername;
         };
         # FIXME: deprecated. Use either primaryUsername or map over users
         username = lib.mkOption {
@@ -30,11 +35,17 @@
           type = lib.types.attrsOf lib.types.str;
           description = "The email of the user";
         };
+        # FIXME: deprecate when flake improvement caught up
         # Sometimes we can't use pkgs.stdenv.isLinux due to infinite recursion
         isDarwin = lib.mkOption {
           type = lib.types.bool;
           default = false;
           description = "Used to indicate a host that is darwin";
+        };
+        work = lib.mkOption {
+          default = { };
+          type = lib.types.attrsOf lib.types.anything;
+          description = "An attribute set of work-related information if isWork is true";
         };
         networking = lib.mkOption {
           default = { };
@@ -70,9 +81,9 @@
             if pkgs.stdenv.isLinux then "/home/${user}" else "/Users/${user}";
         };
         persistFolder = lib.mkOption {
-          type = lib.types.str;
+          type = lib.types.nullOr lib.types.str;
           description = "The folder to persist data if impermenance is enabled";
-          default = "";
+          default = null;
         };
 
         # Configuration Settings
@@ -109,7 +120,17 @@
         isRoaming = lib.mkOption {
           type = lib.types.bool;
           default = false;
-          description = "Used to indicate a wireless roaming host";
+          description = "Used to indicate a roaming host for wireless, battery use, etc";
+        };
+        isRemote = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Used to indicate a host that is remotely managed";
+        };
+        isLocal = lib.mkOption {
+          type = lib.types.bool;
+          default = (!config.hostSpec.isRemote);
+          description = "Used to indicate a host that is remotely managed";
         };
         useYubikey = lib.mkOption {
           type = lib.types.bool;
@@ -176,16 +197,29 @@
           default = "nvim";
           description = "The default editor command to use on the host";
         };
+        defaultMediaPlayer = lib.mkOption {
+          type = lib.types.str;
+          default = "vlc";
+          description = "The default video player to use on the host";
+        };
         defaultDesktop = lib.mkOption {
           type = lib.types.str;
           default = "Hyprland";
           description = "The default desktop environment to use on the host";
         };
+        # This is needed because nix.nix uses timeZone in both nixos and home context, the latter of which doesnt' have access to time.timeZone
+        timeZone = lib.mkOption {
+          type = lib.types.str;
+          default = "America/Edmonton";
+          description = "Timezone the system is in";
+        };
+
       };
     };
   };
 
   config = {
+    # FIXME: Add an assertion that the wifi category has a corresponding wifi.<cat>.yaml file in nix-secerts/sops/
     assertions =
       let
         # We import these options to HM and NixOS, so need to not fail on HM
@@ -205,6 +239,10 @@
         {
           assertion = !(config.hostSpec.voiceCoding && config.hostSpec.useWayland);
           message = "Talon, which is used for voice coding, does not support Wayland. See https://github.com/splondike/wayland-accessibility-notes";
+        }
+        {
+          assertion = builtins.elem config.hostSpec.primaryUsername config.hostSpec.users;
+          message = "primaryUsername doesn't exist in list of users";
         }
       ];
   };

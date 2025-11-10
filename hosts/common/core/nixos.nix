@@ -30,5 +30,5 @@
   # ========== Localization ==========
   #
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
-  time.timeZone = lib.mkDefault "America/Edmonton";
+  time.timeZone = lib.mkDefault config.hostSpec.timeZone;
 }
