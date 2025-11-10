@@ -1,8 +1,12 @@
-# FIXME(lib.custom): Add some stuff from hmajid2301/dotfiles/lib/module/default.nix, as simplifies option declaration
 { lib, ... }:
-{
+rec {
   # use path relative to the root of the project
   relativeToRoot = lib.path.append ../.;
+
+  # Imports any .nix file in the specific directory, and any folder. Note this
+  # means that a folder containing `default.nix` and other *.nix files is expected
+  # to use the other *.nix files in that folder as supplementary, and not distinct
+  # modules
   scanPaths =
     path:
     builtins.map (f: (path + "/${f}")) (
@@ -17,4 +21,12 @@
         ) (builtins.readDir path)
       )
     );
+
+  leaf = str: lib.last (lib.splitString "/" str);
+
+  scanPathsFilterPlatform =
+    path:
+    lib.filter (
+      path: builtins.match "nixos.nix|darwin.nix|nixos|darwin" (leaf (builtins.toString path)) == null
+    ) (scanPaths path);
 }
