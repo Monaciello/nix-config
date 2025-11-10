@@ -79,6 +79,7 @@
     wifi = lib.mkForce true;
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
   };
+
   #
   # ========== Keyboard Remaps ==========
   #
@@ -91,15 +92,16 @@
     };
   };
 
-  # set custom autologin options. see greetd.nix for details
-  #  autoLogin.enable = true;
-  #  autoLogin.username = config.hostSpec.username;
   #
-  #  services.gnome.gnome-keyring.enable = true;
-
+  # ========== Network ==========
+  #
   networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
+  };
+  wifi = {
+    enable = true;
+    roaming = config.hostSpec.isRoaming;
   };
 
   #Firmwareupdate
