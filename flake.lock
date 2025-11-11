@@ -300,11 +300,11 @@
     },
     "nix-assets": {
       "locked": {
-        "lastModified": 1761446254,
-        "narHash": "sha256-I1SStTfXLAp4wOT4rp5CU+iMmnEdlopmezi8RTaAK6U=",
+        "lastModified": 1762828661,
+        "narHash": "sha256-mnHm0mul1ZmSyZ0XceM5xgtaLfNK9B1tpvDxH/bxJ94=",
         "owner": "emergentmind",
         "repo": "nix-assets",
-        "rev": "9cd97f9ddb4f53fe1903cf7a8703ba79d35a4ef8",
+        "rev": "6eaaf3c63f6aff69e2edcf620d81a24297e848cf",
         "type": "github"
       },
       "original": {

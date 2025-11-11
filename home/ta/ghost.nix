@@ -35,6 +35,11 @@
     )
   );
 
+  services.swww = {
+    enable = true;
+    wallpaperDir = "/home/ta/sync/wallpaper/";
+  };
+
   services.yubikey-touch-detector.enable = true;
   services.yubikey-touch-detector.notificationSound = true;
 
