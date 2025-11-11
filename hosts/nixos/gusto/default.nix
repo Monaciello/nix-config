@@ -63,6 +63,7 @@
     useYubikey = lib.mkForce true;
     isAutoStyled = lib.mkForce true;
     theme = lib.mkForce "rose-pine-moon";
+    wallpaper = "${inputs.nix-assets}/images/wallpapers/deco/ad-01.jpg";
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
     users = lib.mkForce [
       "ta"

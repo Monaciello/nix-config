@@ -21,10 +21,7 @@ in
       enable = true;
       autoEnable = true;
       polarity = "dark";
-
-      # FIXME(rice): dynamic wallpaper
-      # image = config.hostSpec.wallpaper;
-      image = "${inputs.nix-assets}/images/wallpapers/zen-01.png";
+      image = config.hostSpec.wallpaper;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.hostSpec.theme}.yaml";
 
       opacity = {
