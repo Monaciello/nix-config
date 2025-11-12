@@ -5,53 +5,51 @@
 ### Current roadmap focus items
 
 6.1 - genoa
-- issues:
-    - knownhosts not written
-- Blocked:
-    - Setup backup for ghost 'extra' drive
-    - Genoa backup
+- [ ] issues:
+    - [ ] knownhosts not written
+- [ ] Blocked:
+    - [ ] Setup backup for ghost 'extra' drive
+    - [ ] Genoa backup
 
 7.0 - QoL and Ricing
 
-- Blocked:
-    - ~~hyprland not working~~
+- [ ] Blocked:
+    - [ ] [x] hyprland not working
     - stable-ish now
-    - WIP cleanging up related issues
+    - [ ] WIP cleanging up related issues
 
 QoL
-- stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
-- change how hyprland focus a window that's been moved to another monitor. Have never liked the way it works currently
-- ~~fix nvim/neo-tree default directory~~
-- Monitors Module improvements
-    - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
-- hyprland
-    - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
-        - ~~ws 9~~
-        - ~~ws 10~~
-        - ~~special~~
-    - modify script to autoexec once requisite hyprctl clients are up
-- Declarative audio output device for gusto if possible
-- ~~Asserts to check that host and home level hyprland packages of the same name are using the same pkg source.~~
+- [ ] stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
+- [ ] change how hyprland focus a window that's been moved to another monitor. Have never liked the way it works currently
+- [x] fix nvim/neo-tree default directory
+- [ ] Monitors Module improvements
+    - [ ] potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
+- [ ] hyprland
+    - [ ] layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
+        - [x] ws 9
+        - [x] ws 10
+        - [x] special
+    - [ ] modify script to autoexec once requisite hyprctl clients are up
+- [ ] Declarative audio output device for gusto if possible
+- [x] Asserts to check that host and home level hyprland packages of the same name are using the same pkg source.
 
 Rice
-- ui dev
-  - ascendancy color set
-    - ~~colors~~
-    - repo
-    - add to tinted gallery
-  - host specific colours (terminal in particular) via stylix?
-  - centralize color palette
-- eww as a potential replacement to waybar
-- hyprcursor
-    - recreate ascendancy cursor as a hyprcursor... the existing themes out there are really underwhelming
-- plymouth
-- grub - https://www.gnome-look.org/browse?cat=109&ord=latest
-- maybe rEFInd
-- sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
-- p10k - consider config so that line glyphs don't interfere with yanking
-- ~~font~~ Decided on FiraMono
-- dunst
-- lualine
+- [ ] ui dev
+  - [x] ascendancy color set
+    - [x] colors
+    - [x] repo
+    - [x] add to tinted gallery
+  - [ ] host specific colours (terminal in particular) via stylix?
+  - [ ] centralize color palette
+- [ ] eww as a potential replacement to waybar
+- [ ] plymouth
+- [ ] grub - https://www.gnome-look.org/browse?cat=109&ord=latest
+- [ ] maybe rEFInd
+- [ ] sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
+- [ ] p10k - consider config so that line glyphs don't interfere with yanking
+- [x] font Decided on FiraMono
+- [ ] dunst
+- [ ] lualine
 
 Inspirational sets:
 - see FF bookmarks > Nix > Rice >
@@ -60,29 +58,29 @@ Inspirational sets:
 #### General workflow improvements
 
 - Tools to integrate
-  - ignoreBoy - https://github.com/Ookiiboy/ignoreBoy
-  - syncthing - refer to https://nitinpassa.com/running-syncthing-as-a-system-user-on-nixos/
+  - [ ] ignoreBoy - https://github.com/Ookiiboy/ignoreBoy
+  - [ ] syncthing - refer to https://nitinpassa.com/running-syncthing-as-a-system-user-on-nixos/
 
 - Tools to try
-  - wezterm
-  - https://github.com/dandavison/delta
+  - [ ] wezterm
+  - [ ] https://github.com/dandavison/delta
 
 - NeoVim stuff to look at and integrate
-  - go through existing plugins, a few are enabled but binds are disabled etc
-  - refine linting and fixing in nvim
-  - hardtime # training tool to stop bad vim habits # https://github.com/m4xshen/hardtime.nvim
-  - lint # not sure if this is redundant with all the other language stuff
-  - conform # meant to make lsp less disruptive to the buffer #https://github.com/stevearc/conform.nvim
-  - lspsaga # meant to improve the lsps experience for nvim #https://github.com/nvimdev/lspsaga.nvim
-  - trouble # side or bottom list of all 'trouble' items in your code.#https://github.com/folke/trouble.nvim/
-  - none-ls # inject LSP diagnostics, code actions, and more via LUA #https://github.com/nvimtools/none-ls.nvim
-  - harpoon #file nav
-  - ultimate-autopair #https://github.com/altermo/ultimate-autopair.nvim
+  - [ ] go through existing plugins, a few are enabled but binds are disabled etc
+  - [ ] refine linting and fixing in nvim
+  - [ ] hardtime # training tool to stop bad vim habits # https://github.com/m4xshen/hardtime.nvim
+  - [ ] lint # not sure if this is redundant with all the other language stuff
+  - [ ] conform # meant to make lsp less disruptive to the buffer #https://github.com/stevearc/conform.nvim
+  - [ ] lspsaga # meant to improve the lsps experience for nvim #https://github.com/nvimdev/lspsaga.nvim
+  - [ ] trouble # side or bottom list of all 'trouble' items in your code.#https://github.com/folke/trouble.nvim/
+  - [ ] none-ls # inject LSP diagnostics, code actions, and more via LUA #https://github.com/nvimtools/none-ls.nvim
+  - [ ] harpoon #file nav
+  - [ ] ultimate-autopair #https://github.com/altermo/ultimate-autopair.nvim
       works with nvim-surround
-  - nvim-surround #https://github.com/kylechui/nvim-surround
+  - [ ] nvim-surround #https://github.com/kylechui/nvim-surround
        or tim popes surround
-  - vim-grepper
-  - toggle-term #https://github.com/akinsho/toggleterm.nvim
+  - [ ] vim-grepper
+  - [ ] toggle-term #https://github.com/akinsho/toggleterm.nvim
 
 ## Long Term
 
@@ -93,42 +91,42 @@ Inspirational sets:
 Build up a stable config using grief lab. The focus will be on structure,
 nix-config automation, and core tty that will be common on all machines.
 
-- ~~Basic utility shell for bootstrapping~~
-- ~~Core host config common to all machines~~
-  - ~~garbage collection~~
-  - ~~clamav~~
-  - ~~msmtp notifier~~
-  - ~~ability to import modular options~~
-- ~~Core home-manager config for primary user~~
-  - ~~cli configs~~
-  - ~~nvim config~~
-  - ~~ability to import modular options~~
-- ~~Repository based secrets management for local users, remote host connection, and repository auth~~
-- ~~Ability to consistently add new hosts and users with the core settings~~
-- ~~Basic automation for rebuilds~~
-- ~~Basic CI testing~~
+- [x] Basic utility shell for bootstrapping
+- [x] Core host config common to all machines
+  - [x] garbage collection
+  - [x] clamav
+  - [x] msmtp notifier
+  - [x] ability to import modular options
+- [x] Core home-manager config for primary user
+  - [x] cli configs
+  - [x] nvim config
+  - [x] ability to import modular options
+- [x] Repository based secrets management for local users, remote host connection, and repository auth
+- [x] Ability to consistently add new hosts and users with the core settings
+- [x] Basic automation for rebuilds
+- [x] Basic CI testing
 
 #### 2. Multihost, multiuser with basic GUI - Completed: 2024.02.18
 
 This stage will add a second host machine, gusto (theatre). To effectively used gusto, we'll need to introduce gui elements such as a desktop, basic QoL tools for using the desktop, and some basic gui applications to play media, including the requisite audio/visual packages to make it all work.
 
-- ~~Add a media user specifically for gusto (autolog that one)~~
-- ~~Document and tweak steps to deploy to new host~~
-- ~~Simple desktop - add visual desktop and a/v elements as common options~~
-- ~~Stable windows manager environment~~
-- ~~Stable audio~~
-- ~~Stable video~~
-- ~~Auto-upgrade~~
-- ~~Better secrets management~~
-  - ~~private repo for secrets~~
-  - ~~personal documentation for secrets management, i.e. README for nix-secrets private repo~~
-  - ~~public documentation for secrets management, i.e. how to use this repo with the private repo~~
-- ~~Review and complete applicable TODO sops, TODO yubi, and TODO stage 2~~
-- ~~Deploy gusto~~
+- [x] Add a media user specifically for gusto (autolog that one)
+- [x] Document and tweak steps to deploy to new host
+- [x] Simple desktop - add visual desktop and a/v elements as common options
+- [x] Stable windows manager environment
+- [x] Stable audio
+- [x] Stable video
+- [x] Auto-upgrade
+- [x] Better secrets management
+  - [x] private repo for secrets
+  - [x] personal documentation for secrets management, i.e. README for nix-secrets private repo
+  - [x] public documentation for secrets management, i.e. how to use this repo with the private repo
+- [x] Review and complete applicable TODO sops, TODO yubi, and TODO stage 2
+- [x] Deploy gusto
 
 DEFERRED:
 
-- ~~Potentially yubiauth and u2f for passwordless sudo~~
+- [>] Potentially yubiauth and u2f for passwordless sudo
 
 #### 3. Installation Automation and drive encryption - Completed: 2024.08.08
 
@@ -137,35 +135,35 @@ cleaner environment. However, automation took substantially longer than anticipa
 
 ##### 3.1 automate nixos installation
 
-- ~~nixos-anywhere~~
-- ~~declarative partitioning and formatting via disko~~
-- ~~light-weight bootstrap flake for basic, pre-secrets install~~
-- ~~custom iso generation~~
-- ~~automated bootstrap script~~
+- [x] nixos-anywhere
+- [x] declarative partitioning and formatting via disko
+- [x] light-weight bootstrap flake for basic, pre-secrets install
+- [x] custom iso generation
+- [x] automated bootstrap script
 
 ##### 3.2 drive encryption
 
 Local decryption only for now. Enabling remote decryption while working entirely from VMs is beyond my current abilities.
 
-- ~~LUKS full drive encryption~~
+- [x] LUKS full drive encryption
 
 ##### 3.x Extras
 
-- ~~Make use of configLib.scanPaths~~
-- ~~look for better syntax options to shorten just recipes~~
-- Decided to just re-enable nix-fmt ~~update nix-fmt to nixfmt-rfc-style (including pre-commit) since it will be the standard for nix packages moving forward~~
-- ~~update sops to make use of per host age keys for home-manager level secrets~~
-- don't bother ~~maybe rename pkgs -> custom_pkgs and modules -> custom_modules~~
-- ~~Enable git ssh signing in home/ta/common/core/git.nix~~
+- [x] Make use of configLib.scanPaths
+- [x] look for better syntax options to shorten just recipes
+- [x] Decided to just re-enable nix-fmt  ~~update nix-fmt to nixfmt-rfc-style (including pre-commit) since it will be the standard for nix packages moving forward~~
+- [x] update sops to make use of per host age keys for home-manager level secrets
+- [x] don't bother ~~maybe rename pkgs -> custom_pkgs and modules -> custom_modules~~
+- [x] Enable git ssh signing in home/ta/common/core/git.nix
 
 DEFERRED:
 
-- ~~Investigate outstanding yubikey FIXMEs~~
-- ~~Potentially yubiauth and u2f for passwordless sudo~~
-  ~~FidgetingBits still encounter significant issues with this when remoting~~
-- ~~Confirm clamav scan notification~~
-  - ~~check email for clamavd notification on ~/clamav-testfile. If yes, remove the file~~
-  - ~~check if the two commented out options in hosts/common/options/services/clamav.nix are in stable yet.~~
+- [>] Investigate outstanding yubikey FIXMEs
+- [>] Potentially yubiauth and u2f for passwordless sudo
+  [>] FidgetingBits still encounter significant issues with this when remoting
+- [>] Confirm clamav scan notification
+  - [>] check email for clamavd notification on ~/clamav-testfile. If yes, remove the file
+  - [>] check if the two commented out options in hosts/common/options/services/clamav.nix are in stable yet.
 
 #### 4. Ghost - completed: 2024.10.21
 
@@ -173,122 +171,120 @@ Migrate primary box to NixOS
 
 ##### 4.1 Prep
 
-- ~~setup borg module~~
-- ~~hyprland prep~~
-- ~~migrate dotfiles to nix-config~~
-- ~~ghost modules~~
-- ~~change over and recovery plan~~
+- [x] setup borg module
+- [x] hyprland prep
+- [x] migrate dotfiles to nix-config
+- [x] ghost modules
+- [x] change over and recovery plan
 
 ##### 4.2 Change over
 
-- ~~install nixos on Ghost~~
-- ~~verify drives~~
-- ~~verify critical apps and services functionality~~
-- ~~enable backup~~
-- ~~enable mediashare~~
+- [x] install nixos on Ghost
+- [x] verify drives
+- [x] verify critical apps and services functionality
+- [x] enable backup
+- [x] enable mediashare
 
 ##### 4.3 Get comfortable
 
-- ~~setup and enable hyprland basics~~
-  - ~~hyprlock~~
-  - ~~logout manager~~
-  - ~~waypaper~~
-  - ~~dunst~~
-  - ~~rofi-wayland~~
-- ~~reestablish workflow~~
+- [x] setup and enable hyprland basics
+  - [x] hyprlock
+  - [x] logout manager
+  - [x] waypaper
+  - [x] dunst
+  - [x] rofi-wayland
+- [x] reestablish workflow
 
 ##### 4.3.x Extras
 
-- ~~Investigate outstanding yubikey FIXMEs~~
-- ~~yubiauth and u2f for passwordless sudo~~
-- ~~Confirm clamav scan notification~~
-  - ~~check email for clamavd notification on ~/clamav-testfile. If yes, remove the file~~
-  - ~~check if the two commented out options in hosts/common/options/services/clamav.nix are in stable yet.~~
-- ~~basic themeing via stylix or nix-colors~~
-- ~~hotkey for sleeping monitors (all or non-primary)~~
-- ~~set up copyq clipboard mgr~~
+- [x] Investigate outstanding yubikey FIXMEs
+- [x] yubiauth and u2f for passwordless sudo
+- [x] Confirm clamav scan notification
+  - [x] check email for clamavd notification on ~/clamav-testfile. If yes, remove the file
+  - [x] check if the two commented out options in hosts/common/options/services/clamav.nix are in stable yet.
+- [x] basic themeing via stylix or nix-colors
+- [x] hotkey for sleeping monitors (all or non-primary)
+- [x] set up copyq clipboard mgr
 
 #### 5. Refactoring and Refinement - completed: 2025.09.22
 Some of the original parts of this stage have been split off to later stages because they are more Nice to Have at the moment.
 
 ##### 5.1 Reduce duplication and modularize
 
-- ~~Refactor nix-config to use more extensive specialArgs and extraSpecial Args for common user and host settings~~
-- ~~Refactor from configVars to modularized hostSpec~~
-- ~~Re-implement modules to make use of options for enablement~~ deferred, nice to have
+- [x] Refactor nix-config to use more extensive specialArgs and extraSpecial Args for common user and host settings
+- [x] Refactor from configVars to modularized hostSpec
+- [>] Re-implement modules to make use of options for enablement. Deferred, nice to have
 
 ##### 5.2 Refactor secrets
 
-- ~~separate soft and hard secrets~~
-- ~~per-host sops secrets~~
-- ~~create example, public repo for nix-secrets~~
+- [x] separate soft and hard secrets
+- [x] per-host sops secrets
+- [x] create example, public repo for nix-secrets
 
 ##### 5.3 Bootstrap fix
 
-- ~~Revise bootstrap script and roll in granular secrets hierarchy~~
-- ~~Rewrite install steps~~
+- [x] Revise bootstrap script and roll in granular secrets hierarchy
+- [x] Rewrite install steps
 
 ##### 5.4 Tests
 
-- ~~Re-enable CI pipeline~~ Deferred for now, dealing with nix-secrets is too much hassle
-- ~~Write bats tests for helpers.sh~~
+- [>] Re-enable CI pipeline. Deferred for now, dealing with nix-secrets is too much hassle
+- [x] Write bats tests for helpers.sh
 
 ##### 5.5 Starter repo
 
-- ~~Set up separate, stripped-down and simplified nix-config for newcomers~~
+- [x] Set up separate, stripped-down and simplified nix-config for newcomers
 
 ##### 5.x Extras
 
-- ~~move Gusto to disko~~~
+- [x] move Gusto to disko~
 
 #### 6. Laptops and Refactored multiuser
 
 Add laptop support to the mix to handle stuff like power, lid state, wifi, and the like.
 
 ##### 6.1 Laptops
-- ~~nixify genoa~~
-- ~~add laptop utils~~
+- [x] nixify genoa
+- [x] add laptop utils
 - enable backup
 
 ##### 6.2 Refactor multiuser
-- ~~refactor how multiuser works ala fidgetingbits' changes~~
+- [x] refactor how multiuser works ala fidgetingbits' changes
 
 #### 7. QoL and Ricing
 
 QoL
-- change how hyprland  focus a window that's been moved to another monitor. Have never liked the way it works currently
-- fix nvim/neo-tree default directory
-- Monitors Module improvements
-    - potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
-- hyprland
-    - layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
-        - ws 8
-        - ~~ws 9~~
-        - ~~ws 10~~
-        - special
+- [ ] change how hyprland  focus a window that's been moved to another monitor. Have never liked the way it works currently
+- [ ] fix nvim/neo-tree default directory
+- [ ] Monitors Module improvements
+    - [ ] potentially integrate Kanshi (for wayland) and arandr (for x) to handle profiles based on the connected displays.
+- [ ] hyprland
+    - [ ] layouts: the only viable way to do what I want appears to be scripting dispatchers as to spawn and morph tabs on launch as opposed to defining ws specific positional templates
+        - [ ] ws 8
+        - [x] ws 9
+        - [x] ws 10
+        - [ ] special
 
 Rice
-- ui dev
-  - ascendancy color set
-    - ~~colors~~
-    - repo
-    - add to tinted gallery
-  - host specific colours (terminal in particular) via stylix?
-  - centralize color palette
-- eww as a potential replacement to waybar
-- hyprcursor
-    - recreate ascendancy cursor as a hyprcursor... the existing themes out there are really underwhelming
-- plymouth
-- grub - https://www.gnome-look.org/browse?cat=109&ord=latest
-- maybe rEFInd
-- sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
-- p10k - consider config so that line glyphs don't interfere with yanking
-- ~~font~~ - decided on FiraMono
-- dunst
-- lualine
+- [ ] ui dev
+  - [x] ascendancy color set
+    - [x] colors
+    - [x] repo
+    - [x] add to tinted gallery
+  - [x] host specific colours (terminal in particular) via stylix
+  - [ ] centralize color palette
+- [ ] eww as a potential replacement to waybar
+- [ ] plymouth
+- [ ] grub - https://www.gnome-look.org/browse?cat=109&ord=latest
+- [ ] maybe rEFInd
+- [ ] sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
+- [ ] p10k - consider config so that line glyphs don't interfere with yanking
+- [x] font - decided on FiraMono
+- [ ] dunst
+- [ ] lualine
 
 Inspirational sets:
-- see FF bookmarks > Nix > Rice >
+- [ ] see FF bookmarks > Nix > Rice >
 
 ##### Stage 7 References
 
@@ -298,15 +294,15 @@ Inspirational sets:
 
 ##### 8.1 Impermanence
 
-- declare what needs to persist
-- enable impermanence
-    - make sure to include `/luks-secondary-unlock.key`
+- [ ] declare what needs to persist
+- [ ] enable impermanence
+    - [ ] make sure to include `/luks-secondary-unlock.key`
 
   Need to sort out how to maintain /etc/ssh/ssh_host_ed25519_key and /etc/ssh/ssh_host_ed25519_key.pub
 
 ##### 8.2 Secure boot
 
-- lanzaboote https://github.com/nix-community/lanzaboote
+- [ ] lanzaboote https://github.com/nix-community/lanzaboote
 
 Some stage 1 with systemd info for reference (not specific to lanzaboote)
 
@@ -315,11 +311,11 @@ Some stage 1 with systemd info for reference (not specific to lanzaboote)
 
 ##### 8.3 Cleaning - Nice to Have
 
-- Consider nixifying bash scripts (see refs below)
-- Overhaul just file
-  - clean up
-  - add {{just.executable()}} to just entries
-- revisit scanPaths. Usage in hosts/common/core is doubled up when hosts/common/core/services is imported. Options are: declare services imports individually in services/default.nix, move services modules into parent core directory... or add a recursive variant of scanPaths.
+- [ ] Consider nixifying bash scripts (see refs below)
+- [ ] Overhaul just file
+  - [x] clean up
+  - [ ] add {{just.executable()}} to just entries
+- [ ] revisit scanPaths. Usage in hosts/common/core is doubled up when hosts/common/core/services is imported. Options are: declare services imports individually in services/default.nix, move services modules into parent core directory... or add a recursive variant of scanPaths.
 
 ##### Stage 8 references
 
@@ -343,34 +339,34 @@ Migrating bash scripts to nix
 
 #### 9 Improved network handling
 
-- complete services.per-network-services branch
-- add firewall module
+- [ ] complete services.per-network-services branch
+- [ ] add firewall module
 
 #### 10 Improving remote
 
 ##### 10.1 Automate config deployment
 
-- Per host branch scheme
-- Automated machine update on branch release
-- Handle general auto updates as well
+- [ ] Per host branch scheme
+- [ ] Automated machine update on branch release
+- [ ] Handle general auto updates as well
 
 ##### 10.2 Remote luks decryption
 
 The following has to happen on bare metal because I can't seem to get the yubikey's to redirect to the VM for use with git-agecrypt.
 
-- Remote LUKS decrypt over ssh for headless hosts
-  - need to set up age-crypt keys because this happens before sops and therefore we can't use nix-secrets
-  - add initrd-ssh module that will spawn an ssh service for use during boot
+- [ ] Remote LUKS decrypt over ssh for headless hosts
+  - [ ] need to set up age-crypt keys because this happens before sops and therefore we can't use nix-secrets
+  - [ ] add initrd-ssh module that will spawn an ssh service for use during boot
 
 ##### 10.x Extras
 
-- Automatic scheduled sops rotate
-- Disk usage notifier
+- [ ] Automatic scheduled sops rotate
+- [ ] Disk usage notifier
 
 #### 11. TBD
 
-- Re-implement modules to make use of options for enablement
-- Nixify floater laptop
+- [ ] Re-implement modules to make use of options for enablement
+- [ ] Nixify floater laptop
 
 ---
 
