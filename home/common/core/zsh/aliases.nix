@@ -64,7 +64,6 @@ in
 
   #-------------justfiles---------------
   jr = "just rebuild";
-  jrup = "just rebuild-update";
   jrt = "just rebuild-trace";
   jl = "just --list";
   jup = "just update";
