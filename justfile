@@ -28,16 +28,15 @@ rebuild: rebuild-pre && rebuild-post
   # NOTE: Add --option eval-cache false if you end up caching a failure you can't get around
   scripts/rebuild.sh
 
+# Rebuild the system with trace
+[group("building")]
+rebuild-trace: rebuild-pre && rebuild-post
+  scripts/rebuild.sh trace
+
 # Rebuild the system and run a flake check
 [group("building")]
 rebuild-full: rebuild-pre && rebuild-post
   scripts/rebuild.sh
-  just check
-
-# Rebuild the system and run a flake check
-[group("building")]
-rebuild-trace: rebuild-pre && rebuild-post
-  scripts/rebuild.sh trace
   just check
 
 # Update the flake
