@@ -20,9 +20,7 @@ layout {
             pane size="40%" {
                 pane cwd="$HOME/src/nix/introdus" size="75%" {
                 }
-                pane command="just" cwd="$HOME/src/nix/introdus" size="25%" {
-                    args "rebuild"
-                    start_suspended true
+                pane cwd="$HOME/src/nix/introdus" size="25%" {
                 }
             }
         }
@@ -46,9 +44,7 @@ layout {
             pane size="40%" {
                 pane cwd="src/nix/nix-config" size="75%" {
                 }
-                pane command="just" cwd="$HOME/src/nix/nix-config" size="25%" {
-                    args "rebuild"
-                    start_suspended true
+                pane cwd="$HOME/src/nix/nix-config" size="25%" {
                 }
             }
         }
@@ -66,10 +62,10 @@ layout {
             plugin location="compact-bar"
         }
         pane split_direction="vertical" {
-            pane command="nvim" cwd="$HOME/src/abbot-wiki" size="50%" {
+            pane command="nvim" cwd="$HOME/src/abbot-wiki" size="60%" {
                 start_suspended false
             }
-            pane cwd="$HOME/src/abbot-wiki" size="50%"
+            pane cwd="$HOME/src/abbot-wiki" size="40%"
         }
 
     }
@@ -78,11 +74,8 @@ layout {
             plugin location="compact-bar"
         }
         pane split_direction="vertical" {
-           // pane command="nvim" cwd="$HOME/pub/src/nix/fidgetingbits" size="50%" {
-            //     start_suspended true
-            // }
-            pane cwd="$HOME/pub/src/nix/fidgetingbits" size="50%"
-            pane cwd="$HOME/pub/src/nix/fidgetingbits" size="50%"
+            pane cwd="$HOME/pub/nix/fidgetingbits/nix-config" size="60%"
+            pane cwd="$HOME/pub/nix/fidgetingbits/nix-config" size="40%"
         }
     }
    new_tab_template {
