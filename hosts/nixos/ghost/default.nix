@@ -111,7 +111,7 @@
     systemd-boot = {
       enable = true;
       # When using plymouth, initrd can expand by a lot each time, so limit how many we keep around
-      configurationLimit = lib.mkDefault 20; # 10 is too low when mesa, hyprland, et al is fucking me over
+      configurationLimit = lib.mkDefault 10;
     };
     efi.canTouchEfiVariables = true;
     timeout = 3;
