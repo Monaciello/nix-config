@@ -161,19 +161,32 @@ sops-add-creation-rules USER HOST:
 # ========= Admin Recipes ==========
 #
 
-# Pin the current nixos generation to the systemd-boot loader menu
+# Pin the current nixos generation to the systemd-boot loader menu and rebuild so it is available in the next generation
 [group("admin")]
 pin:
     #!/usr/bin/env bash
-    CURRENT=$(sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | \\rg current | cut -f1 -d' ')
+    shopt -u expand_aliases
+
+    # Create a modified copy of the current systemd-boot entry and denote it as pinned
+    CURRENT=$(sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | rg current | awk '{print $1}')
+    if [[ -z $CURRENT ]]; then
+        echo "ERROR: Failed to find nixos generation."
+        exit 1
+    fi
     PINNED=hosts/nixos/$(hostname)/pinned-boot-entry.conf
     cp /boot/loader/entries/nixos-generation-$CURRENT.conf $PINNED
     chmod -x $PINNED
     sed -i 's/sort-key nixos/sort-key pinned/' $PINNED
     VERSION=$(grep version $PINNED | cut -f2- -d' ')
     sed -i "s/title.*/title PINNED: $VERSION/" $PINNED
+
     # Set the new root to prevent garbage collection
-    sudo nix-store --add-root /nix/var/nix/gcroots/pinned-$(hostname) -r /nix/var/nix/profiles/system
+    PINNED_ROOT=/nix/var/nix/gcroots/pinned-$(hostname)
+    sudo nix-store --add-root $PINNED_ROOT -r /nix/var/nix/profiles/system >/dev/null
+    git add $PINNED
+    git commit -m "chore: pin boot entry for generation $CURRENT"
+    echo "Pinned generation $CURRENT to $PINNED_ROOT"
+    just rebuild
 
 # Copy all the config files to the remote host
 [group("admin")]
