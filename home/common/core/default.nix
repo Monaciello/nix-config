@@ -47,7 +47,7 @@ in
       TERMINAL = "ghostty";
       VISUAL = "nvim";
       EDITOR = "nvim";
-      MANPAGER = "batman"; # see ./cli/bat.nix
+      MANPAGER = "nvim +Man!";
     };
     preferXdgDirectories = true; # whether to make programs use XDG directories whenever supported
 

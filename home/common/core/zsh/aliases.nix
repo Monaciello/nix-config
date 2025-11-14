@@ -12,7 +12,7 @@ in
   #-------------Bat related------------
   cat = "bat --paging=never";
   diff = "batdiff";
-  man = "batman";
+  #man = "batman";
   less = "bat --style=plain";
   rg = "batgrep";
   #rg = "rg -M300";
