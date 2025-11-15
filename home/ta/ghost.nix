@@ -23,11 +23,12 @@
           "development"
           "gaming"
           "helper-scripts"
-          "media"
           "tools"
           "zellij"
 
           "atuin.nix"
+          "ebooks.nix"
+          "media.nix"
           "xdg.nix"
           "sops.nix"
           "yazi.nix"
