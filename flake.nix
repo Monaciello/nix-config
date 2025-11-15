@@ -173,8 +173,18 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Theming
-    stylix.url = "github:danth/stylix/release-25.05";
+    #
+    # ========= Ricing =========
+    #
+    stylix = {
+      url = "github:danth/stylix/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    silentSDDM = {
+      # FIXME(sddm): Pinned because of https://github.com/uiriansan/SilentSDDM/issues/55
+      url = "github:uiriansan/SilentSDDM?rev=cfb0e3eb380cfc61e73ad4bce90e4dcbb9400291";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     #
     # ========= Personal Repositories =========
