@@ -23,17 +23,21 @@
           "development"
           #          "gaming"
           "helper-scripts"
-          "media"
           "tools"
           "zellij"
 
           "atuin.nix"
+          "media.nix"
           "xdg.nix"
           "sops.nix"
           "yazi.nix"
         ])
     )
   );
+
+  services.swww = {
+    enable = true;
+  };
 
   services.yubikey-touch-detector.enable = true;
   services.yubikey-touch-detector.notificationSound = true;

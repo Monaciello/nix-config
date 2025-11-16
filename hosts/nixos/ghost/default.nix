@@ -17,11 +17,6 @@
     #
     # ========== Hardware ==========
     #
-    # ./hardware-configuration.nix
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-gpu-amd
-    # inputs.hardware.nixosModules.common-pc-ssd
-
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
 
@@ -112,6 +107,7 @@
       enable = true;
       # When using plymouth, initrd can expand by a lot each time, so limit how many we keep around
       configurationLimit = lib.mkDefault 10;
+      consoleMode = "1";
     };
     efi.canTouchEfiVariables = true;
     timeout = 3;
