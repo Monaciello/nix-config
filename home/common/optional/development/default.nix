@@ -32,7 +32,6 @@ in
     (builtins.attrValues {
       inherit (pkgs)
         # Development
-        direnv
         delta # diffing
         act # github workflow runner
         gh # github cli
@@ -55,6 +54,9 @@ in
         # Standard man pages for linux API
         man-pages
         man-pages-posix
+        ;
+      inherit (pkgs.unstable)
+        devenv
         ;
     })
   ];
