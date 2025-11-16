@@ -1,11 +1,12 @@
 #############################################################
-
+#
 #  Gusto - Home Theatre
 #  NixOS running on Intel N95 based mini PC
 #
 ###############################################################
 
 {
+  config,
   inputs,
   lib,
   ...
@@ -15,9 +16,8 @@
     #
     # ========== Hardware ==========
     #
-    ./hardware-configuration.nix
-    inputs.hardware.nixosModules.common-cpu-intel
-    #inputs.hardware.nixosModules.common-gpu-intel #This is apparently already declared in `/nix/store/HASH-source/common/gpu/intel
+    inputs.nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
 
     #
     # ========== Disk Layout ==========
@@ -33,70 +33,131 @@
     }
 
     #
-    # ========== Misc Inputs ==========
+    # ========== Modules ==========
     #
+    (map lib.custom.relativeToRoot (
+      # ========== Required modules ==========
+      [
+        "hosts/common/core"
+      ]
+      ++
 
-    (map lib.custom.relativeToRoot [
-      #
-      # ========== Required Configs ==========
-      #
-      "hosts/common/core"
+        # ========== Optional common modules ==========
 
-      #
-      # ========== Optional Configs ==========
-      #
-      "hosts/common/optional/services/openssh.nix" # allow remote SSH access
-      "hosts/common/optional/xfce.nix" # window manager
-      "hosts/common/optional/audio.nix" # pipewire and cli controls
-      "hosts/common/optional/fonts.nix" # fonts
-      "hosts/common/optional/smbclient.nix" # mount the ghost mediashare
-      "hosts/common/optional/vlc.nix" # media player
-    ])
+        (map (f: "hosts/common/optional/${f}") [
+          # Desktop environment and login manager
+          "services/sddm.nix"
+          "gnome.nix"
+          "xfce.nix"
+
+          # Services
+          "services/openssh.nix" # allow remote SSH access
+
+          # Network Mgmt and
+          "smbclient.nix" # mount the ghost mediashare
+
+          # Misc
+          "audio.nix" # pipewire and cli controls
+          "plymouth.nix" # boot graphics
+          "fonts.nix" # fonts
+          "vlc.nix" # media player
+        ])
+    ))
   ];
 
   #
   # ========== Host Specification ==========
   #
-
   hostSpec = {
     hostName = "gusto";
-    useYubikey = lib.mkForce true;
-    isAutoStyled = lib.mkForce true;
-    theme = lib.mkForce "rose-pine-moon";
-    wallpaper = "${inputs.nix-assets}/images/wallpapers/deco/ad-01.jpg";
-    persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
     users = lib.mkForce [
       "ta"
       "media"
     ];
+    primaryUsername = lib.mkForce "ta";
+    primaryDesktopUsername = lib.mkForce "media";
+
+    persistFolder = lib.mkForce "/persist";
+
+    # System type flags
+    isWork = lib.mkForce false;
+    isProduction = lib.mkForce true;
+    isRemote = lib.mkForce true;
+
+    # Functionality
+    useYubikey = lib.mkForce true;
+
+    # Graphical
+    defaultDesktop = "gnome";
+    useWayland = lib.mkForce true;
+    hdr = lib.mkForce true;
+    scaling = lib.mkForce "2";
+    isAutoStyled = lib.mkForce true;
+    theme = lib.mkForce "rose-pine-moon";
+    wallpaper = "${inputs.nix-assets}/images/wallpapers/deco/ad-01.jpg";
   };
 
-  # Enable some basic X server options
-  services.xserver.enable = true;
-  services.xserver.displayManager = {
-    lightdm.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    # When using plymouth, initrd can expand by a lot each time, so limit how
+    # many we keep around
+    configurationLimit = lib.mkDefault 10;
+    consoleMode = "1";
   };
-
-  services.displayManager = {
-    autoLogin.enable = true;
-    autoLogin.user = "media";
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    timeout = 3;
   };
+  boot.initrd.systemd.enable = true;
 
   networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
   };
+  services.gnome.gnome-keyring.enable = true;
+  # Keyring, required for auth even without gnome
+  security.pam.services.sddm.enableGnomeKeyring = true;
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-    timeout = 3;
+  # ========== Auto-login as regular user ==========
+  services.displayManager.autoLogin = {
+    user = lib.mkForce "media";
+  };
+  services.displayManager.sddm.autoLogin = {
+    relogin = true;
   };
 
-  boot.initrd = {
-    systemd.enable = true;
+  # ========== autosshTunnel ==========
+  sops = {
+    secrets = {
+      "keys/ssh/ed25519" = {
+        # User/group created by the autosshTunnel module
+        owner = "autossh";
+        group = "autossh";
+        path = "/etc/ssh/id_ed25519";
+      };
+      "keys/ssh/ed25519_pub" = {
+        owner = "autossh";
+        group = "autossh";
+        path = "/etc/ssh/id_ed25519.pub";
+      };
+    };
   };
 
-  # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
+  services.autosshTunnels.sessions = {
+    freshcakes = {
+      user = "tunnel";
+      host = config.hostSpec.networking.hosts.freshcakes;
+      port = 22;
+      secretKey = "/etc/ssh/id_ed25519";
+      tunnels = [
+        {
+          localPort = config.hostSpec.networking.ports.tcp.jellyfin;
+          remotePort = config.hostSpec.networking.ports.tcp.jellyfin;
+        }
+      ];
+    };
+  };
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   system.stateVersion = "23.05";
 }

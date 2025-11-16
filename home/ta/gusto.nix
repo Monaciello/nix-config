@@ -3,22 +3,18 @@
   imports = (
     map lib.custom.relativeToRoot (
       [
-        #
-        # ========== Required Configs ==========
-        #
-        #FIXME: after fixing user/home values in HM
+        # ========== Required common modules ==========
+        # FIXME: after fixing user/home values in HM
         "home/common/core"
         "home/common/core/nixos.nix"
 
         "home/ta/common/nixos.nix"
       ]
       ++
-        #
-        # ========== Host-specific Optional Configs ==========
-        #
+        # ========== Optional modules==========
         (map (f: "home/common/optional/${f}") [
           "browsers/brave.nix" # for testing against 'media' user
-          "desktops/gtk.nix" # default is hyprland
+          "browsers/firefox.nix" # for testing against 'media' user
           "helper-scripts"
 
           "atuin.nix"
