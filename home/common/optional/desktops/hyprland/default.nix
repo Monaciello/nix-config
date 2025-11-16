@@ -173,7 +173,6 @@
       exec-once =
         if config.hostSpec.hostName == "ghost" then
           [
-            "waypaper --restore"
             "[workspace 8 silent]obsidian"
             "[workspace 8 silent]copyq"
             "[workspace 9 silent]signal-desktop"
@@ -189,7 +188,6 @@
           ]
         else if config.hostSpec.isRoaming then
           [
-            "waypaper --restore"
             "[workspace 9 silent]signal-desktop"
             "[workspace 1 silent]copyq"
             "[workspace special silent]yubioath-flutter"
@@ -197,9 +195,8 @@
           ]
         else
           [
-            "waypaper --restore"
-          ];
 
+          ];
     };
 
   };
