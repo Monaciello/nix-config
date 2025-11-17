@@ -25,7 +25,6 @@ in
     ./direnv.nix
     ./ghostty.nix
     ./git.nix
-    ./kitty.nix
     ./screen.nix
     ./ssh.nix
   ];
