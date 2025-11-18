@@ -14,6 +14,7 @@ in
   imports = [
     ./x11.nix # We use X11 because wayland breaks the theme animations
   ];
+  # Keyring, required for auth even without gnome
   security.pam.services.sddm.enableGnomeKeyring = true;
   environment.systemPackages = [ sddm-theme ];
   qt.enable = true;

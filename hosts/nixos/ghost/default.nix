@@ -41,7 +41,7 @@
       # ========== Optional Configs ==========
       #
       "hosts/common/optional/services/bluetooth.nix" # bluetooth
-      "hosts/common/optional/services/greetd.nix" # display manager
+      "hosts/common/optional/services/sddm.nix" # display manager
       "hosts/common/optional/services/logrotate.nix" # log rotation
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
       "hosts/common/optional/services/printing.nix" # CUPS
@@ -49,6 +49,7 @@
       "hosts/common/optional/fonts.nix" # fonts
       "hosts/common/optional/libvirt.nix" # vm tools
       "hosts/common/optional/gaming.nix" # steam, gamescope, gamemode, and related hardware
+      "hosts/common/optional/gnome.nix" # window manager
       "hosts/common/optional/hyprland.nix" # window manager
       "hosts/common/optional/mail.nix" # for sending email notifications
       "hosts/common/optional/nvtop.nix" # GPU monitor (not available in home-manager)
@@ -76,11 +77,23 @@
 
   hostSpec = {
     hostName = "ghost";
+    primaryUsername = lib.mkForce "ta";
+
+    persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
+
+    # System type flags
+    isWork = lib.mkForce false;
+    isProduction = lib.mkForce true;
+    isRemote = lib.mkForce true;
+
+    # Functionality
+    useYubikey = lib.mkForce true;
+
+    # Graphical
+    hdr = lib.mkForce true;
     isAutoStyled = lib.mkForce true;
     #theme = lib.mkForce TODO;
-    useYubikey = lib.mkForce true;
-    hdr = lib.mkForce true;
-    persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
+    wallpaper = "${inputs.nix-assets}/images/wallpapers/zen-01.jpg"; # overridden by swww settings in home/ta/ghost.nix
   };
 
   # set custom autologin options. see greetd.nix for details
@@ -136,21 +149,10 @@
   hardware = {
     graphics.package = pkgs.unstable.mesa;
     graphics.package32 = pkgs.unstable.pkgsi686Linux.mesa; # force the same mesa for when steams requires separate system32 mesa dep
-    # graphics.extraPackages = builtins.attrValues {
-    #   inherit (pkgs.unstable)
-    #     vulkan-loader
-    #     vulkan-validation-layers
-    #     vulkan-extension-layer
-    #     ;
-    # };
-    #amdgpu.initrd.enable = true; # load amdgpu kernelModules in stage 1.
-    #amdgpu.opencl.enable = true; # OpenCL support - general compute API for gpu
-    #amdgpu.amdvlk.enable = true; # additional, alternative drivers
   };
 
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs.unstable)
-      #clinfo # opencl testing
       vulkan-tools # vulkaninfo
       ;
   };

@@ -26,15 +26,9 @@
     policies = {
       DisableFirefoxAccounts = lib.mkForce true;
     };
-    profiles.main = {
-      id = 1;
-      name = "media";
-      isDefault = true;
+    profiles.default = {
       settings = {
         "ui.systemUsesDarkTheme" = 1; # force dark theme
-        "extensions.pocket.enabled" = false;
-        # "signon.rememberSignons" = lib.mkForce "false";
-        #"layout.css.devPixelsPerPx" = 2.4; # Hi DPI is already 2.0, but extension icons are small on TV
       };
       # Tweaks for Firefox ui/layout
       userChrome = '''';

@@ -15,6 +15,13 @@
     Defaults env_keep+=SSH_AUTH_SOCK
   '';
 
+  # Enable automatic login for the user.
+  services.displayManager = lib.optionalAttrs config.hostSpec.useWindowManager {
+    autoLogin.enable = false;
+    autoLogin.user = config.hostSpec.primaryDesktopUsername;
+    defaultSession = config.hostSpec.defaultDesktop;
+  };
+
   #
   # ========== Generation Pinning ==========
   #
