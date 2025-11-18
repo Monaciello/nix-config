@@ -20,13 +20,6 @@ let
     # example = prev.example.overrideAttrs (previousAttrs: let ... in {
     # ...
     # });
-    steam = prev.steam.overrideAttrs {
-      package = final.unstable.steam;
-      #      mesa = final.unstable.mesa;
-    };
-    gamemode = prev.gamemode.overrideAttrs {
-      package = final.unstable.gamemode;
-    };
   };
 
   stable-packages = final: prev: {
