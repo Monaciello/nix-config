@@ -17,10 +17,10 @@
     # https://discourse.nixos.org/t/nix-2-30-0-released/66449/4
     #FIXME(nix): unpin when stable catches up to 2.30+
     package = lib.mkForce pkgs.unstable.nixVersions.nix_2_30;
-    optimise = {
-      automatic = true;
-      dates = [ "03:45" ]; # Periodically optimize the store
-    };
+    # optimise = {
+    #   automatic = true;
+    #   dates = [ "03:45" ]; # Periodically optimize the store
+    # };
     settings = {
       # See https://jackson.dev/post/nix-reasonable-defaults/
       connect-timeout = 5;

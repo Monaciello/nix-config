@@ -5,6 +5,7 @@
   lib,
   pkgs,
   hostSpec,
+  monitors,
   ...
 }:
 let
@@ -13,7 +14,7 @@ in
 {
   imports = lib.flatten [
     (map lib.custom.relativeToRoot [
-      "modules/common/host-spec.nix"
+      "modules/common"
       "modules/home"
     ])
     ./${platform}.nix
@@ -29,7 +30,11 @@ in
     ./ssh.nix
   ];
 
-  inherit hostSpec;
+  # FIXME: better way of handling the glue for this ?
+  # inherit common modules passed through from hosts
+  # be sure to import the respective module above as well
+  # see hosts/common/users/default.nix
+  inherit hostSpec monitors;
 
   home = {
     username = lib.mkDefault config.hostSpec.username;

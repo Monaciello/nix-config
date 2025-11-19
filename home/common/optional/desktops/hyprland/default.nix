@@ -58,7 +58,7 @@
             else
               "disable"
           }"
-        ) (config.monitors)
+        ) config.monitors
       );
 
       workspace = (

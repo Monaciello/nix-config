@@ -92,7 +92,11 @@ in
     {
       extraSpecialArgs = {
         inherit pkgs inputs;
+
+        # pass common modules set in hosts through to home
+        # see also: home/common/core/default.nix
         hostSpec = config.hostSpec;
+        monitors = config.monitors;
       };
       # FIXME: Common for all users (will include root too!)
       #sharedModules = map (module: (import module)) (
