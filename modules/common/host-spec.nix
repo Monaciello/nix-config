@@ -204,7 +204,7 @@
         };
         defaultDesktop = lib.mkOption {
           type = lib.types.str;
-          default = "Hyprland";
+          default = "hyprland";
           description = "The default desktop environment to use on the host";
         };
         # This is needed because nix.nix uses timeZone in both nixos and home context, the latter of which doesnt' have access to time.timeZone
