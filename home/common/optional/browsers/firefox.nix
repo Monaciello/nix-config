@@ -1,20 +1,6 @@
+#FIXME: need to modularize this
 { config, ... }:
-let
-  homeDir = config.home.homeDirectory;
-in
 {
-  # Inspiration:
-  # - https://discourse.nixos.org/t/declare-firefox-extensions-and-settings/36265/20
-  # - https://github.com/gvolpe/nix-config/blob/6feb7e4f47e74a8e3befd2efb423d9232f522ccd/home/programs/browsers/firefox.nix
-  # - https://github.com/lucidph3nx/nixos-config/blob/2e42a40cc8d93c25e01dcbe0dacd8de01f4f0c16/modules/home-manager/firefox/default.nix
-  # - https://github.com/Kreyren/nixos-config/blob/bd4765eb802a0371de7291980ce999ccff59d619/nixos/users/kreyren/home/modules/web-browsers/firefox/firefox.nix#L116-L148
-  #
-  # TODO(firefox):
-  # - How to set DDG as default?
-  # - Tons of settings above I haven't looked into
-  # - Go over existing profiles to add settings
-  # - Setup a separate work profile?
-  # - Port bookmarks and other profile settings over from existing profile
   programs.firefox = {
     enable = true;
 
@@ -88,69 +74,27 @@ in
           ]
         )
         // {
-          # FIXME(firefox): Check into how this works
-          #"*" = {
+          # Disable built-in search engines
+          "amazondotcom@search.mozilla.org" = {
+            installation_mode = "blocked";
+          };
+          "bing@search.mozilla.org" = {
+            installation_mode = "blocked";
+          };
+          "ebay@search.mozilla.org" = {
+            installation_mode = "blocked";
+          };
+          "google@search.mozilla.org" = {
+            installation_mode = "blocked";
+          };
+          #  "*" = {
           #  installation_mode = "blocked";
-          #  blocked_install_message = "blocked extension install";
-          #};
+          #  blocked_install_message = "Install your extensions with Nix";
         };
-
-      #"3rdparty".Extensions = { };
-
-    };
-
-    profiles.main = {
-      id = 0;
-      name = "EmergentMind";
-      isDefault = true;
-
-      # FIXME(firefox): These should probably be in a let .. in block so I can re-use if I setup
-      # additional profiles
-      # Should check ~/.mozilla/firefox/PROFILE_NAME/prefs.js | user.js
-      # from your old profiles too
-      settings = {
-        "signon.rememberSignons" = false; # Disable built-in password manager
-        "browser.compactmode.show" = true;
-        "browser.uidensity" = 1; # enable compact mode
-        "browser.aboutConfig.showWarning" = false;
-        "browser.download.dir" = "${homeDir}/downloads";
-
-        "browser.tabs.firefox-view" = true; # Sync tabs across devices
-        "ui.systemUsesDarkTheme" = 1; # force dark theme
-        "extensions.pocket.enabled" = false;
-      };
-      #      containers = {
-      #        FCWA = {
-      #            name = "FCWA";
-      #            color = "blue";
-      #            icon = "circle";
-      #            id = 1;
-      #        };
-      #        FenceStore = {
-      #            name = "The Fence Store";
-      #            color = "red";
-      #            icon = "fence";
-      #            id = 2;
-      #        };
-      #
-      #      };
-      #
-      # This just uses the default suggestion from home-manager for now
-      userChrome = ''
-        /* Hide tab bar in FF Quantum */
-        @-moz-document url("chrome://browser/content/browser.xul") {
-          #TabsToolbar {
-            visibility: collapse !important;
-            margin-bottom: 21px !important;
-          }
-
-          #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
-            visibility: collapse !important;
-          }
-        }
-      '';
     };
   };
+
+  # FIXME: This should become config.hostSpec.defaultBrowser and not just if you import firefox
   xdg.mimeApps.defaultApplications = {
     "text/html" = [ "firefox.desktop" ];
     "text/xml" = [ "firefox.desktop" ];
