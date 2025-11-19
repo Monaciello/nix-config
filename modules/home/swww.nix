@@ -77,7 +77,7 @@ in
               echo "Checking swww daemon is up"
               while ! swww query 2>/dev/null; do
                 # Handle: 'Error: "Socket file not found. Are you sure swww-daemon is running?"'
-                sleep 1;
+                ${sleep} 1;
               done
               echo "swww daemon is accessible"
             }
