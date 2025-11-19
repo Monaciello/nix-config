@@ -120,12 +120,12 @@
       enable = true;
       # When using plymouth, initrd can expand by a lot each time, so limit how many we keep around
       configurationLimit = lib.mkDefault 10;
-      consoleMode = "1";
+      consoleMode = "max";
     };
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };
-
+  console.earlySetup = lib.mkDefault true;
   boot.initrd = {
     systemd.enable = true;
     kernelModules = [
@@ -133,15 +133,18 @@
     ];
   };
   boot = {
-    kernelModules = [
-      "amdgpu-i2c"
-    ];
     kernelPackages = pkgs.stable.linuxPackages_latest;
     kernelParams = [
       "amdgpu.ppfeaturemask=0xfffd3fff" # https://kernel.org/doc/html/latest/gpu/amdgpu/module-parameters.html#ppfeaturemask-hexint
       "amdgpu.dcdebugmask=0x400" # Allegedly might help with some crashes
       "split_lock_detect=off" # Alleged gaming perf increase
-    ];
+      "amdgpu.modeset=1" # explicitly have driver perform KMS (Kernel Mode Setting) during initialization to get higher resolution console output during boot
+    ]
+    ++ (builtins.map (
+      m:
+      "video=${m.name}:${builtins.toString m.width}x${builtins.toString m.height}@${builtins.toString m.refreshRate}"
+    ) config.monitors);
+
     # Fix for XBox controller disconnects
     extraModprobeConfig = ''options bluetooth disable_ertm=1 '';
   };
