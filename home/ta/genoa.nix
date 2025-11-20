@@ -35,9 +35,9 @@
     )
   );
 
-  services.swww = {
-    enable = true;
-  };
+  # services.swww = {
+  #   enable = true;
+  # };
 
   services.yubikey-touch-detector.enable = true;
   services.yubikey-touch-detector.notificationSound = true;

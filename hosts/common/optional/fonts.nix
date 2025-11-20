@@ -21,6 +21,10 @@
 
           source-sans
           source-serif
+
+          # for work
+          montserrat
+          vista-fonts
           ;
         inherit (pkgs.unstable.nerd-fonts)
           fira-mono

@@ -16,9 +16,11 @@
     #
     # ========== Hardware ==========
     #
+    inputs.nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
 
+    # FIXME: Seems this is still needed for Fn keys to work?
     inputs.hardware.nixosModules.lenovo-thinkpad-e15-intel
-    ./hardware-configuration.nix
 
     #
     # ========== Disk Layout ==========
@@ -34,50 +36,65 @@
     }
 
     #
-    # ========== Misc Inputs ==========
+    # ========== Modules ==========
     #
+    (map lib.custom.relativeToRoot (
+      # ========== Required modules==========
+      [
+        "hosts/common/core"
+      ]
+      ++
+        # ========== Optional common modules ==========
+        (map (f: "hosts/common/optional/${f}") [
+          # Desktop environment and login manager
+          "services/sddm.nix"
+          "hyprland.nix" # window manager
 
-    (map lib.custom.relativeToRoot [
-      #
-      # ========== Required Configs ==========
-      #
-      "hosts/common/core"
+          # Services
+          "services/bluetooth.nix" # bluetooth, blueman and bluez via wireplumber
+          "services/openssh.nix" # allow remote SSH access
+          "services/printing.nix" # CUPS
 
-      #
-      # ========== Optional Configs ==========
-      #
-      "hosts/common/optional/services/bluetooth.nix" # bluetooth, blueman and bluez via wireplumber
-      "hosts/common/optional/services/greetd.nix" # display manager
-      "hosts/common/optional/services/openssh.nix" # allow remote SSH access
-      "hosts/common/optional/services/printing.nix" # CUPS
-      "hosts/common/optional/audio.nix" # pipewire and cli controls
-      "hosts/common/optional/fonts.nix" # fonts
-      "hosts/common/optional/gaming.nix" # window manager
-      "hosts/common/optional/hyprland.nix" # window manager
-      "hosts/common/optional/nvtop.nix" # GPU monitor (not available in home-manager)
-      "hosts/common/optional/obsidian.nix" # wiki
-      "hosts/common/optional/plymouth.nix" # fancy boot screen
-      "hosts/common/optional/protonvpn.nix" # vpn
-      "hosts/common/optional/thunar.nix" # gui file manager
-      "hosts/common/optional/vlc.nix" # media player
-      "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
-      "hosts/common/optional/yubikey.nix" # yubikey related packages and configs
-    ])
+          # Network Mgmt and
+          "smbclient.nix" # mount the ghost mediashare
+
+          # Misc
+          "audio.nix" # pipewire and cli controls
+          "gaming.nix" # window manager
+          "fonts.nix" # fonts
+          "nvtop.nix" # GPU monitor (not available in home-manager)
+          "obsidian.nix" # wiki
+          "plymouth.nix" # boot graphics
+          "protonvpn.nix" # vpn
+          "thunar.nix" # gui file manager
+          "wayland.nix" # wayland components and pkgs not available in home-manager
+          "vlc.nix" # media player
+          "yubikey.nix" # yubikey related packages and configs
+        ])
+    ))
   ];
 
   #
   # ========== Host Specification ==========
   #
-
   hostSpec = {
     hostName = "genoa";
+    primaryUsername = lib.mkForce "ta";
+
+    persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
+
+    # System type flags
+    isRemote = lib.mkForce false; # not remotely managed
     isRoaming = lib.mkForce true;
-    isAutoStyled = lib.mkForce true;
+
+    # Functionality
+    useYubikey = lib.mkForce true;
+
+    # Graphical
     theme = lib.mkForce "darcula";
     wallpaper = "${inputs.nix-assets}/images/wallpapers/zen-02.jpg";
-    useYubikey = lib.mkForce true;
+    isAutoStyled = lib.mkForce true;
     hdr = lib.mkForce true;
-    persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
   };
 
   #
@@ -127,16 +144,15 @@
       consoleMode = "max";
     };
     efi.canTouchEfiVariables = true;
-    timeout = 3;
+    timeout = 5;
   };
 
   boot.initrd = {
     systemd.enable = true;
     kernelModules = [
-      "nvme"
     ];
   };
 
-  # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   system.stateVersion = "24.05";
 }
