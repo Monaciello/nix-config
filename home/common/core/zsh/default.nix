@@ -43,16 +43,16 @@
     # plugins derivation until PR XXXX (file issue) is fixed
 
     plugins = [
-      {
-        name = "powerlevel10k-config";
-        src = ./p10k;
-        file = "p10k.zsh.theme"; # NOTE: Don't use .zsh because of shfmt barfs on it, and can't ignore files
-      }
-      {
-        name = "zsh-powerlevel10k";
-        src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/";
-        file = "powerlevel10k.zsh-theme";
-      }
+      # {
+      #   name = "powerlevel10k-config";
+      #   src = ./p10k;
+      #   file = "p10k.zsh.theme"; # NOTE: Don't use .zsh because of shfmt barfs on it, and can't ignore files
+      # }
+      # {
+      #   name = "zsh-powerlevel10k";
+      #   src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/";
+      #   file = "powerlevel10k.zsh-theme";
+      # }
       {
         name = "zhooks";
         src = "${pkgs.zhooks}/share/zsh/zhooks";
@@ -95,17 +95,59 @@
       }
     ];
 
-    initContent = lib.mkMerge [
-      (lib.mkBefore ''
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-        fi
-      '')
-      (lib.mkAfter (lib.readFile ./zshrc))
-    ];
+    initExtra = ''
+      # The functions below rely on the 'starship init zsh' output to work.
+
+      # --- Transient Prompt Configuration Start ---
+
+      # Define a function to restore the full prompt (current Starship setup)
+      function starship_full_prompt {
+        # Prints the prompt as defined by Starship's full configuration
+        starship prompt --cmd-duration="$$(( EPOCHREALTIME - STARSHIP_START ))" --status="$?"
+      }
+
+      # Define a function for the "transient" prompt (e.g., just the status/time)
+      function starship_transient_prompt {
+        # Example transient prompt: just the status/time and an arrow
+        # You can customize this to be much simpler, e.g., '$? >'
+        starship prompt --status="$?" \
+                        --cmd-duration="$$(( EPOCHREALTIME - STARSHIP_START ))" \
+                        --layout 'promp_char$'
+      }
+
+      # Zsh precmd_functions: Executed just before the prompt is displayed.
+      # We use it to set the start time for starship's duration calculation.
+      zstyle ':starship:*:*:*' precmd_functions 'starship_precmd'
+
+      # Transient Prompt Configuration
+      # 1. Enable the Transient Prompt feature
+      # If this option is not set, zsh won't try to use 'precmd_x' functions for transient prompts.
+      setopt PROMPT_SP
+      # setopt PROMPT_SUBST  # Often set by Starship init, but good to check.
+
+      # 2. Use the defined functions for the prompts
+      # The full prompt function, executed *before* the command runs
+      # We want to display the *full* Starship prompt while the user types.
+      zle -N starship_full_prompt precmd
+
+      # The transient prompt function, executed *after* the command runs
+      # We want to display the *simple/transient* Starship prompt for history.
+      zle -N starship_transient_prompt precmd_x
+
+      # --- Transient Prompt Configuration End ---
+    '';
+
+    # initContent = lib.mkMerge [
+    #   (lib.mkBefore ''
+    #     # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+    #     # Initialization code that may require console input (password prompts, [y/n]
+    #     # confirmations, etc.) must go above this block; everything else may go below.
+    #     if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+    #       source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+    #     fi
+    #   '')
+    #   (lib.mkAfter (lib.readFile ./zshrc))
+    # ];
 
     oh-my-zsh = {
       enable = true;
