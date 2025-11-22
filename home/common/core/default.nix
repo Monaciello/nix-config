@@ -28,6 +28,7 @@ in
     ./git.nix
     ./screen.nix
     ./ssh.nix
+    ./starship.nix
   ];
 
   # FIXME: better way of handling the glue for this ?

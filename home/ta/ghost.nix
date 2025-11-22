@@ -26,8 +26,6 @@
           "tools"
           "zellij"
 
-          "starship.nix"
-
           "atuin.nix"
           "ebooks.nix"
           "media.nix"

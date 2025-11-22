@@ -2,22 +2,10 @@
 
 [README](../README.md) > Roadmap of TODOs
 
+
 ### Current roadmap focus items
 
-6.1 - genoa
-- [ ] issues:
-    - [ ] knownhosts not written
-- [ ] Blocked:
-    - [ ] Setup backup for ghost 'extra' drive
-    - [ ] Genoa backup
-
 7.0 - QoL and Ricing
-
-- [ ] Blocked:
-    - [ ] [x] hyprland not working
-    - stable-ish now
-    - [ ] WIP cleanging up related issues
-
 QoL
 - [ ] stop calendar notifications from stealing focus... sort of dealt with using 'noinitialfocus' dispatcher but it happens immediately after focus has already been stolen
 - [ ] change how hyprland focus a window that's been moved to another monitor. Have never liked the way it works currently
@@ -39,21 +27,18 @@ Rice
     - [x] colors
     - [x] repo
     - [x] add to tinted gallery
-  - [ ] host specific colours (terminal in particular) via stylix?
-  - [ ] centralize color palette
+  - [x] host specific colours (terminal in particular) via stylix?
+  - [~] centralize color palette: waiting for stylix to catchup to tinted-themes
 - [ ] eww as a potential replacement to waybar
 - [ ] plymouth
 - [ ] grub - https://www.gnome-look.org/browse?cat=109&ord=latest
 - [ ] maybe rEFInd
-- [ ] sddm or greetd - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
-- [ ] p10k - consider config so that line glyphs don't interfere with yanking
+- [x] sddm ~~or greetd~~ - Have considered just auto logging in after luks unlock but if/when wayland or X inevitably shit the bed again, it's convenient to have a stop point after unlock
+- [~] starship
+- [x] p10k - consider config so that line glyphs don't interfere with yanking
 - [x] font Decided on FiraMono
 - [ ] dunst
 - [ ] lualine
-
-Inspirational sets:
-- see FF bookmarks > Nix > Rice >
-
 
 #### General workflow improvements
 
@@ -153,7 +138,7 @@ Local decryption only for now. Enabling remote decryption while working entirely
 - [x] look for better syntax options to shorten just recipes
 - [x] Decided to just re-enable nix-fmt  ~~update nix-fmt to nixfmt-rfc-style (including pre-commit) since it will be the standard for nix packages moving forward~~
 - [x] update sops to make use of per host age keys for home-manager level secrets
-- [x] don't bother ~~maybe rename pkgs -> custom_pkgs and modules -> custom_modules~~
+- [-] don't bother ~~maybe rename pkgs -> custom_pkgs and modules -> custom_modules~~
 - [x] Enable git ssh signing in home/ta/common/core/git.nix
 
 DEFERRED:
@@ -237,18 +222,16 @@ Some of the original parts of this stage have been split off to later stages bec
 
 ##### 5.x Extras
 
-- [x] move Gusto to disko~
+- [x] move Gusto to disko
 
-#### 6. Laptops and Refactored multiuser
-
+#### 6. Laptops and Refactored multiuser  - completed: 2025.11.22
 Add laptop support to the mix to handle stuff like power, lid state, wifi, and the like.
 
 ##### 6.1 Laptops
 - [x] nixify genoa
 - [x] add laptop utils
-- enable backup
 
-##### 6.2 Refactor multiuser
+[#####](#####) 6.2 Refactor multiuser
 - [x] refactor how multiuser works ala fidgetingbits' changes
 
 #### 7. QoL and Ricing

@@ -1,5 +1,4 @@
 # FIXME: very ascendancy-centric colour customizations atm; modularize with defaults for introdus and allow per user/host optionals
-
 { config, pkgs, ... }:
 let
   # HACK: needs assert autostyling and optionalize...  currently have to comment out when binds not used because linting
@@ -19,7 +18,7 @@ let
   # green = "#${config.lib.stylix.colors.base0B}";                 # green     Strings, Inherited Class, Markup Code, Diff Inserted
   # cyan = "#${config.lib.stylix.colors.base0C}";                  # cyan      Support, Regular Expressions, Escape Characters, Markup Quotes
   # blue = "#${config.lib.stylix.colors.base0D}";                  # blue      Functions, Methods, Attribute IDs, Headings
-  # purple = "#${config.lib.stylix.colors.base0E}";                # purple    Keywords, Storage, Selector, Markup Italic, Diff Changed
+  purple = "#${config.lib.stylix.colors.base0E}"; # purple    Keywords, Storage, Selector, Markup Italic, Diff Changed
   darkred = "#${config.lib.stylix.colors.base0F}"; # darkred   Deprecated Highlighting for Methods and Functions, Opening/Closing Embedded Language Tags
 
   # offThemeGreen = "#5fd700 ";
@@ -133,7 +132,7 @@ in
         disabled = false;
         format = "[$time]($style)";
         style = "bg:${darkBackground} fg:${darkred}";
-        time_format = "%y.%m.%d - %H:%M:%S";
+        time_format = "%y.%m.%d{%H:%M:%S}";
       };
       username = {
         disabled = false;
