@@ -4,41 +4,6 @@
   lib,
   ...
 }:
-let
-  # transient prompt for zsh in starship
-  # there are other ways of doing this that allow customization of the
-  # transient prompt in starship config itself but we only use 'character' anyway
-  # see here for alternate solution ideas:https://github.com/starship/starship/discussions/5950
-  transientPrompt = ''
-    TRANSIENT_PROMPT=$(starship module character)
-
-    function zle-line-init() {
-        emulate -L zsh
-
-        [[ $CONTEXT == start ]] || return 0
-        while true; do
-            zle .recursive-edit
-            local -i ret=$?
-            [[ $ret == 0 && $KEYS == $'\4' ]] || break
-            [[ -o ignore_eof ]] || exit 0
-        done
-
-        local saved_prompt=$PROMPT
-        local saved_rprompt=$RPROMPT
-
-        PROMPT=$TRANSIENT_PROMPT
-        zle .reset-prompt
-        PROMPT=$saved_prompt
-
-        if (( ret )); then
-            zle .send-break
-        else
-            zle .accept-line
-        fi
-        return ret
-    }
-  '';
-in
 {
   #
   # ========= Programs integrated to zsh via option or alias =========
@@ -120,13 +85,6 @@ in
         }
       ]
       |> lib.optionals (config.hostSpec.hostName != "iso" && pkgs ? "zsh-term-title");
-
-    # enable transient prompt
-    initContent =
-      transientPrompt
-      |> lib.optionalString (
-        config.programs.starship.enable && config.programs.starship.enableTransience
-      );
 
     oh-my-zsh = {
       enable = true;

@@ -1,9 +1,15 @@
 # FIXME: very ascendancy-centric colour customizations atm; modularize with defaults for introdus and allow per user/host optionals
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # HACK: needs assert autostyling and optionalize...  currently have to comment out when binds not used because linting
   # Bind base16 theme colors to custom vars so we're not restricted to starship's limited named-color tooling,
   # that inherits from the theme but is limited to only 8 colors
+
   # darkestBackground = "#${config.lib.stylix.colors.base00}";     # ----      background
   darkBackground = "#${config.lib.stylix.colors.base01}"; # ---       lighter background status bar
   # lightBackground = "#${config.lib.stylix.colors.base02}";       # --        selection background
@@ -20,19 +26,14 @@ let
   # blue = "#${config.lib.stylix.colors.base0D}";                  # blue      Functions, Methods, Attribute IDs, Headings
   purple = "#${config.lib.stylix.colors.base0E}"; # purple    Keywords, Storage, Selector, Markup Italic, Diff Changed
   darkred = "#${config.lib.stylix.colors.base0F}"; # darkred   Deprecated Highlighting for Methods and Functions, Opening/Closing Embedded Language Tags
-
-  # offThemeGreen = "#5fd700 ";
-  # offThemeRed = "#ff0000 ";
-  # offThemeBlue = "#";
 in
 {
+
   programs.starship = {
     enable = true;
     package = pkgs.unstable.starship;
     enableZshIntegration = true;
-    #Not supported for zsh out of the box, see customization in home/common/core/zsh
-    enableTransience = true;
-
+    enableTransience = true; # NOTE: transcience for zsh isn't support out-of-box but we enable at the end of this file
     settings = {
       add_newline = true;
 
@@ -143,4 +144,38 @@ in
       };
     };
   };
+
+  # enable transient prompt for Zsh
+  programs.zsh.initContent =
+    lib.optionalString (config.programs.starship.enable && config.programs.starship.enableTransience)
+      ''
+        TRANSIENT_PROMPT=$(starship module character)
+
+        function zle-line-init() {
+        emulate -L zsh
+
+        [[ $CONTEXT == start ]] || return 0
+        while true; do
+            zle .recursive-edit
+            local -i ret=$?
+            [[ $ret == 0 && $KEYS == $'\4' ]] || break
+            [[ -o ignore_eof ]] || exit 0
+        done
+
+        local saved_prompt=$PROMPT
+        local saved_rprompt=$RPROMPT
+
+        PROMPT=$TRANSIENT_PROMPT
+        zle .reset-prompt
+        PROMPT=$saved_prompt
+
+        if (( ret )); then
+            zle .send-break
+        else
+            zle .accept-line
+        fi
+        return ret
+        }
+      '';
+
 }
