@@ -86,6 +86,7 @@
       ]
       |> lib.optionals (config.hostSpec.hostName != "iso" && pkgs ? "zsh-term-title");
 
+    initContent = lib.mkAfter (lib.readFile ./zshrc);
     oh-my-zsh = {
       enable = true;
       # Standard OMZ plugins pre-installed to $ZSH/plugins/
