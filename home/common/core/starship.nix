@@ -110,12 +110,9 @@ in
         style = "bg:${darkBackground} fg:${purple}";
       };
       nix_shell = {
-        disabled = true;
-        heuristic = false;
-        format = "[   $state $name](fg:blue bold)";
-        impure_msg = "impure";
-        pure_msg = "pure";
-        unknown_msg = "";
+        disabled = false;
+        heuristic = false; # attempts to detect new `nix shell`-style shells with a heuristic. may want to enable if using a newfangled nix-style shell
+        format = "[  $name](bg:${darkBackground} fg:blue)";
       };
       os = {
         disabled = false;
