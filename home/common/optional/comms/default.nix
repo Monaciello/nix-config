@@ -2,14 +2,17 @@
 {
   #imports = [ ./foo.nix ];
 
-  home.packages = builtins.attrValues {
-    inherit (pkgs)
-      #telegram-desktop
-      discord
-      #slack
-      ;
-    inherit (pkgs.unstable)
-      signal-desktop
-      ;
-  };
+  home.packages =
+    (builtins.attrValues {
+      inherit (pkgs)
+        #telegram-desktop
+        discord
+        #slack
+        ;
+    })
+    ++ [
+      (pkgs.unstable.signal-desktop.override {
+        commandLineArgs = "--password-store='gnome-libsecret'";
+      })
+    ];
 }
