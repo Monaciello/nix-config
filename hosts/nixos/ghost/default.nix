@@ -91,6 +91,7 @@
 
     # Graphical
     hdr = lib.mkForce true;
+    scaling = "1.5";
     isAutoStyled = lib.mkForce true;
     #theme = lib.mkForce TODO;
     #wallpaper = ""; # use default since it's overridden by wallpaperDir option for swww settings in home/ta/ghost.nix
@@ -205,6 +206,7 @@
       refreshRate = 60;
       x = -2560;
       workspace = "8";
+      scale = config.hostSpec.scaling;
     }
     {
       name = "DP-1";
@@ -213,6 +215,7 @@
       refreshRate = 60;
       vrr = 1;
       primary = true;
+      scale = config.hostSpec.scaling;
     }
     {
       name = "DP-3";
@@ -221,6 +224,7 @@
       refreshRate = 60;
       x = 3840;
       workspace = "10";
+      scale = config.hostSpec.scaling;
     }
     {
       name = "HDMI-A-1";
@@ -230,6 +234,7 @@
       y = -1440;
       transform = 2;
       workspace = "9";
+      #scale = config.hostSpec.scaling; #not needed, resolution too low
     }
   ];
 

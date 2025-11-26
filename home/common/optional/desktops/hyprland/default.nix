@@ -184,7 +184,7 @@
             #"[workspace 10 silent]virt-manager"
             "[workspace special silent]/run/current-system/sw/bin/protonvpn-app"
             "[workspace special silent]yubioath-flutter"
-            "[workspace special silent]keymapp"
+            #"[workspace special silent]keymapp"
           ]
         else if config.hostSpec.isRoaming then
           [

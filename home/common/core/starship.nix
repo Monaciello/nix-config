@@ -42,9 +42,9 @@ in
       #▓▒░
       #
       #
+      #░▒▓](${darkBackground})$os$username$hostname$directory$git_branch$git_commit$git_state$git_metrics$git_status$nix_shell[▓▒░](${darkBackground})$fill[░▒▓](${darkBackground})$cmd_duration$time[▓▒░](${darkBackground})
       format = ''
-        [░▒▓](${darkBackground})$os$username$hostname$directory$git_branch$git_commit$git_state$git_metrics$git_status$nix_shell[▓▒░](${darkBackground})$fill[░▒▓](${darkBackground})$cmd_duration$time[▓▒░](${darkBackground})
-        $character
+        [╭─](${darkBackground})$os$username$hostname$directory$git_branch$git_commit$git_state$git_metrics$git_status[▓▒░](${darkBackground})$fill[░▒▓](${darkBackground})$cmd_duration$nix_shell[─╮](${darkBackground})
       '';
       character = {
         format = "$symbol";
