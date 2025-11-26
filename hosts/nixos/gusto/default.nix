@@ -120,37 +120,24 @@
     relogin = true;
   };
 
-  # ========== autosshTunnel ==========
-  # sops = {
-  #   secrets = {
-  #     "keys/ssh/ed25519" = {
-  #       # User/group created by the autosshTunnel module
-  #       owner = "autossh";
-  #       group = "autossh";
-  #       path = "/etc/ssh/id_ed25519";
-  #     };
-  #     "keys/ssh/ed25519_pub" = {
-  #       owner = "autossh";
-  #       group = "autossh";
-  #       path = "/etc/ssh/id_ed25519.pub";
-  #     };
-  #   };
-  # };
+  sops = {
+    secrets = {
+      "keys/ssh/ed25519" = {
+        # User/group created by the autosshTunnel module
+        owner = "autossh";
+        group = "autossh";
+        path = "/etc/ssh/id_ed25519";
+      };
+      "keys/ssh/ed25519_pub" = {
+        owner = "autossh";
+        group = "autossh";
+        path = "/etc/ssh/id_ed25519.pub";
+      };
+    };
+  };
 
-  # services.autosshTunnels.sessions = {
-  #   freshcakes = {
-  #     user = "tunnel";
-  #     host = config.hostSpec.networking.hosts.freshcakes;
-  #     port = 22;
-  #     secretKey = "/etc/ssh/id_ed25519";
-  #     tunnels = [
-  #       {
-  #         localPort = config.hostSpec.networking.ports.tcp.jellyfin;
-  #         remotePort = config.hostSpec.networking.ports.tcp.jellyfin;
-  #       }
-  #     ];
-  #   };
-  # };
+  # ========== autosshTunnel ==========
+  tunnels.cakes.enable = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   system.stateVersion = "23.05";
