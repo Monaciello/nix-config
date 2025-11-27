@@ -51,8 +51,8 @@ in
         sansSerif = monospace;
         serif = monospace;
         emoji = {
-          package = pkgs.noto-fonts-emoji;
-          name = "Noto Color Emoji";
+          package = pkgs.nerd-fonts.symbols-only;
+          name = "Nerd Fonts Symbols Only";
         };
         sizes = {
           #FiraCode/FiraMono is great but hard to read at 12 on 4k
