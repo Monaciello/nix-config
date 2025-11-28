@@ -57,6 +57,8 @@ in
         ;
       inherit (pkgs.unstable)
         devenv
+
+        mob # mob programming tool
         ;
     })
   ];
