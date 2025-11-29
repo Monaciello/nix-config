@@ -18,7 +18,7 @@
         };
         options = {
           pipeline = [
-            ''
+            (config.lib.nixvim.mkRaw ''
               wilder.branch(wilder.python_file_finder_pipeline({
                   file_command = function(_, arg)
                       if string.find(arg, ".") ~= nil then
@@ -30,9 +30,9 @@
                   dir_command = {"fd", "-td"},
                   filters = {"fuzzy_filter", "difflib_sorter"}
               }), wilder.cmdline_pipeline(), wilder.python_search_pipeline())
-            ''
+            '')
           ];
-          renderer = ''
+          renderer = config.lib.nixvim.mkRaw ''
             wilder.popupmenu_renderer({
                 highlighter = wilder.basic_highlighter(),
                 left = {" "},
