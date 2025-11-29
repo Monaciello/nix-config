@@ -115,13 +115,13 @@
     #
     # ========= Official NixOS, Darwin, and HM Package Sources =========
     #
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     # The next two are for pinning to stable vs unstable regardless of what the above is set to
     # This is particularly useful when an upcoming stable release is in beta because you can effectively
     # keep 'nixpkgs-stable' set to stable for critical packages while setting 'nixpkgs' to the beta branch to
     # get a jump start on deprecation changes.
     # See also 'stable-packages' and 'unstable-packages' overlays at 'overlays/default.nix"
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     hardware.url = "github:nixos/nixos-hardware";
@@ -129,15 +129,15 @@
     nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
-    nix-darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
-    };
+    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
+    # nix-darwin = {
+    #   url = "github:lnl7/nix-darwin";
+    #   inputs.nixpkgs.follows = "nixpkgs-darwin";
+    # };
 
     #
     # ========= Utilities =========
@@ -163,7 +163,7 @@
     };
     # vim4LMFQR!
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.05";
+      url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
       #url = "github:nix-community/nixvim";
       #inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -177,7 +177,7 @@
     # ========= Ricing =========
     #
     stylix = {
-      url = "github:danth/stylix/release-25.05";
+      url = "github:danth/stylix/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     silentSDDM = {

@@ -6,7 +6,6 @@
 ###############################################################
 
 {
-  config,
   inputs,
   lib,
   ...
@@ -50,8 +49,9 @@
           # Services
           "services/openssh.nix" # allow remote SSH access
 
-          # Network Mgmt and
-          "smbclient.nix" # mount the ghost mediashare
+          # Network Mgmt
+          #FIXME: replace with NFS
+          #"smbclient.nix" # mount the ghost mediashare
 
           # Misc
           "audio.nix" # pipewire and cli controls
@@ -109,7 +109,6 @@
     networkmanager.enable = true;
     enableIPv6 = false;
   };
-  services.gnome.gnome-keyring.enable = true;
 
   # ========== Auto-login as regular user ==========
   services.displayManager.autoLogin = {

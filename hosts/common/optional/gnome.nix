@@ -1,7 +1,8 @@
 { pkgs, ... }:
 {
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true; # this will enable xserver
   services.gnome.gnome-keyring.enable = true;
+  services.gnome.gcr-ssh-agent.enable = false; # agent already handled by startagent in ssh.nix
 
   environment.gnome.excludePackages = builtins.attrValues {
     inherit (pkgs)

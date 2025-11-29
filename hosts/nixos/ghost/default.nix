@@ -67,7 +67,8 @@
     #
     # ========== Ghost Specific ==========
     #
-    ./samba.nix
+    #TODO: replace with NFS. Disabled because of dependency issues in 25.11 that I don't care to gif on
+    #    ./samba.nix
 
   ];
 
@@ -91,17 +92,12 @@
 
     # Graphical
     hdr = lib.mkForce true;
-    scaling = "1.5";
+    scaling = "2";
     isAutoStyled = lib.mkForce true;
-    #theme = lib.mkForce TODO;
+    #FIXME: not in stylix yet
+    #theme = lib.mkForce "ascendancy";
     #wallpaper = ""; # use default since it's overridden by wallpaperDir option for swww settings in home/ta/ghost.nix
   };
-
-  # set custom autologin options. see greetd.nix for details
-  #  autoLogin.enable = true;
-  #  autoLogin.username = config.hostSpec.username;
-  #
-  #  services.gnome.gnome-keyring.enable = true;
 
   networking = {
     networkmanager.enable = true;

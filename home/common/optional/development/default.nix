@@ -65,11 +65,11 @@ in
 
   #NOTE: Already enabled earlier, this is just extra config
   programs.git = {
-    userName = config.hostSpec.handle;
-    userEmail = publicGitEmail;
-
-    # Enforce SSH to leverage yubikey
-    extraConfig = {
+    settings = {
+      user = {
+        name = config.hostSpec.handle;
+        email = publicGitEmail;
+      };
 
       # FIXME(git): better place for this?
       safe.directory = "${config.home.homeDirectory}/sync/obsidian-vault-01/wiki";

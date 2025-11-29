@@ -24,16 +24,6 @@ in
       runAsRoot = true;
       # HW TPM Emulation (need to check what systems I have already have hw TPM that could be used)
       #swtpm.enable = true;
-      ovmf = {
-        enable = true;
-        # Re-enable if needing to test secure boot inside a VM
-        #        packages = [
-        #          (pkgs.OVMF.override {
-        #            secureBoot = true;
-        #            tpmSupport = true;
-        #          }).fd
-        #        ];
-      };
     };
   };
   virtualisation.libvirt = {

@@ -12,16 +12,13 @@
     packages = (
       builtins.attrValues {
         inherit (pkgs)
+          noto-fonts
+          source-sans
+          source-serif
+
           # icon fonts
           material-design-icons
           font-awesome
-
-          noto-fonts
-          noto-fonts-emoji
-          # noto-fonts-extra
-
-          source-sans
-          source-serif
 
           # for work
           montserrat

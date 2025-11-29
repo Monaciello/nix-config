@@ -29,8 +29,7 @@
   programs.zsh = {
     enable = true;
 
-    # relative to ~
-    dotDir = ".config/zsh";
+    dotDir = "${config.home.homeDirectory}/.config/zsh";
     enableCompletion = true;
     syntaxHighlighting.enable = true;
     autocd = true;

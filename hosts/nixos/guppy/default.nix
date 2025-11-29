@@ -50,8 +50,6 @@
     hostName = "guppy";
   };
 
-  services.gnome.gnome-keyring.enable = true;
-
   networking = {
     networkmanager.enable = true;
     enableIPv6 = false;
