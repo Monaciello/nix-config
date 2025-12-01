@@ -38,7 +38,8 @@ in
   #
   hostSpec = {
     primaryUsername = "ta";
-    username = "ta";
+    username = "ta"; # FIXME: deprecate
+    users = [ "ta" ];
     handle = "emergentmind";
     inherit (inputs.nix-secrets)
       domain
@@ -53,8 +54,6 @@ in
   # System-wide packages, in case we log in as root
   environment.systemPackages = [ pkgs.openssh ];
 
-  # Force home-manager to use global packages
-  home-manager.useGlobalPkgs = true;
   # If there is a conflict file that is backed up, use this extension
   home-manager.backupFileExtension = "bk";
 

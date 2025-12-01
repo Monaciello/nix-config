@@ -70,101 +70,101 @@ let
   );
 in
 {
-  programs.ssh =
-    let
-      workConfig = if config.hostSpec.isWork then ''Include config.d/work'' else "";
-    in
-    {
-      enable = true;
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
 
-      # FIXME(ssh): This should probably be for git systems only?
-      controlMaster = "auto";
-      controlPath = "${config.home.homeDirectory}/.ssh/sockets/S.%r@%h:%p";
-      controlPersist = "20m";
-      # Avoids infinite hang if control socket connection interrupted. ex: vpn goes down/up
-      serverAliveCountMax = 3;
-      serverAliveInterval = 5; # 3 * 5s
-      hashKnownHosts = true;
-      addKeysToAgent = "yes";
+    matchBlocks =
+      let
+        workHosts = if config.hostSpec.isWork then inputs.nix-secrets.work.git.servers else "";
+      in
+      {
+        # Not all of this systems I have access to can use yubikey.
+        "yubikey-hosts" = lib.hm.dag.entryAfter [ "*" ] {
+          host = "${workHosts} ${yubikeyHostsString}";
+          identitiesOnly = true;
+          identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+        };
 
-      # Bring in decrypted config
-      extraConfig = ''
-        UpdateHostKeys ask
-        ${workConfig}
-      '';
+        # Only forward agent to hosts that need it
+        "forward-agent-hosts" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+          host = forwardAgentHostsString;
+          forwardAgent = true;
+        };
+        "git" = {
+          host = "gitlab.com github.com";
+          user = "git";
+          forwardAgent = true;
+          identitiesOnly = true;
+          identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+        };
+        "gooey" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+          host = "gooey";
+          hostname = "gooey.${config.hostSpec.domain}";
+          user = config.hostSpec.networking.subnets.grove.hosts.gooey.user;
+          forwardAgent = true;
+          identitiesOnly = true;
+          identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
+        };
+        "moon" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+          host = "moon ${inputs.nix-secrets.networking.domains.moon}";
+          hostname = "${inputs.nix-secrets.networking.domains.moon}";
+          user = "${config.hostSpec.username}";
+          port = config.hostSpec.networking.ports.tcp.moon;
+          forwardAgent = true;
+          identitiesOnly = true;
+          identityFile = [
+            "~/.ssh/id_yubikey"
+          ];
+        };
+        "myth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+          host = "myth ${inputs.nix-secrets.networking.domains.myth}";
+          hostname = "${inputs.nix-secrets.networking.domains.myth}";
+          user = "admin";
+          port = config.hostSpec.networking.ports.tcp.myth;
+          forwardAgent = true;
+          identitiesOnly = true;
+          identityFile = [
+            "~/.ssh/id_yubikey"
+            "~/.ssh/id_borg"
+          ];
+        };
+        "moth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+          host = "moth moth.${config.hostSpec.domain}";
+          hostname = "moth.${config.hostSpec.domain}";
+          user = "${config.hostSpec.username}";
+          port = config.hostSpec.networking.ports.tcp.moth;
+          forwardAgent = true;
+          identitiesOnly = true;
+          identityFile = [
+            "~/.ssh/id_yubikey"
+            "~/.ssh/id_borg"
+          ];
+        };
 
-      matchBlocks =
-        let
-          workHosts = if config.hostSpec.isWork then inputs.nix-secrets.work.git.servers else "";
-        in
-        {
-          # Not all of this systems I have access to can use yubikey.
-          "yubikey-hosts" = lib.hm.dag.entryAfter [ "*" ] {
-            host = "${workHosts} ${yubikeyHostsString}";
-            identitiesOnly = true;
-            identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-          };
+        # FIXME(ssh): This should probably be for git systems only?
+        "*" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
+          controlMaster = "auto";
+          controlPath = "${config.home.homeDirectory}/.ssh/sockets/S.%r@%h:%p";
+          controlPersist = "30m";
+          # Avoids infinite hang if control socket connection interrupted. ex: vpn goes down/up
+          serverAliveCountMax = 3;
+          serverAliveInterval = 5; # 3 * 5s
+          hashKnownHosts = true;
+          addKeysToAgent = "yes";
 
-          # Only forward agent to hosts that need it
-          "forward-agent-hosts" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = forwardAgentHostsString;
-            forwardAgent = true;
+          #NOTE: work entries are encrypted and added va extraConfig for now
+          extraOptions = {
+            SetEnv = "TERM=xterm-256color";
+            UpdateHostKeys = "ask";
           };
-          "git" = {
-            host = "gitlab.com github.com";
-            user = "git";
-            forwardAgent = true;
-            identitiesOnly = true;
-            identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-          };
-          "gooey" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "gooey";
-            hostname = "gooey.${config.hostSpec.domain}";
-            user = config.hostSpec.networking.subnets.grove.hosts.gooey.user;
-            forwardAgent = true;
-            identitiesOnly = true;
-            identityFile = lib.lists.forEach identityFiles (file: "${config.home.homeDirectory}/.ssh/${file}");
-          };
-          "moon" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "moon ${inputs.nix-secrets.networking.domains.moon}";
-            hostname = "${inputs.nix-secrets.networking.domains.moon}";
-            user = "${config.hostSpec.username}";
-            port = config.hostSpec.networking.ports.tcp.moon;
-            forwardAgent = true;
-            identitiesOnly = true;
-            identityFile = [
-              "~/.ssh/id_yubikey"
-            ];
-          };
-          "myth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "myth ${inputs.nix-secrets.networking.domains.myth}";
-            hostname = "${inputs.nix-secrets.networking.domains.myth}";
-            user = "admin";
-            port = config.hostSpec.networking.ports.tcp.myth;
-            forwardAgent = true;
-            identitiesOnly = true;
-            identityFile = [
-              "~/.ssh/id_yubikey"
-              "~/.ssh/id_borg"
-            ];
-          };
-          "moth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-            host = "moth moth.${config.hostSpec.domain}";
-            hostname = "moth.${config.hostSpec.domain}";
-            user = "${config.hostSpec.username}";
-            port = config.hostSpec.networking.ports.tcp.moth;
-            forwardAgent = true;
-            identitiesOnly = true;
-            identityFile = [
-              "~/.ssh/id_yubikey"
-              "~/.ssh/id_borg"
-            ];
-          };
-        }
-        // (inputs.nix-secrets.networking.ssh.matchBlocks lib)
-        // vanillaHostsConfig;
+        };
+      }
+      // (inputs.nix-secrets.networking.ssh.matchBlocks lib)
+      // vanillaHostsConfig
+      // lib.optionalAttrs config.hostSpec.isWork (inputs.nix-secrets.work.ssh.matchBlocks lib);
 
-    };
+  };
   home.file = {
     ".ssh/config.d/.keep".text = "# Managed by Home Manager";
     ".ssh/sockets/.keep".text = "# Managed by Home Manager";

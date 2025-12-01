@@ -29,7 +29,7 @@
   programs.zsh = {
     enable = true;
 
-    dotDir = "${config.home.homeDirectory}/.config/zsh";
+    dotDir = "${config.xdg.configHome}/.config/zsh";
     enableCompletion = true;
     syntaxHighlighting.enable = true;
     autocd = true;
