@@ -44,6 +44,21 @@ function yes_or_no() {
 	done
 }
 
+# Need this to avoid some wacky pre-commit hook issues related to if rebuild fails and
+# flake.lock stays staged, which ends up wiping out all changes due to stashing bug
+CLEAN=0
+cleanup_flake_lock() {
+	# If the command succeeds, the justfile will clean up for us
+	if [ $? -ne 0 ]; then
+		if [[ $CLEAN -eq 0 ]]; then
+			git rm --cached -f flake.lock 2>/dev/null || true
+			red "Rebuild failed, cleaning up lock files"
+			rm flake.lock 2>/dev/null || true
+			CLEAN=1
+		fi
+	fi
+}
+
 # Ask yes or no, with no being the default
 function no_or_yes() {
 	echo -en "\x1B[34m[?] $* [y/n] (default: n): \x1B[0m"
@@ -58,6 +73,7 @@ function no_or_yes() {
 }
 
 ### SOPS helpers
+
 nix_secrets_dir=${NIX_SECRETS_DIR:-"$(dirname "${BASH_SOURCE[0]}")/../../nix-secrets"}
 SOPS_FILE="${nix_secrets_dir}/.sops.yaml"
 
@@ -88,8 +104,6 @@ function sops_add_shared_creation_rules() {
 
 	shared_selector='.creation_rules[] | select(.path_regex == "shared\.yaml$")'
 	if [[ -n $(yq "$shared_selector" "${SOPS_FILE}") ]]; then
-		echo "BEFORE"
-		cat "${SOPS_FILE}"
 		if [[ -z $(yq "$shared_selector.key_groups[].age[] | select(alias == $h)" "${SOPS_FILE}") ]]; then
 			green "Adding $u and $h to shared.yaml rule"
 			# NOTE: Split on purpose to avoid weird file corruption
@@ -122,12 +136,16 @@ function sops_add_host_creation_rules() {
 	fi
 }
 
-# Adds the user and host to the shared.yaml and host.yaml creation rules
+# Adds the user and host to the host.yaml creation rules
+# and the shared.yaml. Defaults to adding to shared
 function sops_add_creation_rules() {
 	user="$1"
 	host="$2"
+	shared="${3-1}"
 
-	sops_add_shared_creation_rules "$user" "$host"
+	if [ "$shared" -ne 0 ]; then
+		sops_add_shared_creation_rules "$user" "$host"
+	fi
 	sops_add_host_creation_rules "$user" "$host"
 }
 

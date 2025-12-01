@@ -5,25 +5,14 @@
 #
 # SC2086 is ignored because we purposefully pass some values as a set of arguments, so we want the splitting to happen
 
-function red() {
-	echo -e "\x1B[31m[!] $1 \x1B[0m"
-	if [ -n "${2-}" ]; then
-		echo -e "\x1B[31m[!] $($2) \x1B[0m"
-	fi
-}
-function green() {
-	echo -e "\x1B[32m[+] $1 \x1B[0m"
-	if [ -n "${2-}" ]; then
-		echo -e "\x1B[32m[+] $($2) \x1B[0m"
-	fi
-}
+# shellcheck disable=SC1091
+source "$(dirname "${BASH_SOURCE[0]}")/helpers.sh"
 
-function yellow() {
-	echo -e "\x1B[33m[*] $1 \x1B[0m"
-	if [ -n "${2-}" ]; then
-		echo -e "\x1B[33m[*] $($2) \x1B[0m"
-	fi
-}
+BUILD_LOG=$(mktemp)
+
+trap cleanup_flake_lock EXIT HUP INT QUIT TERM
+
+export NIXPKGS_ALLOW_UNFREE=1
 
 switch_args="--show-trace --impure --flake "
 if [[ -n $1 && $1 == "trace" ]]; then
@@ -37,9 +26,7 @@ switch_args="$switch_args .#$HOST switch"
 
 os=$(uname -s)
 if [ "$os" == "Darwin" ]; then
-	# FIXME: This might not have to be darwin specific
-
-	# FIXME: This will break if HM tries to create the file. We should use environment variables instead
+	# On Darwin we end up doing some bootstrapping just in case
 	mkdir -p ~/.config/nix || true
 	CONF=~/.config/nix/nix.conf
 	if [ ! -f $CONF ]; then
@@ -76,31 +63,52 @@ if [ "$os" == "Darwin" ]; then
 		darwin-rebuild $switch_args
 	fi
 else
-	green "====== REBUILD ======"
-	if command -v nh &>/dev/null; then
+	extra_args=""
+	if [[ $HOST != "$(hostname)" ]]; then
+		extra_args="--target-host $HOST --sudo"
+		nixos-rebuild --target-host "$HOST" --sudo $switch_args
+	else
+		green "====== REBUILD ======"
 		REPO_PATH=$(pwd)
 		export REPO_PATH
-		nh os switch . -- --impure --show-trace
-	else
-		sudo nixos-rebuild $switch_args
+		NIXPKGS_ALLOW_BROKEN=1
+		export NIXPKGS_ALLOW_BROKEN
+		# NH_NO_CHECKS=1 because of https://github.com/nix-community/nh/issues/353
+		NH_NO_CHECKS=1 nh os switch . -- --impure --show-trace --reference-lock-file locks/$HOST.lock $extra_args 2>&1 | tee "$BUILD_LOG"
+		#nixos-rebuild $switch_args $extra_args switch
 	fi
 fi
 
 # shellcheck disable=SC2181
 if [ $? -eq 0 ]; then
-	green "====== POST-REBUILD ======"
-	green "Rebuilt successfully"
-
-	# Check if there are any pending changes that would affect the build succeeding.
-	if git diff --exit-code >/dev/null && git diff --staged --exit-code >/dev/null; then
-		# Check if the current commit has a buildable tag
-		if git tag --points-at HEAD | grep -q buildable; then
-			yellow "Current commit is already tagged as buildable"
-		else
-			git tag buildable-"$(date +%Y%m%d%H%M%S)" -m ''
-			green "Tagged current commit as buildable"
-		fi
+	# Certain services can fail without nh reporting an error like:
+	# warning: the following units failed: earlyoom.service
+	# So we want to make it way more obvious, since it could be home-manager
+	# FIXME: When this fails due to the line not existing, it triggers the cleanup..
+	#FAILED=$(rg 'warning: the following units failed:' "$BUILD_LOG")
+	FAILED=""
+	if [ -n "$FAILED" ]; then
+		red "====== Service Units Failed ======"
+		echo ${FAILED##*:} | tr ',' '\n'
 	else
-		yellow "WARN: There are pending changes that would affect the build succeeding. Commit them before tagging"
+		green "====== POST-REBUILD ======"
+		green "Rebuilt successfully"
+
+		# Check if there are any pending changes that would affect the build succeeding.
+		if git diff --exit-code >/dev/null && git diff --staged --exit-code >/dev/null; then
+			# Check if the current commit has a buildable tag
+			if git tag --points-at HEAD | grep -q buildable; then
+				yellow "Current commit is already tagged as buildable"
+			else
+				git tag "$HOST"-buildable-"$(date +%Y%m%d%H%M%S)" -m ''
+				green "Tagged current commit as buildable"
+			fi
+		else
+			yellow "WARN: There are pending changes that would affect the build succeeding. Commit them before tagging"
+		fi
 	fi
+else
+	red "Build failed?"
 fi
+
+rm "$BUILD_LOG"

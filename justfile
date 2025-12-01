@@ -1,48 +1,52 @@
 SOPS_FILE := "../nix-secrets/.sops.yaml"
 
 # Define path to helpers
+
 export HELPERS_PATH := justfile_directory() + "/scripts/helpers.sh"
 
 [private]
 default:
-  @just --list
+    @just --list
 
 # Update commonly changing flakes and prep for a rebuild
 [private]
-rebuild-pre: update-nix-secrets update-nix-assets update-nix-index-database
-  @git add --intent-to-add .
+rebuild-pre HOST=`hostname`:
+    just update-nix-secrets {{ HOST }} && \
+    just update-nix-assets {{ HOST }} && \
+    just update {{ HOST }} nix-index-database
+    @git add --intent-to-add .
 
 # Run post-rebuild checks, like if sops is running properly afterwards
 [private]
 rebuild-post: check-sops
 
 # Run a flake check on the config and installer
+[group("checks")]
+check HOST=`hostname` ARGS="":
+    NIXPKGS_ALLOW_UNFREE=1 REPO_PATH=$(pwd) nix flake check --impure --keep-going --show-trace{{ ARGS }}
+    cd nixos-installer && NIXPKGS_ALLOW_UNFREE=1 REPO_PATH=$(pwd) nix flake check --impure --keep-going --show-trace {{ ARGS }}
+
 [private]
-check ARGS="":
-	NIXPKGS_ALLOW_UNFREE=1 REPO_PATH=$(pwd) nix flake check --impure --keep-going --show-trace {{ARGS}}
-	cd nixos-installer && NIXPKGS_ALLOW_UNFREE=1 REPO_PATH=$(pwd) nix flake check --impure --keep-going --show-trace {{ARGS}}
+_rebuild HOST=`hostname`:
+    @just rebuild-pre {{ HOST }}
+    @# NOTE: Add --option eval-cache false if you end up caching a failure you cant get around
+    @scripts/rebuild.sh {{ HOST }}
 
 # Rebuild the system
 [group("building")]
-rebuild: rebuild-pre && rebuild-post
-  # NOTE: Add --option eval-cache false if you end up caching a failure you can't get around
-  scripts/rebuild.sh
-
-# Rebuild the system with trace
-[group("building")]
-rebuild-trace: rebuild-pre && rebuild-post
-  scripts/rebuild.sh trace
+rebuild HOST=`hostname`: && rebuild-post
+    @just _rebuild {{ HOST }}
 
 # Rebuild the system and run a flake check
 [group("building")]
-rebuild-full: rebuild-pre && rebuild-post
-  scripts/rebuild.sh
-  just check
+rebuild-full HOST=`hostname`: && rebuild-post
+    @just _rebuild {{ HOST }}
+    just check {{ HOST }}
 
-# Update the flake
+# Update all flake inputs for the specified host or the current host if none specified
 [group("update")]
-update:
-  nix flake update
+update HOST=`hostname` *INPUT:
+    nix flake update {{ INPUT }} --timeout 5
 
 # Update and then rebuild
 [group("building")]
@@ -51,56 +55,53 @@ upgrade: update rebuild
 # Generate a new age key
 [group("secrets")]
 age-key:
-  nix-shell -p age --run "age-keygen"
+    nix-shell -p age --run "age-keygen"
 
 # Check if sops-nix activated successfully
 [group("checks")]
 check-sops:
-  scripts/check-sops.sh
-
-# Update nix-index-database
-[group("update")]
-update-nix-index-database:
-  nix flake update nix-index-database --timeout 5
-
-# Update nix-assets
-[group("update")]
-update-nix-assets:
-  nix flake update nix-assets --timeout 5
+    scripts/check-sops.sh
 
 # Update nix-secrets flake
 [group("update")]
-update-nix-secrets:
-  @(cd ../nix-secrets && git fetch && git rebase > /dev/null) || true
-  nix flake update nix-secrets --timeout 5
+update-nix-secrets HOST=`hostname`:
+    @(cd ../nix-secrets 2>/dev/null && git fetch && git rebase > /dev/null || echo "Push your nix-secrets changes") || true
+    @just update {{ HOST }} nix-secrets
+
+# Update nix-assets
+[group("update")]
+update-nix-assets HOST=`hostname`:
+    @just update {{ HOST }} nix-assets
 
 # Build an iso image for installing new systems and create a symlink for qemu usage
 [group("building")]
-iso:
-  # If we dont remove this folder, libvirtd VM doesnt run with the new iso...
-  rm -rf result
-  nix build --impure .#nixosConfigurations.iso.config.system.build.isoImage && ln -sf result/iso/*.iso latest.iso
+iso HOST:
+    # If we dont remove this folder, libvirtd VM doesnt run with the new iso
+    rm -rf result
+    nix build --impure .#nixosConfigurations.iso.config.system.build.isoImage --reference-lock-file locks/{{ HOST }}.lock && ln -sf result/iso/*.iso latest_{{ HOST }}.iso
 
 # Install the latest iso to a flash drive
 [group("building")]
-iso-install DRIVE: iso
-  sudo dd if=$(eza --sort changed result/iso/*.iso | tail -n1) of={{DRIVE}} bs=4M status=progress oflag=sync
+iso-install DRIVE HOST=`hostname`:
+    just iso {{ HOST }}
+    sudo dd if=$(eza --sort changed result/iso/*.iso | tail -n1) of={{ DRIVE }} bs=4M status=progress oflag=sync
 
 # Configure a drive password using disko
 [group("misc")]
 disko DRIVE PASSWORD:
-  echo "{{PASSWORD}}" > /tmp/disko-password
-  sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
-    --mode disko \
-    disks/btrfs-luks-impermanence-disko.nix \
-    --arg disk '"{{DRIVE}}"' \
-    --arg password '"{{PASSWORD}}"'
-  rm /tmp/disko-password
+    echo "{{ PASSWORD }}" > /tmp/disko-password
+    sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
+    	--mode disko \
+    	hosts/common/disks/btrfs-luks-impermanence-disko.nix \
+    	--arg disk '"{{ DRIVE }}"' \
+    	--arg password '"{{ PASSWORD }}"'
+    rm /tmp/disko-password
 
 # Run nixos-rebuild on the remote host
 [group("building")]
 build-host HOST:
-	NIX_SSHOPTS="-p22" nixos-rebuild --target-host {{HOST}} --use-remote-sudo --show-trace --impure --flake .#"{{HOST}}" switch
+    @just rebuild-pre {{ HOST }}
+    @scripts/build-host.sh {{ HOST }}
 
 #
 # ========== Nix-Secrets manipulation recipes ==========
@@ -109,88 +110,116 @@ build-host HOST:
 # Update sops keys in nix-secrets repo
 [group("secrets")]
 sops-rekey:
-  cd ../nix-secrets && for file in $(ls sops/*.yaml); do \
-    sops updatekeys -y $file; \
-  done
+    cd ../nix-secrets && for file in $(ls sops/*.yaml); do \
+      sops updatekeys -y $file; \
+    done
 
 # Update all keys in sops/*.yaml files in nix-secrets to match the creation rules keys
 [group("secrets")]
 rekey: sops-rekey
-  cd ../nix-secrets && \
-    (pre-commit run --all-files || true) && \
-    git add -u && (git commit -nm "chore: rekey" || true) && git push
+    cd ../nix-secrets && \
+      (pre-commit run --all-files || true) && \
+      git add -u && (git commit -nm "chore: rekey" || true) && git push
 
 # Update an age key anchor or add a new one
 [group("secrets")]
 sops-update-age-key FIELD KEYNAME KEY:
     #!/usr/bin/env bash
-    source {{HELPERS_PATH}}
-    sops_update_age_key {{FIELD}} {{KEYNAME}} {{KEY}}
+    source {{ HELPERS_PATH }}
+    sops_update_age_key {{ FIELD }} {{ KEYNAME }} {{ KEY }}
 
 # Update an existing user age key anchor or add a new one
 [group("secrets")]
 sops-update-user-age-key USER HOST KEY:
-  just sops-update-age-key users {{USER}}_{{HOST}} {{KEY}}
+    just sops-update-age-key users {{ USER }}_{{ HOST }} {{ KEY }}
 
 # Update an existing host age key anchor or add a new one
 [group("secrets")]
 sops-update-host-age-key HOST KEY:
-  just sops-update-age-key hosts {{HOST}} {{KEY}}
+    just sops-update-age-key hosts {{ HOST }} {{ KEY }}
 
 # Automatically create creation rules entries for a <host>.yaml file for host-specific secrets
 [group("secrets")]
 sops-add-host-creation-rules USER HOST:
     #!/usr/bin/env bash
-    source {{HELPERS_PATH}}
-    sops_add_host_creation_rules "{{USER}}" "{{HOST}}"
+    source {{ HELPERS_PATH }}
+    sops_add_host_creation_rules "{{ USER }}" "{{ HOST }}"
 
 # Automatically create creation rules entries for a shared.yaml file for shared secrets
 [group("secrets")]
 sops-add-shared-creation-rules USER HOST:
     #!/usr/bin/env bash
-    source {{HELPERS_PATH}}
-    sops_add_shared_creation_rules "{{USER}}" "{{HOST}}"
+    source {{ HELPERS_PATH }}
+    sops_add_shared_creation_rules "{{ USER }}" "{{ HOST }}"
 
 # Automatically add the host and user keys to creation rules for shared.yaml and <host>.yaml
 [group("secrets")]
 sops-add-creation-rules USER HOST:
-    just sops-add-host-creation-rules {{USER}} {{HOST}} && \
-    just sops-add-shared-creation-rules {{USER}} {{HOST}}
+    just sops-add-host-creation-rules {{ USER }} {{ HOST }} && \
+    just sops-add-shared-creation-rules {{ USER }} {{ HOST }}
 
 #
 # ========= Admin Recipes ==========
 #
 
-# Pin the current nixos generation to the systemd-boot loader menu and rebuild so it is available in the next generation
+# Pin the current nixos generation of a host to the systemd-boot loader menu
 [group("admin")]
-pin:
+pin HOST=`hostname`:
     #!/usr/bin/env bash
     shopt -u expand_aliases
 
+    cmd_prefix=''
+    cp_cmd='cp '
+    if [ "{{ HOST }}" != "$(hostname)" ]; then
+        cmd_prefix="ssh {{ HOST }}"
+        cp_cmd="scp {{ HOST }}:"
+    fi
+
+    if [ ! -e "hosts/nixos/{{ HOST }}/" ]; then
+        echo "ERROR: there is no {{ HOST }} host in this config"
+        exit 1
+    fi
+
     # Create a modified copy of the current systemd-boot entry and denote it as pinned
-    CURRENT=$(sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | rg current | awk '{print $1}')
+    CURRENT=$($cmd_prefix sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | rg current | awk '{print $1}')
     if [[ -z $CURRENT ]]; then
         echo "ERROR: Failed to find nixos generation."
         exit 1
     fi
-    PINNED=hosts/nixos/$(hostname)/pinned-boot-entry.conf
-    cp /boot/loader/entries/nixos-generation-$CURRENT.conf $PINNED
+    PINNED=hosts/nixos/{{ HOST }}/pinned-boot-entry.conf
+    ${cp_cmd}/boot/loader/entries/nixos-generation-$CURRENT.conf $PINNED
     chmod -x $PINNED
     sed -i 's/sort-key nixos/sort-key pinned/' $PINNED
     VERSION=$(grep version $PINNED | cut -f2- -d' ')
     sed -i "s/title.*/title PINNED: $VERSION/" $PINNED
 
     # Set the new root to prevent garbage collection
-    PINNED_ROOT=/nix/var/nix/gcroots/pinned-$(hostname)
-    sudo nix-store --add-root $PINNED_ROOT -r /nix/var/nix/profiles/system >/dev/null
+    PINNED_ROOT=/nix/var/nix/gcroots/pinned-{{ HOST }}
+    $exec_prefix sudo nix-store --add-root $PINNED_ROOT -r /nix/var/nix/profiles/system >/dev/null
     git add $PINNED
-    git commit -m "chore: pin boot entry for generation $CURRENT"
+    git commit -m "chore: pin {{ HOST }} boot entry for generation $CURRENT"
     echo "Pinned generation $CURRENT to $PINNED_ROOT"
     # Rebuild in order for the newly pinned generation to populate in systemd-boot,
-    echo "Rebuilding host to populate boot entry..." && sleep 2
-    just rebuild
+    echo "Rebuilding {{ HOST }} to populate boot entry..." && sleep 2
+    just rebuild {{ HOST }}
 
 # Copy all the config files to the remote host
 [group("admin")]
 sync USER HOST PATH:
-    rsync -av --filter=':- .gitignore' -e "ssh -l {{ USER }} -oport=10022" . {{ USER }}@{{ HOST }}:{{ PATH }}/nix-config
+    rsync -av --filter=':- .gitignore' -e "ssh -l {{ USER }} -oport=22" . {{ USER }}@{{ HOST }}:{{ PATH }}/nix-config
+
+# Generate remote facter.json and add it to the repo. Mostly for migrating hosts. Use nixos-bootstrap.sh otherwise
+[group("admin")]
+facter HOST:
+    #!/usr/bin/env bash
+    if ssh {{ HOST }} "sudo /bin/sh -c 'nix run --option experimental-features \"nix-command flakes\" nixpkgs#nixos-facter -- -o facter.json' && sudo chmod 644 facter.json" && \
+    scp {{ HOST }}:/home/$USER/facter.json hosts/nixos/{{ HOST }}/ && \
+    chown $USER:$(id -g) hosts/nixos/{{ HOST }}/facter.json; then
+        if ! grep facter .gitattributes | grep -q crypt; then
+            echo "WARNING: You are potenttially exposing your facter.json file publicly. Add a git-crypt entry to .gitattributes"
+            exit 0
+        else
+            echo "Added and generated hosts/nixos/{{ HOST }}/facter.json"
+            git add hosts/nixos/{{ HOST }}/facter.json
+        fi
+    fi
