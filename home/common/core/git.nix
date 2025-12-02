@@ -23,6 +23,8 @@
       # direnv
       ".direnv"
       ".envrc"
+      #tests
+      ".coverage"
     ];
 
     # Anytime I use auth, I want to use my yubikey. But I don't want to always be having to touch it
