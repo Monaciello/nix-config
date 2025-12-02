@@ -158,6 +158,7 @@ in
           #
           format = ''
             [╭─](${cfg.darkred})[](${cfg.status_background})$os${left_divider}$username$hostname${left_divider}$directory${left_divider}$git_branch$git_commit$git_state$git_metrics$git_status[▓▒░](${cfg.status_background})$fill[░▒▓](${cfg.status_background})$status$cmd_duration${right_divider}$nix_shell[](${cfg.status_background})[─╮](${cfg.darkred})
+
           '';
           character = {
             format = "$symbol";
