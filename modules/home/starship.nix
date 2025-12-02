@@ -132,7 +132,7 @@ in
     fill_str = mkOption {
       type = types.str;
       example = "·";
-      default = "";
+      default = " ";
       description = "Character used for separating starship modules.";
     };
   };
