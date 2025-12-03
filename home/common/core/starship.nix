@@ -3,8 +3,7 @@
   ...
 }:
 {
-  #enables custom module/home/starship instead of programs.starship directly
-  starship = {
+  programs.starship = {
     enable = true;
     package = pkgs.unstable.starship;
   };

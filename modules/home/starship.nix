@@ -1,122 +1,46 @@
-# A heavily opinionated starship module that depends on stylix to improve coloring
+# A heavily opinionated starship module
+
+# Reference of how Starship maps to Base24 since it is only apparent when looking at the generated .toml
+# and doesn't make use of the full palette
+
+# Base[00] = starship color token
+# -------------------------------
+# Base00 = black
+# Base01 =
+# Base02 =
+# Base03 = bright-black
+# Base04 =
+# Base05 = white
+# Base06 =
+# Base07 = bright-white
+# Base08 = red
+# Base09 = orange
+# Base0A = yellow
+# Base0B = green
+# Base0C = cyan
+# Base0D = blue
+# Base0E = magenta or purple
+# Base0F = brown
+# Base10 =
+# Base11 =
+# Base12 = bright-red
+# Base13 = bright-yellow
+# Base14 = bright-green
+# Base15 = bright-cyan
+# Base16 = bright-blue
+# Base17 = bright-magenta or bright-purple
+
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
   inherit (lib) mkIf mkOption types;
-
-  # NOTE: This is the modularized startship not config.programs.starship, which is explicitly defined below.
-  cfg = config.starship;
-
-  #TODO: add logic for detecting and using tinted-schemes if
-  color_lib = config.lib.stylix.colors;
+  cfg = config.programs.starship;
 in
 {
-  options.starship = {
-    enable = lib.mkEnableOption "starship";
-    package = lib.mkOption {
-      type = types.path;
-      default = pkgs.stable.starship;
-    };
-    base_background = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base00}";
-      description = "The darkest _background color. Defaults to base00 as per lib.stylix theme.";
-    };
-    status_background = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base01}";
-      description = "A lighter _background typically used for status bar. Defaults to base01 as per lib.stylix theme.";
-    };
-    selection_background = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base02}";
-      description = "Selection _background. Defaults to base02 as per lib.stylix theme.";
-    };
-    highlight_background = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base03}";
-      description = "Comments, Invisibles, Line highlighting. Defaults to base03 as per lib.stylix theme.";
-    };
-    status_foreground = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base04}";
-      description = "Dark foreground status bar. Defaults to base04 as per lib.stylix theme.";
-    };
-    base_foreground = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base05}";
-      description = "_foreground, caret, delimiters, operators. Defaults to base05 as per lib.stylix theme.";
-    };
-    light_foreground = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base06}";
-      description = "Light foreground, rarely used. Defaults to base06 as per lib.stylix theme.";
-    };
-    lightest_foreground = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base07}";
-      description = "Lightest foreground, rarely used. Defaults to base07 as per lib.stylix theme.";
-    };
-    red = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base08}";
-      description = "Vars, xml tags, markup link text, markup lists, diff deleted. Defaults to base08 as per lib.stylix theme.";
-    };
-    orange = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base09}";
-      description = "Integers, Boolean, Constants, XML Attributes, Markup Link Url. Defaults to base09 as per lib.stylix theme.";
-    };
-    yellow = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base0A}";
-      description = "Classes, Markup Bold, Search Text _background. Defaults to base0A as per lib.stylix theme.";
-    };
-    green = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base0B}";
-      description = "Strings, Inherited Class, Markup Code, Diff Inserted. Defaults to base0B as per lib.stylix theme.";
-    };
-    cyan = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base0C}";
-      description = "Support, Regular Expressions, Escape Characters, Markup Quotes. Defaults to base0C as per lib.stylix theme.";
-    };
-    blue = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base0D}";
-      description = "Functions, Methods, Attribute IDs, Headings. Defaults to base0D as per lib.stylix theme.";
-    };
-    purple = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base0E}";
-      description = "Keywords, Storage, Selector, Markup Italic, Diff Changed. Defaults to base0E as per lib.stylix theme.";
-    };
-    darkred = mkOption {
-      type = types.str;
-      example = "#000000";
-      default = "#${color_lib.base0F}";
-      description = "Deprecated Highlighting for Methods and Functions, Opening/Closing Embedded Language Tags. Defaults to base0F as per lib.stylix theme.";
-    };
+  options.programs.starship = {
     left_divider_str = mkOption {
       type = types.str;
       example = "  ";
@@ -139,12 +63,10 @@ in
   config = mkIf cfg.enable {
     programs.starship =
       let
-        left_divider = "[${cfg.left_divider_str}](bg:${cfg.status_background} fg:${cfg.base_foreground})";
-        right_divider = "[${cfg.right_divider_str}](bg:${cfg.status_background} fg:${cfg.base_foreground})";
+        left_divider = "[${cfg.left_divider_str}](bg:base01 fg:white)";
+        right_divider = "[${cfg.right_divider_str}](bg:base01 fg:white)";
       in
       {
-        enable = true;
-        package = cfg.package;
         enableZshIntegration = true;
         enableTransience = true; # NOTE: transcience for zsh isn't support out-of-box but we enable at the end of this file
         settings = {
@@ -157,19 +79,19 @@ in
           #
           #
           format = ''
-            [╭─](${cfg.darkred})[](${cfg.status_background})$os${left_divider}$username$hostname${left_divider}$directory${left_divider}$git_branch$git_commit$git_state$git_metrics$git_status[▓▒░](${cfg.status_background})$fill[░▒▓](${cfg.status_background})$status$cmd_duration${right_divider}$nix_shell[](${cfg.status_background})[─╮](${cfg.darkred})
+            [╭─](base0F)[](base01)$os${left_divider}$username$hostname${left_divider}$directory${left_divider}$git_branch$git_commit$git_state$git_metrics$git_status[▓▒░](base01)$fill[░▒▓](base01)$status$cmd_duration${right_divider}$nix_shell[](base01)[─╮](base0F)
 
           '';
           character = {
             format = "$symbol";
-            success_symbol = "[❯](bold ${cfg.green})";
-            error_symbol = "[❯](bold ${cfg.red})";
-            vicmd_symbol = "[V](bold ${cfg.blue})";
+            success_symbol = "[❯](bold green)";
+            error_symbol = "[❯](bold red)";
+            vicmd_symbol = "[V](bold blue)";
             disabled = false;
           };
           cmd_duration = {
             format = "[$duration ]($style)";
-            style = "bg:${cfg.status_background} fg:${cfg.base_foreground}";
+            style = "bg:base01 fg:white";
             disabled = false;
             min_time = 250;
             show_milliseconds = false;
@@ -182,12 +104,12 @@ in
             truncate_to_repo = false;
 
             format = "[$path ]($style)[$read_only ]($read_only_style)";
-            style = "bold bg:${cfg.status_background} fg:${cfg.blue}";
-            read_only_style = "bg:${cfg.status_background} fg:${cfg.blue} dimmed";
+            style = "bold bg:base01 fg:blue";
+            read_only_style = "bg:base01 fg:blue dimmed";
 
             repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path ]($style)[$read_only ]($read_only_style)";
-            before_repo_root_style = "bg:${cfg.status_background} fg:${cfg.blue}";
-            repo_root_style = "bold bg:${cfg.status_background} fg:${cfg.blue}";
+            before_repo_root_style = "bg:base01 fg:blue";
+            repo_root_style = "bold bg:base01 fg:blue";
 
             use_os_path_sep = true;
           };
@@ -195,58 +117,58 @@ in
             disabled = false;
           };
           fill = {
-            style = "bg:${cfg.base_background} fg:${cfg.base_foreground}";
+            style = "bg:base00 fg:white";
             symbol = "${cfg.fill_str}";
           };
           git_branch = {
             format = "[$symbol$branch(:$remote_branch) ]($style)";
-            symbol = "[ ](bg:${cfg.status_background} fg:${cfg.green})";
-            style = "bg:${cfg.status_background} fg:${cfg.green}";
+            symbol = "[ ](bg:base01 fg:green)";
+            style = "bg:base01 fg:green";
           };
           git_status = {
             format = "($ahead_behind$staged$renamed$modified$untracked$deleted$conflicted$stashed)";
-            style = "bg:${cfg.status_background} fg:${cfg.green}";
+            style = "bg:base01 fg:green";
 
-            conflicted = "[~$count ](bg:${cfg.status_background} fg:${cfg.orange})";
-            ahead = "[▲$count ](bg:${cfg.status_background} fg:${cfg.green})";
-            behind = "[▼$count ](bg:${cfg.status_background} fg:${cfg.green})";
-            diverged = "[◇[$ahead_count](bold bg:${cfg.status_background} fg:green)/[$behind_count ](bold bg:${cfg.status_background} fg:red) ](bg:${cfg.status_background} fg:orange)";
-            untracked = "[?$count ](bg:${cfg.status_background} fg:${cfg.yellow})";
-            stashed = "[*$count ](bold bg:${cfg.status_background} fg:${cfg.purple})";
-            modified = "[!$count ](bg:${cfg.status_background} fg:${cfg.yellow})";
-            renamed = "[r$count ](bg:${cfg.status_background} fg:${cfg.cyan})";
-            staged = "[+$count ](bg:${cfg.status_background} fg:${cfg.blue})";
-            deleted = "[-$count ](bg:${cfg.status_background} fg:${cfg.red})";
+            conflicted = "[~$count ](bg:base01 fg:orange)";
+            ahead = "[▲$count ](bg:base01 fg:green)";
+            behind = "[▼$count ](bg:base01 fg:green)";
+            diverged = "[◇[$ahead_count](bold bg:base01 fg:green)/[$behind_count ](bold bg:base01 fg:red) ](bg:base01 fg:orange)";
+            untracked = "[?$count ](bg:base01 fg:yellow)";
+            stashed = "[*$count ](bold bg:base01 fg:purple)";
+            modified = "[!$count ](bg:base01 fg:yellow)";
+            renamed = "[r$count ](bg:base01 fg:cyan)";
+            staged = "[+$count ](bg:base01 fg:blue)";
+            deleted = "[-$count ](bg:base01 fg:red)";
           };
           hostname = {
             disabled = false;
             ssh_only = true;
             format = "[@$hostname]($style)";
-            style = "bg:${cfg.status_background} fg:${cfg.purple}";
+            style = "bg:base01 fg:purple";
           };
           nix_shell = {
             disabled = false;
             heuristic = false;
-            format = "[  $symbol](bg:${cfg.status_background} fg:${cfg.blue})";
+            format = "[  $symbol](bg:base01 fg:blue)";
             #symbol = " ";
           };
           os = {
             disabled = false;
             format = "[$symbol ]($style)";
-            style = "bg:${cfg.status_background} fg:${cfg.base_foreground}";
+            style = "bg:base01 fg:white";
           };
-          # when enabled this indicates when sudo c${cfg.red}s are cached or not
+          # when enabled this indicates when sudo creds are cached or not
           # sudo = {
           #   format = "[$symbol]($style)";
-          #   style = "${cfg.red}";
+          #   style = "red";
           #   symbol = "#";
           #   disabled = false;
-          # };
+          # ;
           time = {
             disabled = false;
             format = "[$time]($style)";
-            style = "bg:${cfg.status_background} fg:${cfg.darkred}";
-            time_format = "%y.%m.%d{%H:%M:%S}";
+            style = "bg:base01 fg:brown";
+            time_format = "%y.%m.%d{%H:%M:%S";
           };
           status = {
             #FIXME: add pipestatus symbols and styles
@@ -258,15 +180,15 @@ in
             not_found_symbol = " ";
             sigint_symbol = " ";
             #signal_symbol = "";
-            success_style = "bg:${cfg.status_background} fg:${cfg.green}";
-            failure_style = "bg:${cfg.status_background} fg:${cfg.red}";
+            success_style = "bg:base01 fg:green";
+            failure_style = "bg:base01 fg:red";
           };
           username = {
             disabled = false;
             show_always = false;
             format = "[$user]($style)";
-            style_user = "bg:${cfg.status_background} fg:${cfg.purple}";
-            style_root = "bold bg:${cfg.status_background} fg:${cfg.red}";
+            style_user = "bg:base01 fg:purple";
+            style_root = "bold bg:base01 fg:red";
           };
         };
 
