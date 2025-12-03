@@ -254,7 +254,7 @@ in
             format = "[$symbol]($style)";
             symbol = " ";
             success_symbol = "󰞑 ";
-            not_execeutable_symbol = " ";
+            not_executable_symbol = " ";
             not_found_symbol = " ";
             sigint_symbol = " ";
             #signal_symbol = "";
