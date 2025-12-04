@@ -36,6 +36,22 @@
       "pinned-stable.conf" = builtins.readFile pinned;
     };
 
+  environment = {
+    localBinInPath = true;
+
+    # From https://github.com/matklad/config/blob/master/hosts/default.nix
+    etc."xdg/user-dirs.defaults".text = ''
+      DOWNLOAD=downloads
+      TEMPLATES=tmp
+      PUBLICSHARE=/var/empty
+      DOCUMENTS=doc
+      MUSIC=media/audio
+      PICTURES=media/images
+      VIDEOS=media/video
+      DESKTOP=.desktop
+    '';
+  };
+
   #
   # ========== Nix Helper ==========
   #
