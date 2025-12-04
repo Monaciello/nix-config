@@ -32,15 +32,14 @@
           description = "The hostname of the host";
         };
         email = lib.mkOption {
-          type = lib.types.attrsOf lib.types.str;
+          type =
+            with lib.types;
+            attrsOf (oneOf [
+              str
+              (listOf str)
+              int
+            ]);
           description = "The email of the user";
-        };
-        # FIXME: deprecate when flake improvement caught up
-        # Sometimes we can't use pkgs.stdenv.isLinux due to infinite recursion
-        isDarwin = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Used to indicate a host that is darwin";
         };
         work = lib.mkOption {
           default = { };
@@ -131,6 +130,11 @@
           type = lib.types.bool;
           default = (!config.hostSpec.isRemote);
           description = "Used to indicate a host that is remotely managed";
+        };
+        isAdmin = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Used to indicate a host that is used to admin other systems";
         };
         useYubikey = lib.mkOption {
           type = lib.types.bool;
