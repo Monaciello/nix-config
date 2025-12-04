@@ -8,16 +8,13 @@
   monitors,
   ...
 }:
-let
-  platform = if hostSpec.isDarwin then "darwin" else "nixos";
-in
 {
   imports = lib.flatten [
     (map lib.custom.relativeToRoot [
       "modules/common"
       "modules/home"
     ])
-    ./${platform}.nix
+    (lib.custom.scanPathsFilterPlatform ./.)
     ./zsh
     ./nixvim
     ./bash.nix
