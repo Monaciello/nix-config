@@ -70,7 +70,7 @@ in
               };
             };
             ts_ls = {
-              enable = false;
+              enable = true;
               filetypes = [
                 "javascript"
                 "javascriptreact"
