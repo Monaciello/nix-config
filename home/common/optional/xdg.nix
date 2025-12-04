@@ -1,9 +1,4 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   browser = [ "${config.hostSpec.defaultBrowser}.desktop" ];
   editor = [ "${config.hostSpec.defaultEditor}.desktop" ];
@@ -128,29 +123,48 @@ let
   };
 in
 {
-  xdg.mime.enable = true;
-  xdg.mimeApps.enable = lib.mkDefault true;
+  xdg = {
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = associations;
+      associations.added = associations;
+      associations.removed = removals;
+    };
 
-  #TODO(impermanence): The following allows applications to write their own preferences, in addition to declarative.
-  # May want to persist the application files until declarative settings are complete/possible
+    #TODO(impermanence): The following allows applications to write their own preferences, in addition to declarative.
+    # May want to persist the application files until declarative settings are complete/possible
+    # From https://discourse.nixos.org/t/home-manager-and-the-mimeapps-list-file-on-plasma-kde-desktops/37694/7
+    # Don't generate declarative config at the usual place.
+    # Allow desktop applications to write their file association preferences to this file.
+    configFile."mimeapps.list".enable = false;
+    # Home-manager also writes xdg-mime-apps configuration to the "deprecated" location. Desktop applications will look in this
+    # list for associations, if no association was found in the previous config file.
+    dataFile."applications/mimeapps.list".force = true;
+    #NOTE: this is an alternative to the previous two settings that would allow home-manager to clobber
+    # settings written to the file by apps that modify the preferesences, such as libreOffice apps
+    #  xdg.configFile."mimeapps.list" = lib.mkIf config.xdg.mimeApps.enable {
+    #    force = true;
+    #  };
 
-  # From https://discourse.nixos.org/t/home-manager-and-the-mimeapps-list-file-on-plasma-kde-desktops/37694/7
-  # Don't generate declarative config at the usual place.
-  # Allow desktop applications to write their file association preferences to this file.
-  xdg.configFile."mimeapps.list".enable = false;
-  # Home-manager also writes xdg-mime-apps configuration to the "deprecated" location. Desktop applications will look in this
-  # list for associations, if no association was found in the previous config file.
-  xdg.dataFile."applications/mimeapps.list".force = true;
-
-  #NOTE: this is an alternative to the previous two settings that would allow home-manager to clobber
-  # settings written to the file by apps that modify the preferesences, such as libreOffice apps
-  #  xdg.configFile."mimeapps.list" = lib.mkIf config.xdg.mimeApps.enable {
-  #    force = true;
-  #  };
-
-  xdg.mimeApps.defaultApplications = associations;
-  xdg.mimeApps.associations.removed = removals;
-  xdg.mimeApps.associations.added = associations;
+    # https://discourse.nixos.org/t/no-such-interface-org-freedesktop-portal-settings/67701/6
+    # Fix "No such interface "org.freedesktop.portal.RemoteDesktop" warnings in waybar and similar
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal
+        # xdg-desktop-portal-hyprland # causes error already enabled automatically by hyprlan somewhere
+        # xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      configPackages = with pkgs; [
+        xdg-desktop-portal
+        # xdg-desktop-portal-hyprland
+        # xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
 
   home.packages = builtins.attrValues {
     inherit (pkgs)
