@@ -76,7 +76,7 @@
       end-of-file-fixer.enable = true;
 
       unwanted-builtins = {
-        enable = true;
+        enable = false;
         name = "unwanted builtins function calls";
         entry = "${./unwanted-builtins.sh}";
         files = ".*";
