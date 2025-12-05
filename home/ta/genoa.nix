@@ -39,8 +39,10 @@
   #   enable = true;
   # };
 
-  services.yubikey-touch-detector.enable = true;
-  services.yubikey-touch-detector.notificationSound = true;
+  services.yubikey-touch-detector = {
+    enable = true;
+    notificationSound = true;
+  };
 
   #
   # ========== Host-specific Monitor Spec ==========
