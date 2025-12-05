@@ -15,6 +15,7 @@
     #hyprland utilities
     ./hyprlock.nix
     ./wlogout.nix
+    ./preview-share-picker.nix
   ];
 
   wayland.windowManager.hyprland = {

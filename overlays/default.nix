@@ -14,7 +14,17 @@ let
       directory = ../pkgs/common;
     });
 
-  linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
+  linuxModifications =
+    final: prev:
+    if prev.stdenv.isLinux then
+      prev.lib.packagesFromDirectoryRecursive {
+        # We pass self so that we can do some relative path computation for binary
+        # blobs not tracked in our repo config
+        callPackage = prev.lib.callPackageWith final;
+        directory = ../pkgs/nixos;
+      }
+    else
+      { };
 
   modifications = final: prev: {
     # example = prev.example.overrideAttrs (previousAttrs: let ... in {
