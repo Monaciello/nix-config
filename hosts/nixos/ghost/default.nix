@@ -130,7 +130,6 @@
     ];
   };
   boot = {
-    kernelPackages = pkgs.stable.linuxPackages_latest;
     kernelParams = [
       "amdgpu.ppfeaturemask=0xfffd3fff" # https://kernel.org/doc/html/latest/gpu/amdgpu/module-parameters.html#ppfeaturemask-hexint
       "amdgpu.dcdebugmask=0x400" # Allegedly might help with some crashes

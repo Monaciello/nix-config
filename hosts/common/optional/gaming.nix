@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
-  hardware.xone.enable = true; # xbox controller
-  #hardware.xpadneo.enable = true; #TODO alternate xbox controller to try
+  hardware.xpadneo.enable = true;
 
   programs = {
     steam = {

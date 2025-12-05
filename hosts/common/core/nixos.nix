@@ -1,10 +1,17 @@
 # Core functionality for every nixos host
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   # Database for aiding terminal-based programs
   environment.enableAllTerminfo = true;
   # Enable firmware with a license allowing redistribution
   hardware.enableRedistributableFirmware = true;
+
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   # This should be handled by config.security.pam.sshAgentAuth.enable
   security.sudo.extraConfig = ''
