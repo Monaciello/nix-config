@@ -21,7 +21,13 @@ in
         lsp = {
           enable = true;
           servers = {
+            bashls = {
+              enable = true;
+            };
             clangd = {
+              enable = true;
+            };
+            just = {
               enable = true;
             };
             lua_ls = {
@@ -69,6 +75,9 @@ in
                 };
               };
             };
+            postgres_lsp = {
+              enable = true;
+            };
             ts_ls = {
               enable = true;
               filetypes = [
@@ -77,6 +86,9 @@ in
                 "typescript"
                 "typescriptreact"
               ];
+            };
+            ts_query_ls = {
+              enable = true;
             };
             typos_lsp = {
               enable = true;
@@ -89,10 +101,12 @@ in
             eslint = {
               enable = true;
             };
-            pyright = {
+            # pyright = {
+            #   enable = true;
+            # };
+            ruff = {
               enable = true;
             };
-            #          ruff-lsp = {enable = true;};
 
             #          rust-analyzer = {
             #            enable = true;
