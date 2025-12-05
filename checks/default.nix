@@ -69,7 +69,20 @@
       shfmt.enable = true;
       shellcheck.enable = true;
 
+      # ========== python ==========
+      ruff.enable = true;
+
+      # ========== misc ==========
       end-of-file-fixer.enable = true;
+
+      unwanted-builtins = {
+        enable = true;
+        name = "unwanted builtins function calls";
+        entry = "${./unwanted-builtins.sh}";
+        files = ".*";
+        language = "script";
+        #pass_on_error = false;
+      };
     };
   };
 }
