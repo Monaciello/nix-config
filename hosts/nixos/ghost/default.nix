@@ -83,6 +83,7 @@
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
 
     # System type flags
+    isAdmin = lib.mkForce true;
     isWork = lib.mkForce false;
     isProduction = lib.mkForce true;
     isRemote = lib.mkForce true;

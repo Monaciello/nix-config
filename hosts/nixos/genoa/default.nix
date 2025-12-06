@@ -84,6 +84,7 @@
     persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
 
     # System type flags
+    isAdmin = lib.mkForce true;
     isRemote = lib.mkForce false; # not remotely managed
     isRoaming = lib.mkForce true;
 
@@ -152,6 +153,36 @@
     kernelModules = [
     ];
   };
+
+  #
+  # ========== Host-specific Monitor Spec ==========
+  #
+  # This uses the nix-config/modules/home/montiors.nix module which defaults to enabled.
+  # Your nix-config/home-manger/<user>/common/optional/desktops/foo.nix WM config should parse and apply these values to it's monitor settings
+  # If on hyprland, use `hyprctl monitors` to get monitor info.
+  # https://wiki.hyprland.org/Configuring/Monitors/
+  #    ------
+  # | Internal |
+  # | Display  |
+  #    ------
+  monitors = [
+    {
+      name = "eDP-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      primary = true;
+      #vrr = 1;
+    }
+    {
+      name = "HDMI-A-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 1920;
+      workspace = "9";
+    }
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   system.stateVersion = "24.05";
