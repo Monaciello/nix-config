@@ -27,49 +27,51 @@
     (lib.custom.relativeToRoot "hosts/common/disks/ghost.nix")
 
     #
-    # ========== Misc Inputs ==========
+    # ========== Modules ==========
     #
-    #    inputs.stylix.nixosModules.stylix
+    (map lib.custom.relativeToRoot (
+      # ========== Required modules ==========
+      [
+        "hosts/common/core"
+      ]
+      ++
+        # ========== Optional common modules ==========
+        (map (f: "hosts/common/optional/${f}") [
+          # Desktop environment and login manager
+          "services/sddm.nix" # display manager
+          "hyprland.nix" # window manager
+          "gnome.nix" # window manager
 
-    (map lib.custom.relativeToRoot [
-      #
-      # ========== Required Configs ==========
-      #
-      "hosts/common/core"
+          # Services
+          "services/bluetooth.nix" # bluetooth, blueman and bluez via wireplumber
+          "services/logrotate.nix" # log rotation
+          "services/openssh.nix" # allow remote SSH access
+          "services/printing.nix" # CUPS
 
-      #
-      # ========== Optional Configs ==========
-      #
-      "hosts/common/optional/services/bluetooth.nix" # bluetooth
-      "hosts/common/optional/services/sddm.nix" # display manager
-      "hosts/common/optional/services/logrotate.nix" # log rotation
-      "hosts/common/optional/services/openssh.nix" # allow remote SSH access
-      "hosts/common/optional/services/printing.nix" # CUPS
-      "hosts/common/optional/audio.nix" # pipewire and cli controls
-      "hosts/common/optional/fonts.nix" # fonts
-      "hosts/common/optional/libvirt.nix" # vm tools
-      "hosts/common/optional/gaming.nix" # steam, gamescope, gamemode, and related hardware
-      "hosts/common/optional/gnome.nix" # window manager
-      "hosts/common/optional/hyprland.nix" # window manager
-      "hosts/common/optional/mail.nix" # for sending email notifications
-      "hosts/common/optional/nvtop.nix" # GPU monitor (not available in home-manager)
-      "hosts/common/optional/amdgpu_top.nix" # GPU monitor (not available in home-manager)
-      "hosts/common/optional/obsidian.nix" # wiki
-      "hosts/common/optional/plymouth.nix" # fancy boot screen
-      "hosts/common/optional/protonvpn.nix" # vpn
-      "hosts/common/optional/scanning.nix" # SANE and simple-scan
-      "hosts/common/optional/thunar.nix" # gui file manager
-      "hosts/common/optional/vlc.nix" # media player
-      "hosts/common/optional/wayland.nix" # wayland components and pkgs not available in home-manager
-      "hosts/common/optional/yubikey.nix" # yubikey related packages and configs
-      "hosts/common/optional/zsa-keeb.nix" # Moonlander keeb flashing stuff
-    ])
-    #
-    # ========== Ghost Specific ==========
-    #
-    #TODO: replace with NFS. Disabled because of dependency issues in 25.11 that I don't care to gif on
-    #    ./samba.nix
-
+          # Misc
+          "amdgpu_top.nix" # GPU monitor (not available in home-manager)
+          "audio.nix" # pipewire and cli controls
+          "gaming.nix" # window manager
+          "fonts.nix" # fonts
+          "libvirt.nix" # vm tools
+          "mail.nix" # for sending email notifications
+          "nvtop.nix" # GPU monitor (not available in home-manager)
+          "obsidian.nix" # wiki
+          "plymouth.nix" # boot graphics
+          "protonvpn.nix" # vpn
+          "scanning.nix" # SANE and simple-scan
+          "thunar.nix" # gui file manager
+          "vlc.nix" # media player
+          "wayland.nix" # wayland components and pkgs not available in home-manager
+          "yubikey.nix" # yubikey related packages and configs
+          "zsa-keeb.nix" # Moonlander keeb flashing stuff
+        ])
+      ++ [
+        # ========== Ghost specific ==========
+        #TODO: replace with NFS. Disabled because of dependency issues in 25.11 that I don't care to gif on
+        #    ./samba.nix
+      ]
+    ))
   ];
 
   #
