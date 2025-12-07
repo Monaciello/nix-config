@@ -17,19 +17,21 @@ let
   ];
   yubikeySecrets =
     # extract to default pam-u2f authfile location for passwordless sudo. see modules/common/yubikey
-    lib.optionalAttrs config.hostSpec.useYubikey {
-      "keys/u2f" = {
-        sopsFile = "${sopsFolder}/shared.yaml";
-        path = "${homeDirectory}/.config/Yubico/u2f_keys";
-      };
-    }
-    // lib.attrsets.mergeAttrsList (
-      lib.lists.map (name: {
-        "keys/ssh/${name}" = {
+    lib.optionalAttrs config.hostSpec.useYubikey (
+      {
+        "keys/u2f" = {
           sopsFile = "${sopsFolder}/shared.yaml";
-          path = "${homeDirectory}/.ssh/id_${name}";
+          path = "${homeDirectory}/.config/Yubico/u2f_keys";
         };
-      }) yubikeys
+      }
+      // lib.attrsets.mergeAttrsList (
+        lib.lists.map (name: {
+          "keys/ssh/${name}" = {
+            sopsFile = "${sopsFolder}/shared.yaml";
+            path = "${homeDirectory}/.ssh/id_${name}";
+          };
+        }) yubikeys
+      )
     );
 in
 {
