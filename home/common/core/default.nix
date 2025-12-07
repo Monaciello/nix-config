@@ -15,17 +15,6 @@
       "modules/home"
     ])
     (lib.custom.scanPathsFilterPlatform ./.)
-    ./zsh
-    ./nixvim
-    ./bash.nix
-    ./bat.nix
-    ./btop.nix
-    ./direnv.nix
-    ./ghostty.nix
-    ./git.nix
-    ./screen.nix
-    ./ssh.nix
-    ./starship.nix
   ];
 
   # FIXME: better way of handling the glue for this ?

@@ -8,16 +8,22 @@
 }:
 
 let
+  # Generate a list of public key contents to use by ssh
+  genPubKeyList =
+    user:
+    let
+      keyPath = (lib.custom.relativeToRoot "hosts/common/users/${user}/keys/");
+    in
+    if (lib.pathExists keyPath) then
+      lib.lists.forEach (lib.filesystem.listFilesRecursive keyPath) (key: lib.readFile key)
+    else
+      [ ];
+
+  # List of yubikey public keys that will allow auth to any user, across systems
+  superPubKeys = genPubKeyList "super";
+
   platform = if isDarwin then "darwin" else "nixos";
   hostSpec = config.hostSpec;
-
-  # List of yubikey public keys for the primary user
-  pubKeys = lib.filesystem.listFilesRecursive (
-    lib.custom.relativeToRoot "hosts/common/users/${hostSpec.primaryUsername}/keys/"
-  );
-  # IMPORTANT: primary user keys are used for authorized_keys to all users. Change below if
-  # you don't want this!
-  primaryUserPubKeys = lib.lists.forEach pubKeys (key: builtins.readFile key);
 in
 {
   # No matter what environment we are in we want these tools for root, and the user(s)
@@ -47,8 +53,8 @@ in
               {
                 name = user;
                 shell = pkgs.zsh; # Default Shell
-                # IMPORTANT: Gives yubikey-based ssh access of primary user to all other users! Change if needed
-                openssh.authorizedKeys.keys = primaryUserPubKeys;
+                # Adds ssh pub key access to the user to the defined user keys AND the super keys
+                openssh.authorizedKeys.keys = (genPubKeyList user) ++ superPubKeys;
                 home = if isDarwin then "/Users/${user}" else "/home/${user}";
                 # Decrypt password to /run/secrets-for-users/ so it can be used to create the user
                 hashedPasswordFile = sopsHashedPasswordFile; # Blank if sops isn't working

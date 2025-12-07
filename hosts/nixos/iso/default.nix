@@ -1,4 +1,3 @@
-#NOTE: This ISO is NOT minimal. We don't want a minimal environment when using the iso for recovery purposes.
 {
   inputs,
   pkgs,
@@ -6,48 +5,31 @@
   config,
   ...
 }:
-{
+rec {
   imports = lib.flatten [
-    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-    #"${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+    #"${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-    # This is overkill but I want my core home level utils if I need to use the iso environment for recovery purpose
     inputs.home-manager.nixosModules.home-manager
     (map lib.custom.relativeToRoot [
       # FIXME: Switch this to just import hosts/common/core (though have to be careful to purposefully not add platform file..
       "hosts/common/optional/minimal-user.nix"
-      "hosts/common/core/keyd.nix" # FIXME: Remove if we move to hosts/common/core above
       "modules/common/host-spec.nix"
     ])
     (
       let
-        path = lib.custom.relativeToRoot "hosts/common/users/${config.hostSpec.username}/default.nix";
+        path = lib.custom.relativeToRoot "hosts/common/users/${hostSpec.username}/default.nix";
       in
       lib.optional (lib.pathExists path) path
     )
   ];
 
   hostSpec = {
-    hostName = "iso";
+    primaryUsername = "ta";
     username = "ta";
+    hostName = "iso";
     isProduction = lib.mkForce false;
-
-    # Needed because we don't use hosts/common/core for iso
-    inherit (inputs.nix-secrets)
-      domain
-      networking
-      ;
-
-    #TODO(git): This is stuff for home/ta/common/core/git.nix. should create home/ta/common/optional/development.nix so core git.nix doesn't use it.
-    handle = "emergentmind";
-    email.gitHub = inputs.nix-secrets.email.gitHub;
-  };
-
-  # root's ssh key are mainly used for remote deployment
-  users.extraUsers.root = {
-    inherit (config.users.users.${config.hostSpec.username}) hashedPassword;
-    openssh.authorizedKeys.keys =
-      config.users.users.${config.hostSpec.username}.openssh.authorizedKeys.keys;
+    networking = inputs.nix-secrets.networking; # Needed because we don't use host/common/core for iso
   };
 
   environment.etc = {
@@ -67,7 +49,7 @@
     export PS1="\\[\\033[01;32m\\]\\u@\\h-$(cat /etc/isoBuildTime)\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ "
   '';
 
-  # The default compression-level is (6) and takes too long on some machines (>30m). 3 takes <2m
+  # The default compression-level (6) takes way too long on onyx (>30m). 3 takes <2m
   isoImage.squashfsCompression = "zstd -Xcompression-level 3";
 
   nixpkgs = {
@@ -92,7 +74,6 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems = lib.mkForce [
       "btrfs"
       "vfat"
@@ -103,14 +84,34 @@
     hostName = "iso";
   };
 
+  # gnome power settings do not turn off screen
   systemd = {
-    services.sshd.wantedBy = lib.mkForce [ "multi-user.target" ];
-    # gnome power settings to not turn off screen
+    services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
     targets = {
       sleep.enable = false;
       suspend.enable = false;
       hibernate.enable = false;
       hybrid-sleep.enable = false;
     };
+  };
+
+  # FIXME: Seems like suspend disable in iso isn't always working
+  # home-manager.users.${hostSpec.username}.dconf.settings = {
+  #   "org/gnome/settings-daemon/plugins/power" = {
+  #     ambient-enabled = false;
+  #     idle-dim = true;
+  #     power-button-action = "interactive";
+  #     sleep-inactive-ac-type = "nothing";
+  #     sleep-inactive-ac-timeout = 0;
+  #     sleep-inactive-battery-type = "nothing";
+  #     sleep-inactive-battery-timeout = 0;
+  #   };
+  # };
+
+  # root's ssh key are mainly used for remote deployment
+  users.extraUsers.root = {
+    inherit (config.users.users.${config.hostSpec.username}) hashedPassword;
+    openssh.authorizedKeys.keys =
+      config.users.users.${config.hostSpec.username}.openssh.authorizedKeys.keys;
   };
 }

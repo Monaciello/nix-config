@@ -80,7 +80,7 @@ in
 
             echo "Creating links to ${homeDirectory}/id_$key_name"
             ln -sf "${homeDirectory}/.ssh/id_$key_name" ${homeDirectory}/.ssh/id_yubikey
-            ln -sf "${homeDirectory}/.ssh/id_$key_name.pub" ${homeDirectory}/.ssh/id_yubikey.pub
+            ln -sf "${homeDirectory}/.ssh/yubikeys/id_$key_name.pub" ${homeDirectory}/.ssh/id_yubikey.pub
           '';
         };
       yubikey-down = pkgs.writeShellApplication {

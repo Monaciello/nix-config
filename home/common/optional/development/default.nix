@@ -120,7 +120,7 @@ in
   home.file.".ssh/allowed_signers".text =
     let
       #FIXME(multiuser): This would need to change if we ever have multiple developer accounts on the same box or we have work keys that aren't our own yubikeys, etc
-      keypath = "hosts/common/users/${config.hostSpec.username}/keys/";
+      keypath = "hosts/common/users/super/keys/";
       genEmailKeys =
         email: keys:
         lib.concatMapStringsSep "\n" (
