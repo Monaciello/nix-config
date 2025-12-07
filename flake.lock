@@ -340,10 +340,10 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1765061442,
-        "narHash": "sha256-Mi+MXjibyIgsBUTQvsXCwXdaHz0LFxfkN/t4oAPHLfY=",
+        "lastModified": 1765068114,
+        "narHash": "sha256-38FDPI86rxU9cJC7nb1mGTiwA5ilKoxAbXSao/TOsik=",
         "ref": "main",
-        "rev": "5306cc982c8090936cfe301d1404dea0c7e1b513",
+        "rev": "0332a9b7b0517968d4bc0ef2c7e3503b5e7aa392",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/emergentmind/nix-secrets.git"
@@ -626,11 +626,11 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1764982414,
-        "narHash": "sha256-LqCQL0BVLQYtOIBfWSHkNbRoQ+nCeCdfj7/Ggmb4x3w=",
+        "lastModified": 1765065096,
+        "narHash": "sha256-abrrONk8vzRtY6fHEkjZOyRJpKHjPlFqMBE0+/DxfAU=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "b1c99fd9525bae86f20018e96d68176002ad18b0",
+        "rev": "84d9d55885d463d461234f3aac07b2389a2577d8",
         "type": "github"
       },
       "original": {
