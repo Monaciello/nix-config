@@ -74,7 +74,7 @@
       smarttab = true;
       shiftwidth = 4;
       softtabstop = 4;
-      tabstop = 4;
+      tabstop = 8;
       expandtab = true;
 
       # ================ Folds ============================
@@ -168,20 +168,19 @@
            " let g:vimwiki_list = [wiki_0, wiki_1, wiki_2]
 
            " ================ Ale ========================
-      "     let g:ale_linters = {
-      "                 \ 'c': ['clang-tidy'],
-      "                 \ 'python': ['flake8'],
-      "                 \ 'vim': ['vint'],
-      "                 \ 'markdown': ['markdownlint'],
-      "     \ }
+           let g:ale_linters = {
+                       \ 'c': ['clang-tidy'],
+                       \ 'python': ['flake8'],
+                       \ 'vim': ['vint'],
+                       \ 'markdown': ['markdownlint'],
+           \ }
 
-      "     let g:ale_fixers = {
-      "           \ 'c': ['clang-format'],
-      "           \ 'javascript': ['prettier', 'eslint'],
-      "           \ 'json': ['fixjson', 'prettier'],
-      "           \ 'python': ['black', 'isort'],
-
-      "           \ }
+           let g:ale_fixers = {
+                 \ 'c': ['clang-format'],
+                 \ 'javascript': ['prettier', 'eslint'],
+                 \ 'json': ['fixjson', 'prettier'],
+                 \ 'python': ['black', 'isort'],
+                 \ }
 
       "     " Set global fixers for all file types except Markdown
       "     " Why? because double spaces at the end of a line in markdown indicate a
