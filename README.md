@@ -30,12 +30,13 @@ The way out, is through.
 ## Table of Contents
 
 - [Feature Highlights](#feature-highlights)
+- [A Quick Note on Tags and Branches](#a-quick-note-on-tags-and-branches)
 - [Roadmap of TODOs](docs/TODO.md)
 - [Requirements](#requirements)
 - [Structure](#structure-quick-reference)
 - [Adding a New Host](docs/addnewhost.md)
 - [Secrets Management](#secrets-management)
-- [Initial Install Notes](docs/installnotes.md)
+- [Initial Install Notes](docs/installnotes.md)5
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Acknowledgements](#acknowledgements)
 - [Guidance and Resources](#guidance-and-resources)
@@ -71,6 +72,15 @@ The roadmap of additional features is laid across functionally thematic stages t
 
 Completed features will be added here as each stage is complete.
 
+## A Quick Note on Tags and Branches
+
+As with many personal projects, the code here tends to evolve away from what it was when the video/article content was published.
+
+- Videos - To find code relevant to when a specific video/article was published, look through tags with the word 'video' as they are commits from roughly the same time.
+
+- Darwin - To find relevant to handling hosts using both NixOS and Darwin, refer to the `darwin` branch. Starting in 2026, we are migrating away from Darwin support for the foreseeable future but will retain it 'as is' in the `darwin` branch for reference.
+
+
 ## Requirements
 
 - When using NixOS, v23.11 or later is required to properly receive passphrase prompts when building in the private nix-secrets repo
@@ -101,7 +111,7 @@ As of September 2025, we've been rethinking how to handle multiple users and the
     - `disks` - Declarative disk partition and format specifications via disko.
     - `optional` - Optional configurations present across more than one host.
     - `users` - Host level user configurations present across at least one host.
-        - `<user>/keys` - Public keys for the user that are symlinked to ~/.ssh
+        -h `<user>/keys` - Public keys for the user that are symlinked to ~/.ssh
   - `dariwn` - machine specific configurations for darwin-based hosts
       - Currently not using any darwin hosts
   - `nixos` - machine specific configurations for NixOS-based hosts
