@@ -36,7 +36,7 @@ The way out, is through.
 - [Structure](#structure-quick-reference)
 - [Adding a New Host](docs/addnewhost.md)
 - [Secrets Management](#secrets-management)
-- [Initial Install Notes](docs/installnotes.md)5
+- [Initial Install Notes](docs/installnotes.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Acknowledgements](#acknowledgements)
 - [Guidance and Resources](#guidance-and-resources)
@@ -48,9 +48,8 @@ Chat with me directly on our [Discord server](https://discord.gg/XTFg57xGxC).
 
 ## Feature Highlights
 
-- Flake-based multi-host, multi-user configurations for NixOS, Darwin, and Home-Manager
+- Flake-based multi-host, multi-user configurations for NixOS and Home-Manager
 
-  - Core configs for hosts and users dynamically handle nixos- or darwin-based host specifications
   - Optional configs for user and host-specific needs
   - Facilitation for custom modules, overlays, packages, and library
 
@@ -112,8 +111,6 @@ As of September 2025, we've been rethinking how to handle multiple users and the
     - `optional` - Optional configurations present across more than one host.
     - `users` - Host level user configurations present across at least one host.
         -h `<user>/keys` - Public keys for the user that are symlinked to ~/.ssh
-  - `dariwn` - machine specific configurations for darwin-based hosts
-      - Currently not using any darwin hosts
   - `nixos` - machine specific configurations for NixOS-based hosts
       - `genoa` - ThinkPad E15 - 3.5/4.7GHz i7-1255U (6C/12T), 16GB RAM
       - `ghost` - Primary box - 4.8GHz Ryzen 9 5900XT (16C/32T), 64GB RAM, RX 9070XT
@@ -130,15 +127,13 @@ As of September 2025, we've been rethinking how to handle multiple users and the
     - `common` - User-specific configurations common across that user's hosts.
 - `lib` - Custom library used throughout the nix-config to make import paths more readable. Accessible via `lib.custom`.
 - `modules` - Custom modules to enable special functionality and options.
-    - `common` - Custom modules that will work on either nixos or dariwn but that aren't specific to home-manager
-    - `darwin` - Custom modules specific to dariwn-based hosts
+    - `common` - Custom modules that will work on either nixos ~~or dariwn~~ but that aren't specific to home-manager
     - `home-manager` - Custom modules to home-manager
     - `nixos` - Custom modules specific to nixos-based hosts
 - `nixos-installer` - A stripped down version of the main nix-config flake used exclusively during installation of NixOS and nix-config on hosts.
 - `overlays` - Custom modifications to upstream packages.
 - `pkgs` - Custom packages meant to be shared or upstreamed.
-    - `common` - Custom packages that will work on either nixos or dariwn
-    - `darwin` - Custom packages specific to dariwn-based hosts
+    - `common` - Custom packages that will work on either nixos ~~or dariwn~~
     - `nixos` - Custom packages specific to nixos-based hosts
 - `scripts` - Custom scripts for automation, including remote installation and bootstrapping of NixOS and nix-config.
 
