@@ -72,8 +72,8 @@
       cindent = true; # automatically indent braces
       smartindent = true;
       smarttab = true;
-      shiftwidth = 4;
-      softtabstop = 4;
+      shiftwidth = 2;
+      softtabstop = 2;
       tabstop = 8;
       expandtab = true;
 
