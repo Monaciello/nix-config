@@ -6,7 +6,6 @@
 ###############################################################
 
 {
-  config,
   inputs,
   lib,
   ...
@@ -18,6 +17,7 @@
     #
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
+    (lib.custom.scanPaths ./.) # Load all extra host-specific *.nix files
 
     # FIXME: Seems this is still needed for Fn keys to work?
     inputs.hardware.nixosModules.lenovo-thinkpad-e15-intel
@@ -74,69 +74,11 @@
     ))
   ];
 
-  #
-  # ========== Host Specification ==========
-  #
-  hostSpec = {
-    hostName = "genoa";
-    primaryUsername = lib.mkForce "ta";
-
-    persistFolder = "/persist"; # added for "completion" because of the disko spec that was used even though impermanence isn't actually enabled here yet.
-
-    # System type flags
-    isAdmin = lib.mkForce true;
-    isRemote = lib.mkForce false; # not remotely managed
-    isRoaming = lib.mkForce true;
-
-    # Functionality
-    useYubikey = lib.mkForce true;
-
-    # Graphical
-    theme = lib.mkForce "darcula";
-    wallpaper = "${inputs.nix-assets}/images/wallpapers/zen-02.jpg";
-    isAutoStyled = lib.mkForce true;
-    hdr = lib.mkForce true;
+  boot.initrd = {
+    systemd.enable = true;
+    kernelModules = [
+    ];
   };
-
-  #
-  # ========== Keyboard Remaps ==========
-  #
-  # swap meta and left alt on laptop keyboard to match moonlander
-  services.keyd.keyboards.default = lib.optionalAttrs config.services.keyd.enable {
-    ids = [ "17aa:5054" ]; # device id for "thinkpad extra keys" keyboard
-    settings.main = {
-      leftmeta = "leftalt";
-      leftalt = "leftmeta";
-    };
-  };
-
-  #
-  # ========== Network ==========
-  #
-  networking = {
-    networkmanager.enable = true;
-    enableIPv6 = false;
-  };
-  wifi = {
-    enable = true;
-    roaming = config.hostSpec.isRoaming;
-  };
-
-  #Firmwareupdate
-  #  $ fwupdmgr update
-  services.fwupd.enable = true;
-
-  #  services.backup = {
-  #    enable = true;
-  #    borgBackupStartTime = "02:00:00";
-  #    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.oops.ip}";
-  #    borgUser = "${config.hostSpec.username}";
-  #    borgPort = "${builtins.toString config.hostSpec.networking.ports.tcp.oops}";
-  #    borgBackupPath = "/var/services/homes/${config.hostSpec.username}/backups";
-  #    borgNotifyFrom = "${config.hostSpec.email.notifier}";
-  #    borgNotifyTo = "${config.hostSpec.email.backup}";
-  #  };
-
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -148,41 +90,7 @@
     timeout = 5;
   };
 
-  boot.initrd = {
-    systemd.enable = true;
-    kernelModules = [
-    ];
-  };
-
-  #
-  # ========== Host-specific Monitor Spec ==========
-  #
-  # This uses the nix-config/modules/home/montiors.nix module which defaults to enabled.
-  # Your nix-config/home-manger/<user>/common/optional/desktops/foo.nix WM config should parse and apply these values to it's monitor settings
-  # If on hyprland, use `hyprctl monitors` to get monitor info.
-  # https://wiki.hyprland.org/Configuring/Monitors/
-  #    ------
-  # | Internal |
-  # | Display  |
-  #    ------
-  monitors = [
-    {
-      name = "eDP-1";
-      width = 1920;
-      height = 1080;
-      refreshRate = 60;
-      primary = true;
-      #vrr = 1;
-    }
-    {
-      name = "HDMI-A-1";
-      width = 1920;
-      height = 1080;
-      refreshRate = 60;
-      x = 1920;
-      workspace = "9";
-    }
-  ];
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  #Firmwareupdater
+  #  $ fwupdmgr update
+  services.fwupd.enable = true;
 }

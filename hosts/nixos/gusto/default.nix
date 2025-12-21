@@ -17,6 +17,7 @@
     #
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
+    (lib.custom.scanPaths ./.) # Load all extra host-specific *.nix files
 
     #
     # ========== Disk Layout ==========
@@ -62,35 +63,7 @@
     ))
   ];
 
-  #
-  # ========== Host Specification ==========
-  #
-  hostSpec = {
-    hostName = "gusto";
-    users = lib.mkForce [
-      "ta"
-      "media"
-    ];
-    primaryUsername = lib.mkForce "ta";
-    primaryDesktopUsername = lib.mkForce "media";
-
-    persistFolder = lib.mkForce "/persist";
-
-    # System type flags
-    isWork = lib.mkForce false;
-    isProduction = lib.mkForce true;
-    isRemote = lib.mkForce true;
-
-    # Functionality
-    useYubikey = lib.mkForce true;
-
-    # Graphical
-    defaultDesktop = "gnome";
-    useWayland = lib.mkForce true;
-    isAutoStyled = lib.mkForce true;
-    theme = lib.mkForce "rose-pine-moon";
-    wallpaper = "${inputs.nix-assets}/images/wallpapers/deco/ad-01.jpg";
-  };
+  boot.initrd.systemd.enable = true;
 
   boot.loader.systemd-boot = {
     enable = true;
@@ -102,12 +75,6 @@
   boot.loader = {
     efi.canTouchEfiVariables = true;
     timeout = 3;
-  };
-  boot.initrd.systemd.enable = true;
-
-  networking = {
-    networkmanager.enable = true;
-    enableIPv6 = false;
   };
 
   # ========== Auto-login as regular user ==========
@@ -137,6 +104,4 @@
 
   # ========== autosshTunnel ==========
   tunnels.cakes.enable = true;
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
