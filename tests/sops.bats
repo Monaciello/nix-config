@@ -15,7 +15,7 @@ setup_sops() {
 	NIX_SECRETS_DIR="$TEST_TEMP"
 	export NIX_SECRETS_DIR
 	# shellcheck disable=SC1091
-	source "$BATS_TEST_DIRNAME/../scripts/helpers.sh"
+	source "$BATS_TEST_DIRNAME/../../introdus/pkgs/introdus-helpers/helpers.sh"
 }
 
 @test "add sops user anchor" {

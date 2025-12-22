@@ -4,111 +4,117 @@
     {
       self,
       nixpkgs,
-      # nix-darwin,
+      flake-parts,
+      introdus,
+      nix-secrets,
       ...
     }@inputs:
     let
       inherit (self) outputs;
+      inherit (nixpkgs) lib;
+      namespace = "emergentmind"; # namespace for our custom modules. Snowfall lib style
 
-      #
-      # ========= Architectures =========
-      #
-      forAllSystems = nixpkgs.lib.genAttrs [
-        "x86_64-linux"
-        #"aarch64-darwin"
-      ];
-
-      # ========== Extend lib with lib.custom ==========
-      # NOTE: This approach allows lib.custom to propagate into hm
-      # see: https://github.com/nix-community/home-manager/pull/3454
-      lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
-
-    in
-    {
-      #
-      # ========= Overlays =========
-      #
-      # Custom modifications/overrides to upstream packages
-      overlays = import ./overlays { inherit inputs; };
-
-      #
-      # ========= Host Configurations =========
-      #
-      # Building configurations is available through `just rebuild` or `nixos-rebuild --flake .#hostname`
-      nixosConfigurations = builtins.listToAttrs (
-        map (host: {
-          name = host;
-          value = nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs outputs lib;
-              isDarwin = false;
-            };
-            modules = [ ./hosts/nixos/${host} ];
-          };
-        }) (builtins.attrNames (builtins.readDir ./hosts/nixos))
+      introdusLib = introdus.lib.mkIntrodusLib {
+        lib = nixpkgs.lib;
+        secrets = nix-secrets;
+      };
+      customLib = nixpkgs.lib.extend (
+        self: super: {
+          custom =
+            introdusLib
+            # NOTE: This overrides introdusLib entries with local changes via
+            # '//' in case I want to test something
+            // (import ./lib {
+              inherit (nixpkgs) lib;
+            });
+        }
       );
 
-      # darwinConfigurations = builtins.listToAttrs (
-      #   map (host: {
-      #     name = host;
-      #     value = nix-darwin.lib.darwinSystem {
-      #       specialArgs = {
-      #         inherit inputs outputs lib;
-      #         isDarwin = true;
-      #       };
-      #       modules = [ ./hosts/darwin/${host} ];
-      #     };
-      #   }) (builtins.attrNames (builtins.readDir ./hosts/darwin))
-      # );
+      secrets = nix-secrets.mkSecrets nixpkgs customLib;
 
-      #
-      # ========= Packages =========
-      #
-      # Expose custom packages
-
-      /*
-        NOTE: This is only for exposing packages exterally; ie, `nix build .#packages.x86_64-linux.cd-gitroot`
-        For internal use, these packages are added through the default overlay in `overlays/default.nix`
-      */
-
-      packages = forAllSystems (
-        system:
+      mkHost = host: isDarwin: {
+        ${host} =
+          let
+            func = if isDarwin then inputs.nix-darwin.lib.darwinSystem else lib.nixosSystem;
+            systemFunc = func;
+            # Propagate lib.custom into hm
+            # see: https://github.com/nix-community/home-manager/pull/3454
+          in
+          systemFunc {
+            specialArgs = rec {
+              inherit
+                inputs
+                outputs
+                namespace
+                secrets
+                ;
+              lib = customLib;
+              inherit isDarwin;
+            };
+            modules = [
+              ./hosts/${if isDarwin then "darwin" else "nixos"}/${host}
+            ];
+          };
+      };
+      mkHostConfigs =
+        hosts: isDarwin: lib.foldl (acc: set: acc // set) { } (lib.map (host: mkHost host isDarwin) hosts);
+      readHosts = folder: lib.attrNames (builtins.readDir ./hosts/${folder});
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      flake = {
+        # Custom modifications/overrides to upstream packages
+        overlays = (
+          import ./overlays {
+            inherit inputs lib secrets;
+          }
+        );
+        # Build host configs
+        nixosConfigurations = mkHostConfigs (readHosts "nixos") false;
+        # darwinConfigurations = mkHostConfigs (readHosts "darwin") true;
+      };
+      systems = [
+        "x86_64-linux"
+      ];
+      perSystem =
+        { system, ... }:
         let
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ self.overlays.default ];
+            overlays = [
+              introdus.overlays.default
+              self.overlays.default
+            ];
           };
         in
-        nixpkgs.lib.packagesFromDirectoryRecursive {
-          callPackage = nixpkgs.lib.callPackageWith pkgs;
-          directory = ./pkgs/common;
-        }
-      );
-
-      #
-      # ========= Formatting =========
-      #
-      # Nix formatter available through 'nix fmt' https://github.com/NixOS/nixfmt
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
-      # Pre-commit checks
-      checks = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        import ./checks { inherit inputs system pkgs; }
-      );
-      #
-      # ========= DevShell =========
-      #
-      # Custom shell for bootstrapping on new hosts, modifying nix-config, and secrets management
-      devShells = forAllSystems (
-        system:
-        import ./shell.nix {
-          pkgs = nixpkgs.legacyPackages.${system};
-          checks = self.checks.${system};
-        }
-      );
+        rec {
+          # Expose custom packages
+          _module.args.pkgs = pkgs;
+          packages = lib.packagesFromDirectoryRecursive {
+            callPackage = lib.callPackageWith pkgs;
+            directory = ./pkgs/common;
+          };
+          # Pre-commit checks
+          checks = import ./checks {
+            inherit
+              inputs
+              pkgs
+              system
+              lib
+              ;
+          };
+          # Nix formatter available through 'nix fmt' https://github.com/NixOS/nixfmt
+          formatter = pkgs.nixfmt;
+          # Custom shell for bootstrapping, nix-config dev, and secrets management
+          devShells = import ./shell.nix {
+            inherit
+              checks
+              inputs
+              system
+              pkgs
+              lib
+              ;
+          };
+        };
     };
 
   inputs = {
@@ -121,10 +127,10 @@
     # keep 'nixpkgs-stable' set to stable for critical packages while setting 'nixpkgs' to the beta branch to
     # get a jump start on deprecation changes.
     # See also 'stable-packages' and 'unstable-packages' overlays at 'overlays/default.nix"
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
+    # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    hardware.url = "github:nixos/nixos-hardware";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
     # Modern nixos-hardware alternative
     nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
 
@@ -197,6 +203,9 @@
     };
     nix-assets = {
       url = "github:emergentmind/nix-assets";
+    };
+    introdus = {
+      url = "git+ssh://git@codeberg.org/fidgetingbits/introdus?shallow=1&ref=aa";
     };
   };
 }

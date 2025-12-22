@@ -35,7 +35,7 @@
     )
   );
 
-  # services.swww = {
+  # introdus.services.awww = {
   #   enable = true;
   # };
 

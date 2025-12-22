@@ -4,6 +4,7 @@
   config,
   lib,
   isDarwin,
+  secrets,
   ...
 }:
 
@@ -95,9 +96,13 @@ in
         in
         lib.optional (lib.pathExists fullPath) fullPath;
     in
-    {
+    rec {
       extraSpecialArgs = {
-        inherit pkgs inputs;
+        inherit
+          inputs
+          pkgs
+          secrets
+          ;
 
         # pass common modules set in hosts through to home
         # see also: home/common/core/default.nix

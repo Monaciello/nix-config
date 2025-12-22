@@ -2,7 +2,7 @@
 {
   config,
   lib,
-  inputs,
+  secrets,
   ...
 }:
 let
@@ -25,7 +25,7 @@ lib.mkIf cfg.isAdmin {
       cfg.networking.subnets.grove.wildcard
       cfg.networking.subnets.vm-lan.wildcard
     ]
-    ++ lib.optional cfg.isWork inputs.nix-secrets.work.git.servers;
+    ++ lib.optional cfg.isWork secrets.work.git.servers;
   };
   programs.ssh.matchBlocks =
     let
@@ -61,8 +61,8 @@ lib.mkIf cfg.isAdmin {
         port = config.hostSpec.networking.ports.tcp.moth;
       };
       # "myth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
-      #   host = "myth ${inputs.nix-secrets.networking.domains.myth}";
-      #   hostname = "${inputs.nix-secrets.networking.domains.myth}";
+      #   host = "myth ${secrets.networking.domains.myth}";
+      #   hostname = "${secrets.networking.domains.myth}";
       #   user = "admin";
       #   port = config.hostSpec.networking.ports.tcp.myth;
       # };

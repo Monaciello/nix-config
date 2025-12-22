@@ -20,7 +20,7 @@
     (lib.custom.scanPaths ./.) # Load all extra host-specific *.nix files
 
     # FIXME: Seems this is still needed for Fn keys to work?
-    inputs.hardware.nixosModules.lenovo-thinkpad-e15-intel
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-e15-intel
 
     #
     # ========== Disk Layout ==========

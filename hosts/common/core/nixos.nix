@@ -3,9 +3,14 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
+  imports = [
+    inputs.introdus.nixosModules.default
+  ];
+
   # Database for aiding terminal-based programs
   environment.enableAllTerminfo = true;
   # Enable firmware with a license allowing redistribution
@@ -39,9 +44,13 @@
     let
       pinned = lib.custom.relativeToRoot "hosts/nixos/${config.hostSpec.hostName}/pinned-boot-entry.conf";
     in
-    lib.optionalAttrs (config.boot.loader.systemd-boot.enable && builtins.pathExists pinned) {
-      "pinned-stable.conf" = builtins.readFile pinned;
+    lib.optionalAttrs (config.boot.loader.systemd-boot.enable && lib.pathExists pinned) {
+      "pinned-stable.conf" = lib.readFile pinned;
     };
+
+  # Stop blocking on network interfaces not needed for boot
+  systemd.network.wait-online.enable = false;
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   environment = {
     localBinInPath = true;
@@ -65,8 +74,10 @@
   # Provides better build output and will also handle garbage collection in place of standard nix gc (garbage collection)
   programs.nh = {
     enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 20d --keep 20";
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 20d --keep 20";
+    };
     flake = "${config.hostSpec.home}/src/nix/nix-config";
   };
 

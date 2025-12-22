@@ -3,10 +3,15 @@
   pkgs,
   lib,
   config,
-  inputs,
+  secrets,
   ...
 }:
 {
+  # All users get git no matterwhat but additional settings may be added by eg: development.nix
+  home.packages = [
+    pkgs.delta # git diff tool
+  ];
+
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
@@ -32,58 +37,35 @@
     # actions that require auth.
     settings =
       let
-        privateRepos = inputs.nix-secrets.git.repos;
-        privateWorkRepos = inputs.nix-secrets.git.work.repos;
+        privateRepos = secrets.git.repos;
+        privateWorkRepos = secrets.git.work.repos;
+
         insteadOfList =
           domain: urls:
-          lib.map (url: {
+          urls
+          |> lib.map (url: {
             "ssh://git@${domain}/${url}" = {
               insteadOf = "https://${domain}/${url}";
             };
-          }) urls;
+          });
 
-        # FIXME(git): At the moment this requires personal and work sets to maintain lists of git servers, even if
-        # unneeded, so could also check if domain list actually exists in the set first.
-        alwaysSshRepos = lib.foldl' lib.recursiveUpdate { } (
-          lib.concatLists (
-            lib.map
-              (
-                domain:
-                insteadOfList domain (
-                  privateRepos.${domain} ++ (lib.optionals config.hostSpec.isWork privateWorkRepos.${domain})
-                )
-              )
-              (
-                lib.attrNames privateRepos ++ lib.optionals config.hostSpec.isWork (lib.attrNames privateWorkRepos)
-              )
-          )
-        );
+        workRepoNames =
+          lib.attrNames privateWorkRepos
+          # nixfmt hack
+          |> lib.optionals config.hostSpec.isWork;
+
+        workDomain =
+          domain:
+          lib.optionals (config.hostSpec.isWork && (privateWorkRepos ? ${domain})) privateWorkRepos.${domain};
+
+        privateAlwaysSshRepos =
+          (lib.attrNames privateRepos) ++ workRepoNames
+          |> lib.map (domain: insteadOfList domain (privateRepos.${domain} ++ (workDomain domain)))
+          |> lib.concatLists
+          |> lib.foldl' lib.recursiveUpdate { };
       in
       {
-        core.pager = "delta";
-        delta = {
-          enable = true;
-          features = [
-            "side-by-side"
-            "line-numbers"
-            "hyperlinks"
-            "line-numbers"
-            "commit-decoration"
-          ];
-        };
-
-        url =
-          alwaysSshRepos
-          // lib.optionalAttrs (!config.hostSpec.isMinimal) {
-            # Only force ssh if it's not minimal
-            "ssh://git@github.com" = {
-              pushInsteadOf = "https://github.com";
-            };
-            "ssh://git@gitlab.com" = {
-              pushInsteadOf = "https://gitlab.com";
-            };
-          };
-
+        url = privateAlwaysSshRepos; # NOTE: See introdus/modules/home/git.nix for more
         # pre-emptively ignore mac crap
         core.excludeFiles = builtins.toFile "global-gitignore" ''
           .DS_Store
@@ -110,7 +92,20 @@
         '';
         # Makes single line json diffs easier to read
         diff.json.textconv = "jq --sort-keys .";
+
+        core.pager = "delta";
+        delta = {
+          enable = true;
+          features = [
+            "side-by-side"
+            "line-numbers"
+            "hyperlinks"
+            "line-numbers"
+            "commit-decoration"
+          ];
+        };
       };
   };
 
+  home.sessionVariables.GIT_EDITOR = config.hostSpec.defaultEditor;
 }

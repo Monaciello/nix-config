@@ -185,7 +185,8 @@
         else
           [
 
-          ];
+          ]
+          ++ lib.optional config.introdus.services.awww.enable "swww img ${config.hostSpec.wallpaper}";
     };
 
   };

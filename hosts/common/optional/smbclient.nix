@@ -1,7 +1,7 @@
 # create a systemd service to automatically mount the ghost mediashare at boot
-{ inputs, pkgs, ... }:
+{ secrets, pkgs, ... }:
 let
-  sopsFolder = (builtins.toString inputs.nix-secrets) + "/sops";
+  sopsFolder = (toString secrets) + "/sops";
 in
 {
   # required to mount cifs using domain name

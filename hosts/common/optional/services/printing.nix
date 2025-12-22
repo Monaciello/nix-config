@@ -16,7 +16,7 @@
   };
 
   #FIXME(printing) didn't get this working. can get these values from CUPS but
-  #  hardware.printers = {
+  #  nixos-hardware.printers = {
   #    ensurePrinters = [
   #      {
   #        name = "Samsung_C460_Series";

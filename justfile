@@ -1,8 +1,6 @@
-SOPS_FILE := "../nix-secrets/.sops.yaml"
-
 # Define path to helpers
 
-export HELPERS_PATH := justfile_directory() + "/scripts/helpers.sh"
+export HELPERS_PATH := justfile_directory() + "../introdus/pkgs/introdus-helpers/helpers.sh"
 
 [private]
 default:
@@ -13,7 +11,8 @@ default:
 rebuild-pre HOST=`hostname`:
     just update-nix-secrets {{ HOST }} && \
     just update-nix-assets {{ HOST }} && \
-    just update {{ HOST }} nix-index-database
+    just update {{ HOST }} nix-index-database && \
+    just update {{ HOST }} introdus
     @git add --intent-to-add .
 
 # Run post-rebuild checks, like if sops is running properly afterwards

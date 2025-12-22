@@ -1,4 +1,3 @@
-#FIXME: Move attrs that will only work on linux to nixos.nix
 #FIXME: if pulling in homemanager for isMinimal maybe set up conditional for some packages
 {
   config,
@@ -6,10 +5,12 @@
   pkgs,
   hostSpec,
   monitors,
+  inputs,
   ...
 }:
 {
   imports = lib.flatten [
+    inputs.introdus.homeManagerModules.default
     (map lib.custom.relativeToRoot [
       "modules/common"
       "modules/home"

@@ -5,7 +5,7 @@
   ...
 }:
 let
-  sopsFolder = (builtins.toString inputs.nix-secrets) + "/sops";
+  sopsFolder = (toString inputs.nix-secrets) + "/sops";
 in
 {
   # FIXME(atuin): Add the background sync service

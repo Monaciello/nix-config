@@ -1,8 +1,8 @@
 # Core home functionality that will only work on Linux
 {
   config,
-  #  inputs,
   lib,
+  # secrets,
   ...
 }:
 let
@@ -13,7 +13,7 @@ in
     sessionPath = lib.flatten ([
       "${homeDirectory}/scripts/"
     ]
-    #      ++ lib.optional config.hostSpec.isWork inputs.nix-secrets.work.extraPaths
+    # ++ lib.optional config.hostSpec.isWork secrets.work.extraPaths
     );
   };
 }

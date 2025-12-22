@@ -1,8 +1,8 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
+  secrets,
   ...
 }:
 {
@@ -18,10 +18,10 @@
       '')
     ]
     ++ lib.optional (!config.hostSpec.isMinimal) (
-      pkgs.writeText "custom_private_known_hosts" inputs.nix-secrets.networking.ssh.knownHostsFileContents
+      pkgs.writeText "custom_private_known_hosts" secrets.networking.ssh.knownHostsFileContents
     )
     ++ lib.optional (config.hostSpec.isWork) (
-      pkgs.writeText "custom_work_known_hosts" inputs.nix-secrets.work.ssh.knownHostsFileContents
+      pkgs.writeText "custom_work_known_hosts" secrets.work.ssh.knownHostsFileContents
     );
   };
 }

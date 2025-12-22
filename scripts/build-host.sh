@@ -3,7 +3,7 @@
 # need for the cleanup trap to avoid the pre-commit bug with per-host flake locks.
 
 # shellcheck disable=SC1091
-source "$(dirname "${BASH_SOURCE[0]}")/helpers.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../introdus/pkgs/introdus-helpers/helpers.sh"
 
 trap cleanup_flake_lock EXIT HUP INT QUIT TERM
 
@@ -13,4 +13,11 @@ if [[ $# -ne 1 ]]; then
 fi
 
 HOST="$1"
-NIX_SSHOPTS="-p22" nixos-rebuild --target-host "$HOST" --sudo --ask-sudo-password --show-trace --impure --flake .#"$HOST" switch
+NIX_SSHOPTS="-p22" nixos-rebuild \
+	--target-host "$HOST" \
+	--sudo \
+	--ask-sudo-password \
+	--show-trace \
+	--impure \
+	--flake .#"$HOST" \
+	switch

@@ -20,7 +20,7 @@
   ...
 }:
 let
-  sopsFolder = (builtins.toString inputs.nix-secrets) + "/sops";
+  sopsFolder = (toString inputs.nix-secrets) + "/sops";
   cfg = config.wifi;
 
   # Return a list of all Access Point (AP) names from the given WLAN secret file

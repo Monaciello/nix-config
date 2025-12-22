@@ -2,8 +2,12 @@
   inputs,
   system,
   pkgs,
+  lib,
   ...
 }:
+let
+  introdusLib = inputs.introdus.lib.mkIntrodusLib { inherit lib; };
+in
 {
   bats-test =
     pkgs.runCommand "bats-test"
@@ -20,7 +24,8 @@
   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
     src = ./.;
     default_stages = [ "pre-commit" ];
-    hooks = {
+    # NOTE: Hooks are run in alphabetical order
+    hooks = lib.recursiveUpdate (introdusLib.mkPreCommitHooks pkgs) {
       # ========== General ==========
       check-added-large-files = {
         enable = true;

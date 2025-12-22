@@ -6,6 +6,7 @@
   lib,
   pkgs,
   isDarwin,
+  secrets,
   ...
 }:
 let
@@ -16,6 +17,7 @@ in
   imports = lib.flatten [
     inputs.home-manager.${platformModules}.home-manager
     inputs.sops-nix.${platformModules}.sops
+    inputs.disko.${platformModules}.disko
     inputs.nix-index-database.${platformModules}.nix-index
     { programs.nix-index-database.comma.enable = true; } # NOTE: don't enable in hm as well because it will barf eventually
 
@@ -41,7 +43,7 @@ in
     username = "ta"; # FIXME: deprecate
     users = [ "ta" ];
     handle = "emergentmind";
-    inherit (inputs.nix-secrets)
+    inherit (secrets)
       domain
       email
       userFullName
@@ -63,6 +65,7 @@ in
   nixpkgs = {
     overlays = [
       outputs.overlays.default
+      inputs.introdus.overlays.default
     ];
     config = {
       allowUnfree = true;

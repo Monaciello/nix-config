@@ -1,9 +1,9 @@
 # Development utilities I want across all systems
 {
-  inputs,
   config,
   lib,
   pkgs,
+  secrets,
   ...
 }:
 let
@@ -12,7 +12,7 @@ let
   publicKey =
     if config.hostSpec.useYubikey then "${sshFolder}/id_yubikey.pub" else "${sshFolder}/id_manu.pub";
   privateGitConfig = "${config.home.homeDirectory}/.config/git/gitconfig.private";
-  workEmail = inputs.nix-secrets.email.work;
+  workEmail = secrets.email.work;
   workGitConfig = "${config.home.homeDirectory}/.config/git/gitconfig.work";
   workGitUrlsTable = lib.optionalAttrs config.hostSpec.isWork (
     builtins.listToAttrs (
@@ -21,7 +21,7 @@ let
         value = {
           insteadOf = "https://${url}";
         };
-      }) (lib.splitString " " inputs.nix-secrets.work.git.servers)
+      }) (lib.splitString " " secrets.work.git.servers)
     )
   );
 in
@@ -83,8 +83,8 @@ in
 
       url = lib.optionalAttrs config.hostSpec.isWork (
         lib.recursiveUpdate {
-          "ssh://git@${inputs.nix-secrets.work.git.serverMain}" = {
-            insteadOf = "https://${inputs.nix-secrets.work.git.serverMain}";
+          "ssh://git@${secrets.work.git.serverMain}" = {
+            insteadOf = "https://${secrets.work.git.serverMain}";
           };
         } workGitUrlsTable
       );

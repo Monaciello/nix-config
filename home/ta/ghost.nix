@@ -36,7 +36,7 @@
     )
   );
 
-  services.swww = {
+  introdus.services.awww = {
     enable = true;
     wallpaperDir = "/home/ta/sync/wallpaper/";
   };

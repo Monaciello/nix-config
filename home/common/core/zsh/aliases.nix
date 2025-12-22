@@ -41,13 +41,14 @@ in
 
   #------------ src navigation------------
   src = "cd ${devDirectory}";
+  cab = "cd ${devDirectory}/abbot-wiki";
+  cuc = "cd ${devDirectory}/unmoved-centre";
+  ## nix
   cnc = "cd ${devNix}/nix-config";
   cns = "cd ${devNix}/nix-secrets";
   cnh = "cd ${devNix}/nixos-hardware";
   cnp = "cd ${devNix}/nixpkgs";
-  cin = "cd ${devNix}/introdus";
-  cab = "cd ${devDirectory}/abbot-wiki";
-  cuc = "cd ${devDirectory}/unmoved-centre";
+  cni = "cd ${devNix}/introdus";
 
   #-----------Nix commands----------------
   nfc = "nix flake check";
