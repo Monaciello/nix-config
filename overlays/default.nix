@@ -12,35 +12,24 @@ let
       final: prev:
       (prev.lib.packagesFromDirectoryRecursive {
         callPackage = prev.lib.callPackageWith final;
-        directory = ../pkgs/common;
+        directory = ../pkgs;
       });
 
-    linuxModifications =
-      final: prev:
-      if prev.stdenv.isLinux then
-        prev.lib.packagesFromDirectoryRecursive {
-          # We pass self so that we can do some relative path computation for binary
-          # blobs not tracked in our repo config
-          callPackage = prev.lib.callPackageWith final;
-          directory = ../pkgs/nixos;
-        }
-        // {
-          # linuxPackages_6_18 = prev.linuxPackages_6_18.extend (
-          #   _lfinal: lprev: {
-          #     xpadneo = lprev.xpadneo.overrideAttrs (old: {
-          #       patches = (old.patches or [ ]) ++ [
-          #         (prev.fetchpatch {
-          #           url = "https://github.com/orderedstereographic/xpadneo/commit/233e1768fff838b70b9e942c4a5eee60e57c54d4.patch";
-          #           hash = "sha256-HL+SdL9kv3gBOdtsSyh49fwYgMCTyNkrFrT+Ig0ns7E=";
-          #           stripLen = 2;
-          #         })
-          #       ];
-          #     });
-          #   }
-          # );
-        }
-      else
-        { };
+    linuxModifications = final: prev: {
+      # linuxPackages_6_18 = prev.linuxPackages_6_18.extend (
+      #   _lfinal: lprev: {
+      #     xpadneo = lprev.xpadneo.overrideAttrs (old: {
+      #       patches = (old.patches or [ ]) ++ [
+      #         (prev.fetchpatch {
+      #           url = "https://github.com/orderedstereographic/xpadneo/commit/233e1768fff838b70b9e942c4a5eee60e57c54d4.patch";
+      #           hash = "sha256-HL+SdL9kv3gBOdtsSyh49fwYgMCTyNkrFrT+Ig0ns7E=";
+      #           stripLen = 2;
+      #         })
+      #       ];
+      #     });
+      #   }
+      # );
+    };
 
     modifications = final: prev: {
       # example = prev.example.overrideAttrs (previousAttrs: let ... in {

@@ -91,7 +91,7 @@
           _module.args.pkgs = pkgs;
           packages = lib.packagesFromDirectoryRecursive {
             callPackage = lib.callPackageWith pkgs;
-            directory = ./pkgs/common;
+            directory = ./pkgs;
           };
           # Pre-commit checks
           checks = import ./checks {
