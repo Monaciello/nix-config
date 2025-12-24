@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   services.desktopManager.gnome.enable = true; # this will enable xserver
   services.gnome.gnome-keyring.enable = true;
   services.gnome.gcr-ssh-agent.enable = false; # agent already handled by startagent in ssh.nix
 
-  environment.gnome.excludePackages = builtins.attrValues {
+  environment.gnome.excludePackages = lib.attrValues {
     inherit (pkgs)
       gnome-photos
       gnome-tour
@@ -32,7 +32,7 @@
 
   };
   programs.dconf.enable = true;
-  environment.systemPackages = builtins.attrValues {
+  environment.systemPackages = lib.attrValues {
   };
   #services.touchegg.enable = true;
 

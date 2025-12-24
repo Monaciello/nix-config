@@ -15,7 +15,7 @@ let
   workEmail = secrets.email.work;
   workGitConfig = "${config.home.homeDirectory}/.config/git/gitconfig.work";
   workGitUrlsTable = lib.optionalAttrs config.hostSpec.isWork (
-    builtins.listToAttrs (
+    lib.listToAttrs (
       map (url: {
         name = "ssh://git@${url}";
         value = {
@@ -29,7 +29,7 @@ in
   imports = lib.custom.scanPaths ./.;
 
   home.packages = lib.flatten [
-    (builtins.attrValues {
+    (lib.attrValues {
       inherit (pkgs)
         # Development
         delta # diffing

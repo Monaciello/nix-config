@@ -1,5 +1,5 @@
 #FIXME: need to modularize this
-{ config, ... }:
+{ lib, config, ... }:
 {
   programs.firefox = {
     enable = true;
@@ -45,7 +45,7 @@
               };
             };
           in
-          builtins.listToAttrs [
+          lib.listToAttrs [
             #TODO Add more of these and test. not high priority though since mozilla sync will pull them in too
             # Development
             #(extension "user-agent-switcher" "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}") # failed

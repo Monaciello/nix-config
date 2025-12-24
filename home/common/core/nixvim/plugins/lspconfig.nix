@@ -58,7 +58,7 @@ in
                   nixos = {
                     expr = ''
                       let configs = (builtins.getFlake "${flakeRoot}").nixosConfigurations;
-                      in (builtins.head (builtins.attrValues configs)).options
+                      in (builtins.head (lib.attrValues configs)).options
                     '';
                   };
                   home_manager = {
@@ -69,7 +69,7 @@ in
                   darwin = {
                     expr = ''
                       let configs = (builtins.getFlake "${flakeRoot}").darwinConfigurations;
-                      in (builtins.head (builtins.attrValues configs)).options
+                      in (builtins.head (lib.attrValues configs)).options
                     '';
                   };
                 };

@@ -14,7 +14,7 @@ let
   all-normal-users = lib.attrsets.filterAttrs (
     username: config: config.isNormalUser
   ) config.users.users;
-  all-sus-dirs = builtins.concatMap (
+  all-sus-dirs = lib.concatMap (
     dir: lib.attrsets.mapAttrsToList (username: config: config.home + "/" + dir) all-normal-users
   ) sus-user-dirs;
   all-user-folders = lib.attrsets.mapAttrsToList (username: config: config.home) all-normal-users;

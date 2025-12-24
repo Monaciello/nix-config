@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   browser = [ "${config.hostSpec.defaultBrowser}.desktop" ];
   editor = [ "${config.hostSpec.defaultEditor}.desktop" ];
@@ -166,7 +171,7 @@ in
     };
   };
 
-  home.packages = builtins.attrValues {
+  home.packages = lib.attrValues {
     inherit (pkgs)
       handlr-regex # better xdg-open for desktop apps
       ;

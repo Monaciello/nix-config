@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   ...
 }:
@@ -10,7 +11,7 @@
 
     fontDir.enable = true;
     packages = (
-      builtins.attrValues {
+      lib.attrValues {
         inherit (pkgs)
           noto-fonts
           source-sans

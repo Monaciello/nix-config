@@ -52,7 +52,7 @@
     };
   };
 
-  environment.systemPackages = builtins.attrValues {
+  environment.systemPackages = lib.attrValues {
     inherit (pkgs)
       wget
       curl

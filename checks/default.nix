@@ -13,7 +13,7 @@ in
     pkgs.runCommand "bats-test"
       {
         src = ../.;
-        buildInputs = builtins.attrValues { inherit (pkgs) bats yq-go inetutils; };
+        buildInputs = lib.attrValues { inherit (pkgs) bats yq-go inetutils; };
       }
       ''
         cd $src
@@ -81,7 +81,7 @@ in
       end-of-file-fixer.enable = true;
 
       unwanted-builtins = {
-        enable = false;
+        enable = true;
         name = "unwanted builtins function calls";
         entry = "${./unwanted-builtins.sh}";
         files = ".*";

@@ -110,7 +110,7 @@
 
     # Load Plugins that aren't provided as modules by nixvim
     # TODO(vim): need to confirm these aren't in nixvim
-    extraPlugins = builtins.attrValues {
+    extraPlugins = lib.attrValues {
       inherit (pkgs.vimPlugins)
         # linting and fixing (config in extraConfigVim below)
         #   https://github.com/dense-analysis/ale

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   scripts = {
     # FIXME: I currently get the following warnings:
@@ -8,15 +8,15 @@ let
     copy-github-subfolder = pkgs.writeShellApplication {
       name = "copy-github-subfolder";
       runtimeInputs = [ pkgs.subversion ];
-      text = builtins.readFile ./copy-github-subfolder.sh;
+      text = lib.readFile ./copy-github-subfolder.sh;
     };
     linktree = pkgs.writeShellApplication {
       name = "linktree";
       runtimeInputs = [ ];
-      text = builtins.readFile ./linktree.sh;
+      text = lib.readFile ./linktree.sh;
     };
   };
 in
 {
-  home.packages = builtins.attrValues { inherit (scripts) copy-github-subfolder linktree; };
+  home.packages = lib.attrValues { inherit (scripts) copy-github-subfolder linktree; };
 }

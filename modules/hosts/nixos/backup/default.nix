@@ -74,7 +74,7 @@ let
   );
   # FIXME(borg): This should be a list of various exclude files eventually
   darwinExcludesFile = pkgs.writeText "borg-exclude-macos-core.list" (
-    builtins.readFile ./borg-exclude-macos-core.list
+    lib.readFile ./borg-exclude-macos-core.list
   );
 in
 {
@@ -92,7 +92,7 @@ in
     };
     borgPort = lib.mkOption {
       type = lib.types.str; # FIXME(borg): int?
-      default = "${builtins.toString config.hostSpec.networking.ports.tcp.ssh}";
+      default = "${toString config.hostSpec.networking.ports.tcp.ssh}";
       description = "The ssh port to use for the borg server";
     };
     borgBackupPath = lib.mkOption {
@@ -195,7 +195,7 @@ in
 
   config = lib.mkIf cfg.enable (
     let
-      shellScriptHelpers = builtins.readFile ./backup-helpers.sh;
+      shellScriptHelpers = lib.readFile ./backup-helpers.sh;
       # FIXME(borg): - Should create a help script to actually dump and explain all of these from cli
       shellScriptOptionHandling = ''
         BORG_USER="''${BORG_USER:-${cfg.borgUser}}"
@@ -213,10 +213,10 @@ in
         export BORG_BTRFS_SUBVOLUME="''${BORG_BTRFS_SUBVOLUME:-${cfg.borgBtrfsSubvolume}}"
         export BORG_PASSPHRASE="''${BORG_PASSPHRASE:-$(cat /etc/borg/passphrase)}"
         export BORG_RSH="ssh -i $BORG_SSH_KEY -l$BORG_USER -oport=$BORG_PORT"
-        export BORG_EXPIRY="--keep-daily=${builtins.toString cfg.borgBackupExpiryDaily} \
-          --keep-weekly=${builtins.toString cfg.borgBackupExpiryWeekly} \
-          --keep-monthly=${builtins.toString cfg.borgBackupExpiryMonthly} \
-          --keep-yearly=${builtins.toString cfg.borgBackupExpiryYearly}"
+        export BORG_EXPIRY="--keep-daily=${toString cfg.borgBackupExpiryDaily} \
+          --keep-weekly=${toString cfg.borgBackupExpiryWeekly} \
+          --keep-monthly=${toString cfg.borgBackupExpiryMonthly} \
+          --keep-yearly=${toString cfg.borgBackupExpiryYearly}"
         export BORG_CACHE_DIR="''${BORG_CACHE_DIR:-${cfg.borgCacheDir}}"
         if [ ! -d "$BORG_CACHE_DIR" ]; then
           mkdir -p "$BORG_CACHE_DIR"
@@ -483,7 +483,8 @@ in
           borg-backup-test-email
           borg-backup-delete
           borg-backup-restore
-        ] ++ lib.optional isImpermanent borg-backup-btrfs-subvolume;
+        ]
+        ++ lib.optional isImpermanent borg-backup-btrfs-subvolume;
         sops.secrets = {
           #FIXME(borg): make this an optional path
           "keys/ssh/borg" = {

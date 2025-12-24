@@ -39,7 +39,7 @@
   #   home.packages = [
   #    steam-session
   # ]
-  # ++ builtins.attrValues {
+  # ++ lib.attrValues {
   #   inherit (pkgs.unstable)
   #     #rusty-path-of-building
   #     ;

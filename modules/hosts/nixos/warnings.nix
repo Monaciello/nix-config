@@ -10,7 +10,7 @@
       '';
     };
     warnings = mkOption {
-      apply = builtins.filter (w: !(builtins.elem w config.configOptions.silencedWarnings));
+      apply = lib.filter (w: !(lib.elem w config.configOptions.silencedWarnings));
     };
   };
 }

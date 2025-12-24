@@ -1,7 +1,7 @@
 # https://github.com/sharkdp/bat
 # https://github.com/eth-p/bat-extras
 
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   programs.bat = {
     enable = true;
@@ -10,7 +10,7 @@
       style = "changes,header";
       # theme = "gruvbox-dark";
     };
-    extraPackages = builtins.attrValues {
+    extraPackages = lib.attrValues {
       inherit (pkgs.bat-extras)
 
         batgrep # search through and highlight files using ripgrep

@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   #imports = [ ./foo.nix ];
 
   home.packages =
-    (builtins.attrValues {
+    (lib.attrValues {
       inherit (pkgs)
         #telegram-desktop
         discord

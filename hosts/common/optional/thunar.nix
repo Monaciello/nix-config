@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   programs = {
     thunar = {
       enable = true;
-      plugins = builtins.attrValues {
+      plugins = lib.attrValues {
         inherit (pkgs.xfce)
           thunar-archive-plugin
           thunar-media-tags-plugin

@@ -316,11 +316,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1766529401,
-        "narHash": "sha256-OJAjJcW6ZADEzTBrvOTZanbgC8ObEWveObujtpazEbg=",
+        "lastModified": 1766553861,
+        "narHash": "sha256-ZbnG01yA3O8Yr1vUm3+NQ2qk9iRhS5bloAnuXHHy7+c=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "aaf46506426cc8c53719dd20de660fc856a5561e",
+        "rev": "0999ed8f965bbbd991437ad9c5ed3434cecbc30e",
         "type": "github"
       },
       "original": {
@@ -338,10 +338,10 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1766481436,
-        "narHash": "sha256-Nz/OOoTMZ52Jnrnnn7gQ8jmLQfnroI1G7GSgxfckl1o=",
+        "lastModified": 1766560526,
+        "narHash": "sha256-da9/IfY/coOFMOm0kXv/Ebfd+jGE1asqP7uRgTswlS8=",
         "ref": "aa",
-        "rev": "406a305cfe498a9da12c71033a6d9aa6584c1b9c",
+        "rev": "65b58aed5f9fa4cca1ce16f534dce57c0d88bfbb",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@codeberg.org/fidgetingbits/introdus"
@@ -438,11 +438,11 @@
     },
     "nixos-facter-modules": {
       "locked": {
-        "lastModified": 1766499999,
-        "narHash": "sha256-p/Bwo4YjbYNvHjmgj71WgGN8qDyZTzUqNfJJouwQ/As=",
+        "lastModified": 1766558141,
+        "narHash": "sha256-Ud9v49ZPsoDBFuyJSQ2Mpw1ZgAH/aMwUwwzrVoetNus=",
         "owner": "nix-community",
         "repo": "nixos-facter-modules",
-        "rev": "feb4086d1462d8a5bb2adcedb5039fef10b69904",
+        "rev": "e796d536e3d83de74267069e179dc620a608ed7d",
         "type": "github"
       },
       "original": {
@@ -453,11 +453,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1764440730,
-        "narHash": "sha256-ZlJTNLUKQRANlLDomuRWLBCH5792x+6XUJ4YdFRjtO4=",
+        "lastModified": 1766568855,
+        "narHash": "sha256-UXVtN77D7pzKmzOotFTStgZBqpOcf8cO95FcupWp4Zo=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "9154f4569b6cdfd3c595851a6ba51bfaa472d9f3",
+        "rev": "c5db9569ac9cc70929c268ac461f4003e3e5ca80",
         "type": "github"
       },
       "original": {

@@ -48,7 +48,7 @@
   };
 
   home.packages =
-    builtins.attrValues {
+    lib.attrValues {
       inherit (pkgs)
         gnome-browser-connector # Allow gnome extension installation from chrome
         # FIXME: See if we can get settings described here https://itsfoss.com/three-finger-swipe-gnome/ declaratively

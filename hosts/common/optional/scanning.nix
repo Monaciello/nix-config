@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   # SANE - scanner access now easy
   hardware.sane = {
@@ -12,7 +12,7 @@
   services.udev.packages = [ pkgs.sane-airscan ];
   services.ipp-usb.enable = true;
 
-  environment.systemPackages = builtins.attrValues {
+  environment.systemPackages = lib.attrValues {
     inherit (pkgs)
       simple-scan # GUI scanning application
       sane-frontends

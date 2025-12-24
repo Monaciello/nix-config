@@ -97,7 +97,7 @@
 
     in
     [ jq5 ]
-    ++ builtins.attrValues {
+    ++ lib.attrValues {
       inherit (pkgs)
 
         # Packages that don't have custom configs go here

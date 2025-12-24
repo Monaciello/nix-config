@@ -47,12 +47,12 @@ in
       yubikey-up =
         let
           yubikeyIds = lib.concatStringsSep " " (
-            lib.mapAttrsToList (name: id: "[${name}]=\"${builtins.toString id}\"") config.yubikey.identifiers
+            lib.mapAttrsToList (name: id: "[${name}]=\"${toString id}\"") config.yubikey.identifiers
           );
         in
         pkgs.writeShellApplication {
           name = "yubikey-up";
-          runtimeInputs = builtins.attrValues { inherit (pkgs) gawk yubikey-manager; };
+          runtimeInputs = lib.attrValues { inherit (pkgs) gawk yubikey-manager; };
           text = ''
             #!/usr/bin/env bash
             set -euo pipefail
@@ -96,7 +96,7 @@ in
     in
     lib.mkIf config.yubikey.enable {
       environment.systemPackages = lib.flatten [
-        (builtins.attrValues {
+        (lib.attrValues {
           inherit (pkgs)
             gnupg
             yubikey-manager # cli-based authenticator tool. accessed via `ykman`

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   security.rtkit.enable = true;
   services.pipewire = {
@@ -15,7 +15,7 @@
     # media-session.enable = true;
   };
 
-  environment.systemPackages = builtins.attrValues {
+  environment.systemPackages = lib.attrValues {
     inherit (pkgs)
       playerctl # cli utility and lib for controlling media players
       # pamixer # cli pulseaudio sound mixer
