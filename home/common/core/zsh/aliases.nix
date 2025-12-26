@@ -18,7 +18,6 @@ in
   #rg = "rg -M300";
 
   #------------Navigation------------
-  c = "clear";
   rst = "reset";
   doc = "cd $HOME/doc";
   edu = "cd $HOME/edu";
@@ -55,6 +54,10 @@ in
   ne = "nix instantiate --eval";
   nb = "nix build";
   ns = "nix shell";
+  nrepl = ''
+    nix repl --option experimental-features "flakes pipe-operators" \
+    --expr 'rec { pkgs = import <nixpkgs>{}; lib = pkgs.lib; }'
+  '';
 
   # prevent accidental killing of single characters
   pkill = "pkill -x";
