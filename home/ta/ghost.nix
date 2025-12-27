@@ -29,7 +29,7 @@
           "atuin.nix"
           "ebooks.nix"
           "media.nix"
-          "xdg.nix"
+          "introdus-xdg.nix" # file associations
           "sops.nix"
           "yazi.nix"
         ])

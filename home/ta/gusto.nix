@@ -19,7 +19,7 @@
 
           "atuin.nix"
           "sops.nix"
-          "xdg.nix" # file associations
+          "introdus-xdg.nix" # file associations
         ])
     )
   );
