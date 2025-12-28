@@ -7,9 +7,10 @@
         "browsers/firefox.nix"
         "networking/protonvpn.nix"
 
-        "xdg.nix"
         "media.nix"
         "yazi.nix"
+
+        "introdus-xdg.nix" # file associations
       ]
     )
   );
