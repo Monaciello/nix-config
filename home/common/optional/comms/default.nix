@@ -1,18 +1,12 @@
 { lib, pkgs, ... }:
 {
-  #imports = [ ./foo.nix ];
+  introdus.signal.enable = true;
 
-  home.packages =
-    (lib.attrValues {
-      inherit (pkgs)
-        #telegram-desktop
-        discord
-        #slack
-        ;
-    })
-    ++ [
-      (pkgs.unstable.signal-desktop.override {
-        commandLineArgs = "--password-store='gnome-libsecret'";
-      })
-    ];
+  home.packages = lib.attrValues {
+    inherit (pkgs)
+      discord
+      #telegram-desktop
+      #slack
+      ;
+  };
 }
