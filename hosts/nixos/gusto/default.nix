@@ -51,8 +51,7 @@
           "services/openssh.nix" # allow remote SSH access
 
           # Network Mgmt
-          #FIXME: replace with NFS
-          #"smbclient.nix" # mount the ghost mediashare
+          "nfs-ghost-mediashare.nix" # mount the ghost mediashare
 
           # Misc
           "audio.nix" # pipewire and cli controls
