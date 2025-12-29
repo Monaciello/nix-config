@@ -85,22 +85,6 @@
     relogin = true;
   };
 
-  sops = {
-    secrets = {
-      "keys/ssh/ed25519" = {
-        # User/group created by the autosshTunnel module
-        owner = "autossh";
-        group = "autossh";
-        path = "/etc/ssh/id_ed25519";
-      };
-      "keys/ssh/ed25519_pub" = {
-        owner = "autossh";
-        group = "autossh";
-        path = "/etc/ssh/id_ed25519.pub";
-      };
-    };
-  };
-
   # ========== autosshTunnel ==========
   tunnels.cakes.enable = true;
 }
