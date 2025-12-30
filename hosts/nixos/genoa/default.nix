@@ -47,8 +47,7 @@
         # ========== Optional common modules ==========
         (map (f: "hosts/common/optional/${f}") [
           # Desktop environment and login manager
-          "services/sddm.nix"
-          "hyprland.nix" # window manager
+          "hyprland.nix" # enable as service below
 
           # Services
           "services/bluetooth.nix" # bluetooth, blueman and bluez via wireplumber
@@ -73,6 +72,11 @@
         ])
     ))
   ];
+
+  introdus.services = {
+    sddm.enable = true;
+    x11.enable = true;
+  };
 
   boot.initrd = {
     systemd.enable = true;

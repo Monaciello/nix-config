@@ -39,8 +39,7 @@
         # ========== Optional common modules ==========
         (map (f: "hosts/common/optional/${f}") [
           # Desktop environment and login manager
-          "services/sddm.nix" # display manager
-          "hyprland.nix" # window manager
+          "hyprland.nix" # enable as service below
           "gnome.nix" # window manager
 
           # Services
@@ -69,6 +68,10 @@
         ])
     ))
   ];
+  introdus.services = {
+    sddm.enable = true;
+    x11.enable = true;
+  };
 
   hardware = {
     graphics.package = pkgs.unstable.mesa;
