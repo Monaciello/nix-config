@@ -30,7 +30,12 @@
       debug = {
         disable_logs = true;
       };
-
+      env = [
+      ];
+      ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
+      };
       #
       # ========== Monitor ==========
       #
