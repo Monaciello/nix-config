@@ -1,4 +1,8 @@
-#FIXME: need to modularize this
+#FIXME: need to modularize thiso
+#FIXME: figure out how to declare the following settings to mitigate stream stuttering on gusto from some sources
+#   media.cache_readahead_limit = 150
+#   media.cache_resume_threshold = 60
+
 { lib, config, ... }:
 {
   programs.firefox = {

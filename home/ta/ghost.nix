@@ -38,7 +38,7 @@
 
   introdus.services.awww = {
     enable = true;
-    wallpaperDir = "/home/ta/sync/wallpaper/";
+    wallpaperDir = "/home/ta/sync/wallpaper/hostCollections/ghost/";
   };
 
   services.yubikey-touch-detector = {

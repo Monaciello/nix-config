@@ -37,6 +37,7 @@
 
   # introdus.services.awww = {
   #   enable = true;
+  # wallpaperDir = "/home/ta/sync/wallpaper/hostCollections/genoa/";
   # };
 
   services.yubikey-touch-detector = {
