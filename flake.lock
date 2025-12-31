@@ -338,8 +338,8 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1767148532,
-        "narHash": "sha256-NMf18uUXWBln8sj8FrGGf/BvGw/Bzi3jNW1OiaQPWKc=",
+        "lastModified": 1767197827,
+        "narHash": "sha256-XV9fWraimaSmJi0MZ6hxjdYMdqnu9jwb6cPI94dyPZc=",
         "path": "/home/ta/src/nix/introdus/ta",
         "type": "path"
       },
@@ -416,10 +416,10 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1766972351,
-        "narHash": "sha256-q5oaPwubTHVkqIeTfNK2cO2pFZfEKjoVZQw729QPyvU=",
+        "lastModified": 1767150306,
+        "narHash": "sha256-wx1O7Qc7GOVe8aVZ6pNkQbyu8BG5Ta/GzMyCuXmjugU=",
         "ref": "main",
-        "rev": "4742c94e20718073fdddb9becc24791389a76c4e",
+        "rev": "64f85cff94952ee8beb7f9836ecc9e85198d3916",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/emergentmind/nix-secrets.git"
@@ -448,11 +448,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1767070591,
-        "narHash": "sha256-b0aM3221Pw6vbACFqZrVzZjMNqXVPi1dvgLr8QTbajc=",
+        "lastModified": 1767185284,
+        "narHash": "sha256-ljDBUDpD1Cg5n3mJI81Hz5qeZAwCGxon4kQW3Ho3+6Q=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "9b3c38bf6c260d0e88154ef07fa833fa845bfd14",
+        "rev": "40b1a28dce561bea34858287fbb23052c3ee63fe",
         "type": "github"
       },
       "original": {

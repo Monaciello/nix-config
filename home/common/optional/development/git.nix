@@ -16,7 +16,6 @@ in
     devFolders = [
       "${home}/src/"
       "${home}/pub/"
-      "${home}/source/"
     ];
     devKeys = [
       "id_maya.pub"

@@ -10,13 +10,13 @@
   home.packages = lib.flatten [
     (lib.attrValues {
       inherit (pkgs)
-        # Development
-        delta # diffing
+        # debuggers
+        gdb
+
+        # git tools
         act # github workflow runner
         gh # github cli
-        gdb
         glab # gitlab cli
-        yq-go # Parser for Yaml and Toml Files, that mirrors jq
 
         # nix
         nixpkgs-review
@@ -24,19 +24,22 @@
         # networking
         nmap
 
-        # Diffing
+        # diffing
+        delta
         difftastic
+
+        # parsers
+        yq-go # parser for Yaml and Toml Files, that mirrors jq
 
         # serial debugging
         screen
 
-        # Standard man pages for linux API
+        # standard man pages for linux API
         man-pages
         man-pages-posix
         ;
       inherit (pkgs.unstable)
-        devenv
-
+        devenv # environment manager
         mob # mob programming tool
         ;
     })
