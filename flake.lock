@@ -338,8 +338,8 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1767197827,
-        "narHash": "sha256-XV9fWraimaSmJi0MZ6hxjdYMdqnu9jwb6cPI94dyPZc=",
+        "lastModified": 1767203562,
+        "narHash": "sha256-8uQcaygOs5OJ50kdHqNYuDktJKKBZQmQ4yYhk3cYytE=",
         "path": "/home/ta/src/nix/introdus/ta",
         "type": "path"
       },

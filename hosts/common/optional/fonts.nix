@@ -36,17 +36,14 @@
     fontconfig.defaultFonts = {
       serif = [
         "Iosevka Nerd Font Mono"
-        "Nerd Fonts Symbols Only"
       ];
       sansSerif = [
         "FiraMono Nerd Font Mono"
-        "Nerd Fonts Symbols Only"
       ];
       monospace = [
         "FiraMono Nerd Font Mono"
         "JetBrainsMono Nerd Font"
         "Iosevka Nerd Font Mono"
-        "Nerd Fonts Symbols Only"
       ];
       emoji = [
         "Nerd Fonts Symbols Only"

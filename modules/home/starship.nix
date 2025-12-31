@@ -78,8 +78,11 @@ in
           #▓▒░
           #
           #
+          #https://github.com/ryanoasis/powerline-extra-symbols
+          # \uE0CD
+          # \uE0CC
           format = ''
-            [╭─](base0F)[](base01)$os${left_divider}$username$hostname${left_divider}$directory${left_divider}$git_branch$git_commit$git_state$git_metrics$git_status[▓▒░](base01)$fill[░▒▓](base01)$status$cmd_duration${right_divider}$nix_shell[](base01)[─╮](base0F)
+            [╭─](brown)[](base01)$os${left_divider}$username$hostname${left_divider}$directory${left_divider}$git_branch$git_commit$git_state$git_metrics$git_status[▓▒░](base01)$fill[░▒▓](base01)$status$cmd_duration${right_divider}$nix_shell[](base01)[─╮](brown)
 
           '';
           character = {
@@ -103,10 +106,10 @@ in
             truncation_symbol = "…/";
             truncate_to_repo = false;
 
-            format = "[$path ]($style)[$read_only ]($read_only_style)";
+            format = "[$path ]($style)[$read_only]($read_only_style)";
             style = "bold bg:base01 fg:blue";
+            read_only = "󰌾 ";
             read_only_style = "bg:base01 fg:blue dimmed";
-
             repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path ]($style)[$read_only ]($read_only_style)";
             before_repo_root_style = "bg:base01 fg:blue";
             repo_root_style = "bold bg:base01 fg:blue";
@@ -122,8 +125,11 @@ in
           };
           git_branch = {
             format = "[$symbol$branch(:$remote_branch) ]($style)";
-            symbol = "[ ](bg:base01 fg:green)";
+            symbol = " ";
             style = "bg:base01 fg:green";
+          };
+          git_commit = {
+            tag_symbol = "  ";
           };
           git_status = {
             format = "($ahead_behind$staged$renamed$modified$untracked$deleted$conflicted$stashed)";
@@ -143,6 +149,7 @@ in
           hostname = {
             disabled = false;
             ssh_only = true;
+            #ssh_symbol = " ";
             format = "[@$hostname]($style)";
             style = "bg:base01 fg:purple";
           };
@@ -150,7 +157,6 @@ in
             disabled = false;
             heuristic = false;
             format = "[  $symbol](bg:base01 fg:blue)";
-            #symbol = " ";
           };
           os = {
             disabled = false;
@@ -171,15 +177,18 @@ in
             time_format = "%y.%m.%d{%H:%M:%S";
           };
           status = {
-            #FIXME: add pipestatus symbols and styles
             disabled = false;
             format = "[$symbol]($style)";
+            style = "bg:base01 fg:brown";
             symbol = " ";
             success_symbol = "󰞑 ";
             not_executable_symbol = " ";
             not_found_symbol = " ";
             sigint_symbol = " ";
-            #signal_symbol = "";
+            #signal_symbol = ""; #symbol displayed on any signal
+            pipestatus = true;
+            pipestatus_separator = "[|](bg:base01 fg:brown)";
+            pipestatus_format = "$pipestatus";
             success_style = "bg:base01 fg:green";
             failure_style = "bg:base01 fg:red";
           };
@@ -190,8 +199,199 @@ in
             style_user = "bg:base01 fg:purple";
             style_root = "bold bg:base01 fg:red";
           };
+          #
+          # Nerd Font Symbols
+          #
+          aws = {
+            symbol = " ";
+          };
+          buf = {
+            symbol = " ";
+          };
+          bun = {
+            symbol = " ";
+          };
+          c = {
+            symbol = " ";
+          };
+          cpp = {
+            symbol = " ";
+          };
+          cmake = {
+            symbol = " ";
+          };
+          conda = {
+            symbol = " ";
+          };
+          crystal = {
+            symbol = " ";
+          };
+          dart = {
+            symbol = " ";
+          };
+          deno = {
+            symbol = " ";
+          };
+          docker_context = {
+            symbol = " ";
+          };
+          elixir = {
+            symbol = " ";
+          };
+          elm = {
+            symbol = " ";
+          };
+          fennel = {
+            symbol = " ";
+          };
+          fortran = {
+            symbol = " ";
+          };
+          fossil_branch = {
+            symbol = " ";
+          };
+          gcloud = {
+            symbol = " ";
+          };
+          golang = {
+            symbol = " ";
+          };
+          gradle = {
+            symbol = " ";
+          };
+          guix_shell = {
+            symbol = " ";
+          };
+          haskell = {
+            symbol = " ";
+          };
+          haxe = {
+            symbol = " ";
+          };
+          hg_branch = {
+            symbol = " ";
+          };
+          java = {
+            symbol = " ";
+          };
+          julia = {
+            symbol = " ";
+          };
+          kotlin = {
+            symbol = " ";
+          };
+          lua = {
+            symbol = " ";
+          };
+          memory_usage = {
+            symbol = "󰍛 ";
+          };
+          meson = {
+            symbol = "󰔷 ";
+          };
+          nim = {
+            symbol = "󰆥 ";
+          };
+          nix_shell = {
+            symbol = " ";
+          };
+          nodejs = {
+            symbol = " ";
+          };
+          ocaml = {
+            symbol = " ";
+          };
+          package = {
+            symbol = "󰏗 ";
+          };
+          perl = {
+            symbol = " ";
+          };
+          php = {
+            symbol = " ";
+          };
+          pijul_channel = {
+            symbol = " ";
+          };
+          pixi = {
+            symbol = "󰏗 ";
+          };
+          python = {
+            symbol = " ";
+          };
+          rlang = {
+            symbol = "󰟔 ";
+          };
+          ruby = {
+            symbol = " ";
+          };
+          rust = {
+            symbol = "󱘗 ";
+          };
+          scala = {
+            symbol = " ";
+          };
+          swift = {
+            symbol = " ";
+          };
+          xmake = {
+            symbol = " ";
+          };
+          zig = {
+            symbol = " ";
+          };
+          os.symbols = {
+            Alpaquita = " ";
+            Alpine = " ";
+            AlmaLinux = " ";
+            Amazon = " ";
+            Android = " ";
+            AOSC = " ";
+            Arch = " ";
+            Artix = " ";
+            CachyOS = " ";
+            CentOS = " ";
+            Debian = " ";
+            DragonFly = " ";
+            Elementary = " ";
+            Emscripten = " ";
+            EndeavourOS = " ";
+            Fedora = " ";
+            FreeBSD = " ";
+            Garuda = "󰛓 ";
+            Gentoo = " ";
+            HardenedBSD = "󰞌 ";
+            Illumos = "󰈸 ";
+            Ios = "󰀷 ";
+            Kali = " ";
+            Linux = " ";
+            Mabox = " ";
+            Macos = " ";
+            Manjaro = " ";
+            Mariner = " ";
+            MidnightBSD = " ";
+            Mint = " ";
+            NetBSD = " ";
+            NixOS = " ";
+            Nobara = " ";
+            OpenBSD = "󰈺 ";
+            openSUSE = " ";
+            OracleLinux = "󰌷 ";
+            Pop = " ";
+            Raspbian = " ";
+            Redhat = " ";
+            RedHatEnterprise = " ";
+            RockyLinux = " ";
+            Redox = "󰀘 ";
+            Solus = "󰠳 ";
+            SUSE = " ";
+            Ubuntu = " ";
+            Unknown = " ";
+            Void = " ";
+            Windows = "󰍲 ";
+            Zorin = " ";
+          };
         };
-
       };
     # enable transient prompt for Zsh
     programs.zsh.initContent =
@@ -219,12 +419,11 @@ in
 
           if (( ret )); then
               zle .send-break
-          else
+          elseing
               zle .accept-line
           fi
           return ret
           }
         '';
   };
-
 }
