@@ -1,5 +1,6 @@
 {
   config,
+  osConfig,
   pkgs,
   lib,
   ...
@@ -83,7 +84,7 @@
           src = "${pkgs.zsh-autols}/share/zsh/zsh-autols";
         }
       ]
-      |> lib.optionals (config.hostSpec.hostName != "iso" && pkgs ? "zsh-term-title");
+      |> lib.optionals (osConfig.hostSpec.hostName != "iso" && pkgs ? "zsh-term-title");
 
     initContent = lib.mkAfter (lib.readFile ./zshrc);
     oh-my-zsh = {
@@ -102,6 +103,6 @@
       '';
     };
 
-    shellAliases = import ./aliases.nix { inherit config; };
+    shellAliases = import ./aliases.nix { inherit osConfig; };
   };
 }

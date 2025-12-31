@@ -1,6 +1,7 @@
 {
-  pkgs,
   config,
+  osConfig,
+  pkgs,
   lib,
   ...
 }:
@@ -52,7 +53,7 @@
             else
               "disable"
           }"
-        ) config.monitors
+        ) osConfig.monitors
       );
 
       workspace = (
@@ -62,7 +63,7 @@
             "special" # add the special/scratchpad ws
           ];
           isPrimary = x: x ? primary && x.primary;
-          primary = lib.lists.findFirst isPrimary { } config.monitors;
+          primary = lib.lists.findFirst isPrimary { } osConfig.monitors;
         in
         # workspace structure to build "[workspace], monitor:[name], default:[bool], persistent:[bool]"
         map (
@@ -72,7 +73,7 @@
             # determine if the monitor is intended to display a specific workspace
             monitor = lib.lists.findFirst (
               x: x ? "workspace" && id_as_string == x.workspace
-            ) primary config.monitors;
+            ) primary osConfig.monitors;
             # workspace 1 and any workspaces specific to the non-primary monitors are persistent
             persistent = if (id == 1 || !(isPrimary monitor)) then ", persistent:true" else "";
           in
@@ -165,7 +166,7 @@
       # exec-once = "${startupScript}/path";
       # To determine path, run `which foo`
       exec-once =
-        if config.hostSpec.hostName == "ghost" then
+        if osConfig.hostSpec.hostName == "ghost" then
           [
             "[workspace 8 silent]obsidian"
             "[workspace 8 silent]copyq"
@@ -180,7 +181,7 @@
             "[workspace special silent]yubioath-flutter"
             #"[workspace special silent]keymapp"
           ]
-        else if config.hostSpec.isRoaming then
+        else if osConfig.hostSpec.isRoaming then
           [
             "[workspace 9 silent]signal-desktop"
             "[workspace 1 silent]copyq"
@@ -189,9 +190,9 @@
           ]
         else
           [
-
+            "[workspace 1 silent]copyq"
           ]
-          ++ lib.optional config.introdus.services.awww.enable "swww img ${config.hostSpec.wallpaper}";
+          ++ lib.optional config.introdus.services.awww.enable "swww img ${osConfig.hostSpec.wallpaper}";
     };
 
   };

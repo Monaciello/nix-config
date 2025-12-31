@@ -1,6 +1,6 @@
 {
   lib,
-  config,
+  osConfig,
   pkgs,
   ...
 }:
@@ -71,7 +71,7 @@ let
   #
   # ========== Monitor Toggling ==========
   #
-  primaryMonitor = lib.head (lib.filter (m: m.primary) config.monitors);
+  primaryMonitor = lib.head (lib.filter (m: m.primary) osConfig.monitors);
 
   # Toggle all monitors
   toggleMonitors = pkgs.writeShellApplication {

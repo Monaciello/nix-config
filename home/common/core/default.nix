@@ -1,6 +1,6 @@
 #FIXME: if pulling in homemanager for isMinimal maybe set up conditional for some packages
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   hostSpec,
@@ -25,8 +25,8 @@
   inherit hostSpec monitors;
 
   home = {
-    username = lib.mkDefault config.hostSpec.username;
-    homeDirectory = lib.mkDefault config.hostSpec.home;
+    username = lib.mkDefault osConfig.hostSpec.username;
+    homeDirectory = lib.mkDefault osConfig.hostSpec.home;
     stateVersion = lib.mkDefault "23.05";
     sessionPath = [
       "$HOME/.local/bin"

@@ -1,14 +1,14 @@
 # This module just provides a customized .desktop file with gamescope args dynamically created based on the
 # host's monitors configuration
 {
-  #  config,
+  #  osConfig,
   #  lib,
   #  pkgs,
   ...
 }:
 
 # let
-#   monitor = lib.head (lib.filter (m: m.primary) config.monitors);
+#   monitor = lib.head (lib.filter (m: m.primary) osConfig.monitors);
 #
 #   steam-session =
 #     let

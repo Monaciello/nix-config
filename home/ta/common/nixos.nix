@@ -6,12 +6,12 @@
   ...
 }:
 let
-  homeDirectory = config.home.homeDirectory;
+  home = config.home.homeDirectory;
 in
 {
   home = {
     sessionPath = lib.flatten ([
-      "${homeDirectory}/scripts/"
+      "${home}/scripts/"
     ]
     # ++ lib.optional config.hostSpec.isWork secrets.work.extraPaths
     );

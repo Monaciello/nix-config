@@ -1,5 +1,5 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
@@ -51,14 +51,14 @@ in
         #NOTE: Defining output here is problematic on laptops that may or may not have an external monitor plugged in.
         # If all potential monitors are defined here but not all of them are plugged in, waybar doesn't display on any monitor.
         # with `output` unspecified, waybar will output to all plugged in monitors
-        #output = (map (m: "${m.name}") (config.monitors));
+        #output = (map (m: "${m.name}") (osConfig.monitors));
 
         modules-left = [
           "hyprland/workspaces"
         ];
         modules-center = [ "hyprland/window" ];
         modules-right =
-          if config.hostSpec.isRoaming then
+          if osConfig.hostSpec.isRoaming then
             [
               "gamemode"
               "pulseaudio"

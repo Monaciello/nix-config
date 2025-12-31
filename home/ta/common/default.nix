@@ -1,7 +1,7 @@
 #FIXME(firefox): modularize firefox and decide where this goes
 { config, ... }:
 let
-  homeDir = config.home.homeDirectory;
+  home = config.home.homeDirectory;
 in
 {
   programs.firefox.profiles.main = {
@@ -14,7 +14,7 @@ in
       "browser.compactmode.show" = true;
       "browser.uidensity" = 1; # enable compact mode
       "browser.aboutConfig.showWarning" = false;
-      "browser.download.dir" = "${homeDir}/downloads";
+      "browser.download.dir" = "${home}/downloads";
 
       "browser.tabs.firefox-view" = true; # Sync tabs across devices
       "ui.systemUsesDarkTheme" = 1; # force dark theme
