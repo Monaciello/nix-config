@@ -1,9 +1,7 @@
 # git is core no matter what but additional settings may could be added made in optional/foo   eg: development.nix
 {
   pkgs,
-  lib,
-  config,
-  secrets,
+  osConfig,
   ...
 }:
 {
@@ -16,96 +14,21 @@
     enable = true;
     package = pkgs.gitFull;
 
-    ignores = [
-      ".csvignore"
-      # nix
-      "*.drv"
-      "result"
-      # python
-      "*.py?"
-      "__pycache__/"
-      ".venv/"
-      # direnv
-      ".direnv"
-      ".envrc"
-      #tests
-      ".coverage"
-    ];
-
-    # Anytime I use auth, I want to use my yubikey. But I don't want to always be having to touch it
-    # for things that don't need it. So I have to hardcode repos that require auth, and default to ssh for
-    # actions that require auth.
-    settings =
-      let
-        privateRepos = secrets.git.repos;
-        privateWorkRepos = secrets.git.work.repos;
-
-        insteadOfList =
-          domain: urls:
-          urls
-          |> lib.map (url: {
-            "ssh://git@${domain}/${url}" = {
-              insteadOf = "https://${domain}/${url}";
-            };
-          });
-
-        workRepoNames =
-          lib.attrNames privateWorkRepos
-          # nixfmt hack
-          |> lib.optionals config.hostSpec.isWork;
-
-        workDomain =
-          domain:
-          lib.optionals (config.hostSpec.isWork && (privateWorkRepos ? ${domain})) privateWorkRepos.${domain};
-
-        privateAlwaysSshRepos =
-          (lib.attrNames privateRepos) ++ workRepoNames
-          |> lib.map (domain: insteadOfList domain (privateRepos.${domain} ++ (workDomain domain)))
-          |> lib.concatLists
-          |> lib.foldl' lib.recursiveUpdate { };
-      in
-      {
-        url = privateAlwaysSshRepos; # NOTE: See introdus/modules/home/git.nix for more
-        # pre-emptively ignore mac crap
-        core.excludeFiles = builtins.toFile "global-gitignore" ''
-          .DS_Store
-          .DS_Store?
-          ._*
-          .Spotlight-V100
-          .Trashes
-          ehthumbs.db
-          Thumbs.db
-          node_modules
-        '';
-        core.attributesfile = builtins.toFile "global-gitattributes" ''
-          Cargo.lock -diff
-          flake.lock -diff
-          *.drawio -diff
-          *.svg -diff
-          *.json diff=json
-          *.bin diff=hex difftool=hex
-          *.dat diff=hex difftool=hex
-          *aarch64.bin diff=objdump-aarch64 difftool=objdump-aarch64
-          *arm.bin diff=objdump-arm difftool=objdump-arm
-          *x64.bin diff=objdump-x86_64 difftool=objdump-x64
-          *x86.bin diff=objdump-x86 difftool=objdump-x86
-        '';
-        # Makes single line json diffs easier to read
-        diff.json.textconv = "jq --sort-keys .";
-
-        core.pager = "delta";
-        delta = {
-          enable = true;
-          features = [
-            "side-by-side"
-            "line-numbers"
-            "hyperlinks"
-            "line-numbers"
-            "commit-decoration"
-          ];
-        };
+    settings = {
+      core.pager = "delta";
+      delta = {
+        enable = true;
+        features = [
+          "side-by-side"
+          "line-numbers"
+          "hyperlinks"
+          "line-numbers"
+          "commit-decoration"
+        ];
       };
+      alias.edit = "!$EDITOR $(git status --porcelain | awk '{print $2}')";
+    };
   };
 
-  home.sessionVariables.GIT_EDITOR = config.hostSpec.defaultEditor;
+  home.sessionVariables.GIT_EDITOR = osConfig.hostSpec.defaultEditor;
 }
