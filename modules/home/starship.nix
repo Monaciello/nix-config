@@ -419,7 +419,7 @@ in
 
           if (( ret )); then
               zle .send-break
-          elseing
+          else
               zle .accept-line
           fi
           return ret
