@@ -1,30 +1,9 @@
 # Development utilities I want across all systems
 {
-  config,
   lib,
   pkgs,
-  secrets,
   ...
 }:
-let
-  publicGitEmail = config.hostSpec.email.gitHub;
-  sshFolder = "${config.home.homeDirectory}/.ssh";
-  publicKey =
-    if config.hostSpec.useYubikey then "${sshFolder}/id_yubikey.pub" else "${sshFolder}/id_manu.pub";
-  privateGitConfig = "${config.home.homeDirectory}/.config/git/gitconfig.private";
-  workEmail = secrets.email.work;
-  workGitConfig = "${config.home.homeDirectory}/.config/git/gitconfig.work";
-  workGitUrlsTable = lib.optionalAttrs config.hostSpec.isWork (
-    lib.listToAttrs (
-      map (url: {
-        name = "ssh://git@${url}";
-        value = {
-          insteadOf = "https://${url}";
-        };
-      }) (lib.splitString " " secrets.work.git.servers)
-    )
-  );
-in
 {
   imports = lib.custom.scanPaths ./.;
 
@@ -63,88 +42,24 @@ in
     })
   ];
 
-  #NOTE: Already enabled earlier, this is just extra config
-  programs.git = {
-    settings = {
-      user = {
-        name = config.hostSpec.handle;
-        email = publicGitEmail;
-      };
+  home.file.".editorconfig".text = ''
+    root = true
 
-      # FIXME(git): better place for this?
-      safe.directory = "${config.home.homeDirectory}/sync/obsidian-vault-01/wiki";
+    [*]
+    end_of_line = lf
+    insert_final_newline = true
+    indent_style = space
+    indent_size = 4
 
-      log.showSignature = "true";
-      init.defaultBranch = "main";
-      pull.rebase = "true";
+    [*.nix]
+    indent_style = space
+    indent_size = 2
 
-      # Don't warn on empty git add calls. Because of "git re-commit" automation
-      advice.addEmptyPathspec = false;
+    [*.lua]
+    indent_style = space
+    indent_size = 2
 
-      url = lib.optionalAttrs config.hostSpec.isWork (
-        lib.recursiveUpdate {
-          "ssh://git@${secrets.work.git.serverMain}" = {
-            insteadOf = "https://${secrets.work.git.serverMain}";
-          };
-        } workGitUrlsTable
-      );
-
-      includeIf."gitdir:${config.home.homeDirectory}/dev/".path = privateGitConfig;
-      includeIf."gitdir:${config.home.homeDirectory}/src/".path = privateGitConfig;
-      includeIf."gitdir:${config.home.homeDirectory}/source/".path = privateGitConfig;
-      includeIf."gitdir:${config.home.homeDirectory}/work/".path = workGitConfig;
-      includeIf."gitdir:${config.home.homeDirectory}/persist/work/".path = workGitConfig;
-      diff.tool = "difftastic";
-      difftool = {
-        prompt = "false";
-        difftastic.cmd = "difft \"$LOCAL\" \"$REMOTE\"";
-      };
-
-      commit.gpgsign = true;
-      gpg.format = "ssh";
-      # Signing key for non-yubikey hosts
-      user.signingkey = "${publicKey}";
-      # Taken from https://github.com/clemak27/homecfg/blob/16b86b04bac539a7c9eaf83e9fef4c813c7dce63/modules/git/ssh_signing.nix#L14
-      gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
-    };
-    signing = {
-      signByDefault = true;
-      key = publicKey;
-    };
-    ignores = [
-      ".direnv"
-      "result"
-    ];
-  };
-
-  home.file.".ssh/allowed_signers".text =
-    let
-      #FIXME(multiuser): This would need to change if we ever have multiple developer accounts on the same box or we have work keys that aren't our own yubikeys, etc
-      keypath = "hosts/common/users/super/keys/";
-      genEmailKeys =
-        email: keys:
-        lib.concatMapStringsSep "\n" (
-          key: "${email} ${lib.fileContents (lib.custom.relativeToRoot "${keypath}/${key}")}\n"
-        ) keys;
-    in
-    ''
-      ${genEmailKeys publicGitEmail [
-        "id_maya.pub"
-        "id_mara.pub"
-        "id_manu.pub"
-      ]}
-      ${genEmailKeys workEmail [
-      ]}
-    '';
-
-  home.file."${privateGitConfig}".text = ''
-    [user]
-      name = "${config.hostSpec.handle}"
-      email = ${publicGitEmail}
-  '';
-  home.file."${workGitConfig}".text = ''
-    [user]
-      name = "${config.hostSpec.userFullName}"
-      email = "${workEmail}"
+    [Makefile]
+    indent_style = tab
   '';
 }
