@@ -4,13 +4,13 @@ layout {
             plugin location="compact-bar"
         }
         pane split_direction="vertical" {
-            pane focus=true size="60%" {
+            pane cwd="$home/src/nix" focus=true size="60%" {
             }
             pane size="40%" {
-                pane command="nix repl" size="75%" {
+                pane cwd="$HOME/src/nix" command="nix repl" size="75%" {
                     start_suspended true
                 }
-                pane size="25%" {
+                pane cwd="$HOME/src/nix" size="25%" {
                 }
             }
         }
@@ -22,5 +22,11 @@ layout {
                 y 23
             }
         }
+    }
+   new_tab_template {
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+        pane cwd="$HOME/src/nix"
     }
 }

@@ -4,12 +4,12 @@ layout {
             plugin location="compact-bar"
         }
         pane split_direction="vertical" {
-            pane focus=true size="60%" {
+            pane cwd="$HOME/src" focus=true size="60%" {
             }
             pane size="40%" {
-                pane focus=true size="75%" {
+                pane cwd="$HOME/src" focus=true size="75%" {
                 }
-                pane size="25%" {
+                pane cwd="$HOME/src" size="25%" {
                 }
             }
         }
@@ -21,5 +21,11 @@ layout {
                 y 23
             }
         }
+    }
+   new_tab_template {
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+        pane cwd="$HOME/src"
     }
 }

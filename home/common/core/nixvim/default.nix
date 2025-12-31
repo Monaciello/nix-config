@@ -74,7 +74,7 @@
       smarttab = true;
       shiftwidth = 2;
       softtabstop = 2;
-      tabstop = 8;
+      tabstop = 2;
       expandtab = true;
 
       # ================ Folds ============================
