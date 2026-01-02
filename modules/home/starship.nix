@@ -33,6 +33,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -65,11 +66,7 @@ in
       let
         left_divider = "[${cfg.left_divider_str}](bg:base01 fg:white)";
         right_divider = "[${cfg.right_divider_str}](bg:base01 fg:white)";
-      in
-      {
-        enableZshIntegration = true;
-        enableTransience = true; # NOTE: transcience for zsh isn't support out-of-box but we enable at the end of this file
-        settings = {
+        settings' = {
           add_newline = true;
 
           # some dressing characters for reference
@@ -199,199 +196,16 @@ in
             style_user = "bg:base01 fg:purple";
             style_root = "bold bg:base01 fg:red";
           };
-          #
-          # Nerd Font Symbols
-          #
-          aws = {
-            symbol = " ";
-          };
-          buf = {
-            symbol = " ";
-          };
-          bun = {
-            symbol = " ";
-          };
-          c = {
-            symbol = " ";
-          };
-          cpp = {
-            symbol = " ";
-          };
-          cmake = {
-            symbol = " ";
-          };
-          conda = {
-            symbol = " ";
-          };
-          crystal = {
-            symbol = " ";
-          };
-          dart = {
-            symbol = " ";
-          };
-          deno = {
-            symbol = " ";
-          };
-          docker_context = {
-            symbol = " ";
-          };
-          elixir = {
-            symbol = " ";
-          };
-          elm = {
-            symbol = " ";
-          };
-          fennel = {
-            symbol = " ";
-          };
-          fortran = {
-            symbol = " ";
-          };
-          fossil_branch = {
-            symbol = " ";
-          };
-          gcloud = {
-            symbol = " ";
-          };
-          golang = {
-            symbol = " ";
-          };
-          gradle = {
-            symbol = " ";
-          };
-          guix_shell = {
-            symbol = " ";
-          };
-          haskell = {
-            symbol = " ";
-          };
-          haxe = {
-            symbol = " ";
-          };
-          hg_branch = {
-            symbol = " ";
-          };
-          java = {
-            symbol = " ";
-          };
-          julia = {
-            symbol = " ";
-          };
-          kotlin = {
-            symbol = " ";
-          };
-          lua = {
-            symbol = " ";
-          };
-          memory_usage = {
-            symbol = "󰍛 ";
-          };
-          meson = {
-            symbol = "󰔷 ";
-          };
-          nim = {
-            symbol = "󰆥 ";
-          };
-          nix_shell = {
-            symbol = " ";
-          };
-          nodejs = {
-            symbol = " ";
-          };
-          ocaml = {
-            symbol = " ";
-          };
-          package = {
-            symbol = "󰏗 ";
-          };
-          perl = {
-            symbol = " ";
-          };
-          php = {
-            symbol = " ";
-          };
-          pijul_channel = {
-            symbol = " ";
-          };
-          pixi = {
-            symbol = "󰏗 ";
-          };
-          python = {
-            symbol = " ";
-          };
-          rlang = {
-            symbol = "󰟔 ";
-          };
-          ruby = {
-            symbol = " ";
-          };
-          rust = {
-            symbol = "󱘗 ";
-          };
-          scala = {
-            symbol = " ";
-          };
-          swift = {
-            symbol = " ";
-          };
-          xmake = {
-            symbol = " ";
-          };
-          zig = {
-            symbol = " ";
-          };
-          os.symbols = {
-            Alpaquita = " ";
-            Alpine = " ";
-            AlmaLinux = " ";
-            Amazon = " ";
-            Android = " ";
-            AOSC = " ";
-            Arch = " ";
-            Artix = " ";
-            CachyOS = " ";
-            CentOS = " ";
-            Debian = " ";
-            DragonFly = " ";
-            Elementary = " ";
-            Emscripten = " ";
-            EndeavourOS = " ";
-            Fedora = " ";
-            FreeBSD = " ";
-            Garuda = "󰛓 ";
-            Gentoo = " ";
-            HardenedBSD = "󰞌 ";
-            Illumos = "󰈸 ";
-            Ios = "󰀷 ";
-            Kali = " ";
-            Linux = " ";
-            Mabox = " ";
-            Macos = " ";
-            Manjaro = " ";
-            Mariner = " ";
-            MidnightBSD = " ";
-            Mint = " ";
-            NetBSD = " ";
-            NixOS = " ";
-            Nobara = " ";
-            OpenBSD = "󰈺 ";
-            openSUSE = " ";
-            OracleLinux = "󰌷 ";
-            Pop = " ";
-            Raspbian = " ";
-            Redhat = " ";
-            RedHatEnterprise = " ";
-            RockyLinux = " ";
-            Redox = "󰀘 ";
-            Solus = "󰠳 ";
-            SUSE = " ";
-            Ubuntu = " ";
-            Unknown = " ";
-            Void = " ";
-            Windows = "󰍲 ";
-            Zorin = " ";
-          };
         };
+      in
+      {
+        enableZshIntegration = true;
+        enableTransience = true; # NOTE: transcience for zsh isn't support out-of-box but we enable at the end of this file
+        settings =
+          "${pkgs.starship}/share/starship/presets/nerd-font-symbols.toml"
+          |> builtins.readFile
+          |> builtins.fromTOML
+          |> lib.recursiveUpdate settings';
       };
     # enable transient prompt for Zsh
     programs.zsh.initContent =
