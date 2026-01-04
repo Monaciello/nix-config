@@ -135,72 +135,75 @@
         ;
     };
     extraConfigVim = ''
-           " ================ Persistent Undo ==================
-           " Keep undo history across sessions, by storing in file.
-           " Only works all the time.
-           if has('persistent_undo')
-               silent !mkdir ~/.vim/backups > /dev/null 2>&1
-               set undodir=~/.vim/backups
-               set undofile
-           endif
+      " ================ Persistent Undo ==================
+      " Keep undo history across sessions, by storing in file.
+      " Only works all the time.
+      if has('persistent_undo')
+          silent !mkdir ~/.vim/backups > /dev/null 2>&1
+          set undodir=~/.vim/backups
+          set undofile
+      endif
 
-           " ================ Vim Wiki config =================
-           " See :h vimwiki_list for info on registering wiki paths
-           let wiki_0 = {}
-           let wiki_0.path = '~/sync/obsidian-vault-01/wiki/'
-           let wiki_0.index = 'abbot-wiki/ta-wiki/_TA-TASKS'
-           let wiki_0.syntax = 'markdown'
-           let wiki_0.ext = '.md'
+      " ================ Vim Wiki config =================
+      " See :h vimwiki_list for info on registering wiki paths
+      let wiki_0 = {}
+      let wiki_0.path = '~/sync/obsidian-vault-01/wiki/'
+      let wiki_0.index = 'abbot-wiki/ta-wiki/_TA-TASKS'
+      let wiki_0.syntax = 'markdown'
+      let wiki_0.ext = '.md'
 
-           " fill spaces in page names with _ in pathing
-           let wiki_0.links_space_char = '_'
+      " fill spaces in page names with _ in pathing
+      let wiki_0.links_space_char = '_'
 
-           let wiki_1 = {}
-           let wiki_1.path = '~/src/abbot-wiki/'
-           let wiki_1.index = '0_home'
-           let wiki_1.syntax = 'markdown'
-           let wiki_1.ext = '.md'
+      let wiki_1 = {}
+      let wiki_1.path = '~/src/abbot-wiki/'
+      let wiki_1.index = '0_home'
+      let wiki_1.syntax = 'markdown'
+      let wiki_1.ext = '.md'
 
-           " fill spaces in page names with _ in pathing
-           let wiki_1.links_space_char = '_'
+      " fill spaces in page names with _ in pathing
+      let wiki_1.links_space_char = '_'
 
-           let g:vimwiki_list = [wiki_0, wiki_1]
-           " let g:vimwiki_list = [wiki_0, wiki_1, wiki_2]
+      let g:vimwiki_list = [wiki_0, wiki_1]
+      " let g:vimwiki_list = [wiki_0, wiki_1, wiki_2]
 
-           " ================ Ale ========================
-           let g:ale_linters = {
-                       \ 'c': ['clang-tidy'],
-                       \ 'python': ['flake8'],
-                       \ 'vim': ['vint'],
-                       \ 'markdown': ['markdownlint'],
-           \ }
+      " ================ Ale ========================
+      let g:ale_linters = {
+                  \ 'c': ['clang-tidy'],
+                  \ 'javascript': ['prettier', 'eslint'],
+                  \ 'markdown': ['markdownlint'],
+                  \ 'python': ['flake8'],
+                  \ 'typescript': ['prettier', 'eslint'],
+                  \ 'vim': ['vint'],
+      \ }
 
-           let g:ale_fixers = {
-                 \ 'c': ['clang-format'],
-                 \ 'javascript': ['prettier', 'eslint'],
-                 \ 'json': ['fixjson', 'prettier'],
-                 \ 'python': ['black', 'isort'],
-                 \ }
+      let g:ale_fixers = {
+            \ 'c': ['clang-format'],
+            \ 'javascript': ['prettier', 'eslint'],
+            \ 'json': ['fixjson', 'prettier'],
+            \ 'python': ['black', 'isort'],
+            \ 'typescript': ['prettier', 'eslint'],
+            \ }
 
-      "     " Set global fixers for all file types except Markdown
-      "     " Why? because double spaces at the end of a line in markdown indicate a
-      "     " linebreak without creating a new paragraph
-      "     function! SetGlobalFixers()
-      "       let g:ale_fixers['*'] = ['trim_whitespace', 'remove_trailing_lines']
-      "     endfunction
+      " Set global fixers for all file types except Markdown
+      " Why? because double spaces at the end of a line in markdown indicate a
+      " linebreak without creating a new paragraph
+      function! SetGlobalFixers()
+        let g:ale_fixers['*'] = ['trim_whitespace', 'remove_trailing_lines']
+      endfunction
 
-      "     augroup GlobalFixers
-      "       autocmd!
-      "       autocmd VimEnter * call SetGlobalFixers()
-      "     augroup END
+      augroup GlobalFixers
+        autocmd!
+        autocmd VimEnter * call SetGlobalFixers()
+      augroup END
 
-      "     " Set buffer-local fixers for Markdown files
-      "     augroup MarkdownFixers
-      "       autocmd!
-      "       autocmd FileType markdown let b:ale_fixers = ['prettier']
-      "     augroup END
+      " Set buffer-local fixers for Markdown files
+      augroup MarkdownFixers
+        autocmd!
+        autocmd FileType markdown let b:ale_fixers = ['prettier']
+      augroup END
 
-      "     let g:ale_fix_on_save = 1
+      let g:ale_fix_on_save = 1
     '';
 
     # extraConfigLua = ''

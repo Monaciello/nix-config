@@ -12,10 +12,8 @@ in
   #-------------Bat related------------
   cat = "bat --paging=never";
   diff = "batdiff";
-  #man = "batman";
   less = "bat --style=plain";
-  rg = "batgrep";
-  #rg = "rg -M300";
+  rg = "rg -M300";
 
   #------------Navigation------------
   rst = "reset";
