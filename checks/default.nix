@@ -3,6 +3,7 @@
   system,
   pkgs,
   lib,
+  formatter,
   ...
 }:
 let
@@ -13,7 +14,7 @@ in
     src = ./.;
     default_stages = [ "pre-commit" ];
     # NOTE: Hooks are run in alphabetical order
-    hooks = lib.recursiveUpdate (introdusLib.mkPreCommitHooks pkgs) {
+    hooks = lib.recursiveUpdate (introdusLib.mkPreCommitHooks pkgs formatter) {
       # ========== General ==========
       check-added-large-files = {
         enable = true;

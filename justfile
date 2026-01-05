@@ -216,3 +216,13 @@ facter HOST:
             git add hosts/nixos/{{ HOST }}/facter.json
         fi
     fi
+
+# Refresh dev environment with updated inputs
+[group("dev")]
+dev:
+    @just rebuild-pre
+    direnv reload
+
+[group("dev")]
+fmt:
+    nix fmt --reference-lock-file locks/$(hostname).lock

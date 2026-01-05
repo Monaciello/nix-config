@@ -85,6 +85,7 @@
               self.overlays.default
             ];
           };
+          formatter = inputs.introdus.formatter.${system};
         in
         rec {
           # Expose custom packages
@@ -93,17 +94,18 @@
             callPackage = lib.callPackageWith pkgs;
             directory = ./pkgs;
           };
-          # Pre-commit checks
+          # FIXME: There might be a better way to auto-integrate the introdus formatter
           checks = import ./checks {
             inherit
               inputs
               pkgs
               system
               lib
+              formatter
               ;
           };
           # Nix formatter available through 'nix fmt' https://github.com/NixOS/nixfmt
-          formatter = pkgs.nixfmt;
+          inherit formatter;
           # Custom shell for bootstrapping, nix-config dev, and secrets management
           devShells = import ./shell.nix {
             inherit
