@@ -24,7 +24,7 @@ let
   superPubKeys = genPubKeyList "super";
 
   platform = if isDarwin then "darwin" else "nixos";
-  hostSpec = config.hostSpec;
+  inherit (config) hostSpec;
 in
 {
   # No matter what environment we are in we want these tools for root, and the user(s)
@@ -106,8 +106,10 @@ in
 
         # pass common modules set in hosts through to home
         # see also: home/common/core/default.nix
-        hostSpec = config.hostSpec;
-        monitors = config.monitors;
+        inherit (config)
+          hostSpec
+          monitors
+          ;
       };
       # FIXME: Common for all users (will include root too!)
       #sharedModules = map (module: (import module)) (
@@ -133,6 +135,7 @@ in
                 { ... }:
                 {
                   home = {
+                    stateVersion = "23.05";
                     homeDirectory = if isDarwin then "/Users/${user}" else "/home/${user}";
                     username = "${user}";
                   };

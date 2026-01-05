@@ -15,12 +15,7 @@
   nix = {
     # We want at least 2.30 to get the memory management improvements
     # https://discourse.nixos.org/t/nix-2-30-0-released/66449/4
-    #FIXME(nix): unpin when stable catches up to 2.30+
-    package = lib.mkForce pkgs.unstable.nixVersions.nix_2_30;
-    # optimise = {
-    #   automatic = true;
-    #   dates = [ "03:45" ]; # Periodically optimize the store
-    # };
+    package = lib.mkForce pkgs.unstable.nixVersions.git;
     settings = {
       # See https://jackson.dev/post/nix-reasonable-defaults/
       connect-timeout = 5;
@@ -58,19 +53,16 @@
     #   automatic = true;
     #   options = "--delete-older-than 10d";
     # };
-  }
-  // (lib.optionalAttrs pkgs.stdenv.isLinux {
+
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
     # This will add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well
-    # NOTE: on darwin this throws
-    # error: The option `nix.registry.nixpkgs.to.path' has conflicting definition values:
-    #   - In `/nix/store/3m75mdiiq4bkzm5qpx6arapz042na0vh-source/modules/nix': "/nix/store/m1g5a7agja7si7y9l1lzwhp3capbv7x9-source"
-    #   - In `/nix/store/3m75mdiiq4bkzm5qpx6arapz042na0vh-source/modules/nix/nixpkgs-flake.nix': "/nix/store/fj58bk5dvyaxqfrsrncfg3bn1pmdj8q2-source"
-    #   Use `lib.mkForce value` or `lib.mkDefault value` to change the priority on any of these definitions.
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-  });
+    nixPath =
+      config.nix.registry
+      # nixfmt hack
+      |> lib.mapAttrsToList (key: value: "${key}=${value.to.path}");
+  };
 }

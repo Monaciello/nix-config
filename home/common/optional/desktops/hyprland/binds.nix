@@ -1,5 +1,5 @@
 {
-  config,
+  osConfig,
   lib,
   ...
 }:
@@ -82,8 +82,8 @@
           j = down;
         };
         #pactl = lib.getExe' pkgs.pulseaudio "pactl"; # installed via /hosts/common/optional/audio.nix
-        terminal = config.home.sessionVariables.TERM;
-        editor = config.home.sessionVariables.EDITOR;
+        terminal = "ghostty";
+        editor = osConfig.hostSpec.defaultEditor;
 
       in
       lib.flatten [

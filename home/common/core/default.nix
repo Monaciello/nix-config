@@ -1,10 +1,8 @@
-#FIXME: if pulling in homemanager for isMinimal maybe set up conditional for some packages
 {
-  osConfig,
   lib,
   pkgs,
-  hostSpec,
   monitors,
+  hostSpec,
   inputs,
   ...
 }:
@@ -24,26 +22,8 @@
   # see hosts/common/users/default.nix
   inherit hostSpec monitors;
 
-  home = {
-    username = lib.mkDefault osConfig.hostSpec.username;
-    homeDirectory = lib.mkDefault osConfig.hostSpec.home;
-    stateVersion = lib.mkDefault "23.05";
-    sessionPath = [
-      "$HOME/.local/bin"
-      "$HOME/scripts/talon_scripts"
-    ];
-    sessionVariables = {
-      FLAKE = "$HOME/src/nix/nix-config";
-      SHELL = "zsh";
-      TERM = "ghostty";
-      TERMINAL = "ghostty";
-      VISUAL = "nvim";
-      EDITOR = "nvim";
-      MANPAGER = "nvim +Man!";
-    };
-    preferXdgDirectories = true; # whether to make programs use XDG directories whenever supported
-
-  };
+  #FIXME: move to xdg module
+  home.preferXdgDirectories = true; # whether to make programs use XDG directories whenever supported
 
   home.packages = lib.attrValues {
     inherit (pkgs)
@@ -82,19 +62,5 @@
       ;
   };
 
-  nix = {
-    package = lib.mkDefault pkgs.nix;
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      warn-dirty = false;
-    };
-  };
-
   programs.home-manager.enable = true;
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
 }
