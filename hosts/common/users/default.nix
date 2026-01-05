@@ -96,7 +96,7 @@ in
         in
         lib.optional (lib.pathExists fullPath) fullPath;
     in
-    rec {
+    {
       extraSpecialArgs = {
         inherit
           inputs
