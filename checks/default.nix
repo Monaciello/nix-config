@@ -11,7 +11,7 @@ let
 in
 {
   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-    src = ./.;
+    src = ../.;
     default_stages = [ "pre-commit" ];
     # NOTE: Hooks are run in alphabetical order
     hooks = lib.recursiveUpdate (introdusLib.mkPreCommitHooks pkgs formatter) {
