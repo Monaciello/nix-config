@@ -6,7 +6,7 @@ export HELPERS_PATH := justfile_directory() + "../introdus/pkgs/introdus-helpers
 default:
     @just --list
 
-# Update commonly changing flakes and prep for a rebuild
+# Update commonly changing flakes and prep for a build
 [private]
 rebuild-pre HOST=`hostname`:
     just update-nix-secrets {{ HOST }} && \
@@ -15,7 +15,7 @@ rebuild-pre HOST=`hostname`:
     just update {{ HOST }} introdus
     @git add --intent-to-add .
 
-# Run post-rebuild checks, like if sops is running properly afterwards
+# Run post-build checks, like if sops is running properly afterwards
 [private]
 rebuild-post: check-sops
 
@@ -25,21 +25,15 @@ check HOST=`hostname` ARGS="":
     NIXPKGS_ALLOW_UNFREE=1 REPO_PATH=$(pwd) nix flake check --impure --keep-going --show-trace{{ ARGS }}
     cd nixos-installer && NIXPKGS_ALLOW_UNFREE=1 REPO_PATH=$(pwd) nix flake check --impure --keep-going --show-trace {{ ARGS }}
 
-[private]
-_rebuild HOST=`hostname`:
-    @just rebuild-pre {{ HOST }}
-    @# NOTE: Add --option eval-cache false if you end up caching a failure you cant get around
-    @scripts/rebuild.sh {{ HOST }}
-
-# Rebuild the system
+# Rebuild specified host
 [group("building")]
 rebuild HOST=`hostname`: && rebuild-post
-    @just _rebuild {{ HOST }}
+    @just rebuilt-host {{ HOST }}
 
-# Rebuild the system and run a flake check
+# Rebuild the system and then run a flake check
 [group("building")]
 rebuild-full HOST=`hostname`: && rebuild-post
-    @just _rebuild {{ HOST }}
+    @just rebuilt-host {{ HOST }}
     just check {{ HOST }}
 
 # Update all flake inputs for the specified host or the current host if none specified
@@ -59,7 +53,7 @@ age-key:
 # Check if sops-nix activated successfully
 [group("checks")]
 check-sops:
-    scripts/check-sops.sh
+    check-sops
 
 # Update nix-secrets flake
 [group("update")]
@@ -98,9 +92,9 @@ disko DRIVE PASSWORD:
 
 # Run nixos-rebuild on the remote host
 [group("building")]
-build-host HOST:
+rebuild-host HOST=`hostname`:
     @just rebuild-pre {{ HOST }}
-    @scripts/build-host.sh {{ HOST }}
+    @rebuild-host {{ HOST }}
 
 #
 # ========== Nix-Secrets manipulation recipes ==========

@@ -70,7 +70,6 @@ in
   jl = "just --list";
   jup = "just update";
   jug = "just upgrade";
-  jb = "just build-host";
 
   #-------------Neovim---------------
   e = "nvim";
