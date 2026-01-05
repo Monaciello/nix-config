@@ -12,10 +12,10 @@
     NIXPKGS_ALLOW_BROKEN = "1";
 
     # Bootstrap script settings
-    BOOTSTRAP_USER = "aa";
-    BOOTSTRAP_SSH_PORT = "10022";
+    BOOTSTRAP_USER = "ta";
+    BOOTSTRAP_SSH_PORT = "22";
     BOOTSTRAP_SSH_KEY = "~/.ssh/id_yubikey";
-    NIX_SECRETS_DIR = "~/src/nix/nix-secrets";
+    NIX_SECRETS_DIR = "/home/ta/src/nix/nix-secrets";
 
     # This is needed in case we manually run bats tests and similar
     # FIXME: move bats test to introdus to get rid of this
