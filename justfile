@@ -28,12 +28,12 @@ check HOST=`hostname` ARGS="":
 # Rebuild specified host
 [group("building")]
 rebuild HOST=`hostname`: && rebuild-post
-    @just rebuilt-host {{ HOST }}
+    @just rebuild-host {{ HOST }}
 
 # Rebuild the system and then run a flake check
 [group("building")]
 rebuild-full HOST=`hostname`: && rebuild-post
-    @just rebuilt-host {{ HOST }}
+    @just rebuild-host {{ HOST }}
     just check {{ HOST }}
 
 # Update all flake inputs for the specified host or the current host if none specified
