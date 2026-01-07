@@ -106,7 +106,8 @@
         animate_manual_resizes = true;
         animate_mouse_windowdragging = true;
         #disable_autoreload = true;
-        new_window_takes_over_fullscreen = 2; # 0 - behind, 1 - takes over, 2 - unfullscreen/unmaxize
+        on_focus_under_fullscreen = 2; # 0 - behind, 1 - takes over, 2 - unfullscreen/unmaxize
+
         middle_click_paste = false;
       };
 

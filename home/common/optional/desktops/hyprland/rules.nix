@@ -1,6 +1,3 @@
-# Layer Rules
-# Layout Rules
-# Window Rules
 { ... }:
 {
   wayland.windowManager.hyprland.settings = {
@@ -31,86 +28,87 @@
       # ========== Workspace Assignments ==========
       #
       # to determine class and title for all active windows, run `hyprctl clients`
-      "workspace 8, class:^(obsidian)$"
-      "workspace 9, class:^(brave-browser)$"
-      "workspace 9, class:^(signal)$"
-      "workspace 9, class:^(discord)$"
-      "workspace 10, class:^(spotify)$"
-      "workspace 10, class:^(CopyQ)$"
-      "workspace 10, class:^(.virt-manager-wrapped)$"
-      "workspace special, title:^(Proton VPN)$"
-      "workspace special, class:^(yubioath-flutter)$"
-      "workspace special, class:^(keymapp)$"
+      "match:class ^(obsidian)$, workspace 8"
+      "match:class ^(brave-browser)$, workspace 9"
+      "match:class ^(signal)$, workspace 9"
+      "match:class ^(discord)$, workspace 9"
+      "match:class ^(spotify)$, workspace 10"
+      "match:class ^(CopyQ)$, workspace 10"
+      "match:class ^(.virt-manager-wrapped)$, workspace 10"
+      "match:title ^(Proton VPN)$, workspace special"
+      "match:class ^(yubioath-flutter)$, workspace special"
+      "match:class ^(keymapp)$, workspace special"
 
       #
-      # ========== Tile on launch ==========
+      # ========== Tile on at launch ==========
       #
-      "tile, title:^(Proton VPN)$"
+      "match:title ^(Proton VPN)$, tile on"
 
       #
-      # ========== Float on launch ==========
+      # ========== float on at launch ==========
       #
-      "float, class:^(galculator)$"
-      "float, class:^(waypaper)$"
+      "match:class ^(galculator)$, float on"
+      "match:class ^(waypaper)$, float on"
 
       # Dialog windows
-      "float, title:^(Open File)(.*)$"
-      "float, title:^(Select a File)(.*)$"
-      "float, title:^(Choose wallpaper)(.*)$"
-      "float, title:^(Open Folder)(.*)$"
-      "float, title:^(Save As)(.*)$"
-      "float, title:^(Library)(.*)$"
-      "float, title:^(Accounts)(.*)$"
-      "float, title:^(Text Import)(.*)$"
-      "float, title:^(File Operation Progress)(.*)$"
-      #"float, focus 0, title:^()$, class:^([Ff]irefox)"
-      "float, noinitialfocus, title:^()$, class:^([Ff]irefox)"
+      "match:title ^(Open File)(.*)$, float on"
+      "match:title ^(Select a File)(.*)$, float on"
+      "match:title ^(Choose wallpaper)(.*)$, float on"
+      "match:title ^(Open Folder)(.*)$, float on"
+      "match:title ^(Save As)(.*)$, float on"
+      "match:title ^(Library)(.*)$, float on"
+      "match:title ^(Accounts)(.*)$, float on"
+      "match:title ^(Text Import)(.*)$, float on"
+      "match:title ^(File Operation Progress)(.*)$, float on"
+      #"match:title ^()$, match:class ^([Ff]irefox), float on, focus 0"
+      "match:title ^()$, match:class ^([Ff]irefox), float on, no_initial_focus on"
 
       #
       # ========== Always opaque ==========
       #
-      "opaque, class:^([Gg]imp)$"
-      "opaque, class:^([Ff]lameshot)$"
-      "opaque, class:^([Ii]nkscape)$"
-      "opaque, class:^([Bb]lender)$"
-      "opaque, class:^([Oo][Bb][Ss])$"
-      "opaque, class:^([Ss]team)$"
-      "opaque, class:^([Ss]team_app_*)$"
-      "opaque, class:^([Vv]lc)$"
-      "opaque, title:^(btop)(.*)$"
-      "opaque, title:^(amdgpu_top)(.*)$"
-      "opaque, title:^(Dashboard | glass*)(.*)$"
-      "opaque, title:^(Live video from*)(.*)$"
+      "match:class ^([Gg]imp)$, opaque on"
+      "match:class ^([Ff]lameshot)$, opaque on"
+      "match:class ^([Ii]nkscape)$, opaque on"
+      "match:class ^([Bb]lender)$, opaque on"
+      "match:class ^([Oo][Bb][Ss])$, opaque on"
+      "match:class ^([Ss]team)$, opaque on"
+      "match:class ^([Ss]team_app_*)$, opaque on"
+      "match:class ^([Vv]lc)$, opaque on"
+      "match:title ^(btop)(.*)$, opaque on"
+      "match:title ^(amdgpu_top)(.*)$, opaque on"
+      "match:title ^(Dashboard | glass*)(.*), opaque on"
+      "match:title ^(Live video from*)(.*)$, opaque on"
 
       # Remove transparency from video
-      "opaque, title:^(Netflix)(.*)$"
-      "opaque, title:^(.*YouTube.*)$"
-      "opaque, title:^(Picture-in-Picture)$"
+      "match:title ^(Netflix)(.*)$, opaque on"
+      "match:title ^(.*YouTube.*)$, opaque on"
+      "match:title ^(Picture-in-Picture)$, opaque on"
 
       #
       # ========== Scratch rules ==========
       #
-      #"size 80% 85%, workspace:^(special)$"
-      #"center, workspace:^(special)$"
+      #"workspace:^(special)$,size 80% 85%"
+      #"workspace:^(special)$, center"
 
       #
       # ========== Steam rules ==========
       #
-      "minsize 1 1, title:^()$,class:^([Ss]team)$"
-      "immediate, class:^([Ss]team_app_*)$"
-      "workspace 7, class:^([Ss]team_app_*)$"
-      "monitor 0, class:^([Ss]team_app_*)$"
+      "match:title ^()$,match:class ^([Ss]team)$,min_size 1 1"
+      "match:class ^([Ss]team_app_*)$,immediate on"
+      "match:class ^([Ss]team_app_*)$,workspace 7"
+      "match:class ^([Ss]team_app_*)$,monitor 0"
 
       #
       # ========== Fameshot rules ==========
       #
       # flameshot currently doesn't have great wayland support so needs some tweaks
-      #"rounding 0, class:^([Ff]lameshot)$"
-      #"noborder, class:^([Ff]lameshot)$"
-      #"float, class:^([Ff]lameshot)$"
-      #"move 0 0, class:^([Ff]lameshot)$"
-      #"suppressevent fullscreen, class:^([Ff]lameshot)$"
-      # "monitor:DP-1, ${flameshot}"
+      #"match:class ^([Ff]lameshot)$,rounding 0"
+      #"match:class ^([Ff]lameshot)$, noborder"
+      #"match:class ^([Ff]lameshot)$, float on"
+      #"match:class ^([Ff]lameshot)$, move 0 0"
+      #"match:class ^([Ff]lameshot)$,suppressevent fullscreen"
+      # FIXME: this one will definitely need revisiting for correct syntax after 0.53 but I don't have flameshot on right now
+      #"${flameshot},monitor:DP-1"
     ];
   };
 }
