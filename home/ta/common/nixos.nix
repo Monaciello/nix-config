@@ -13,7 +13,7 @@ in
     sessionPath = lib.flatten ([
       "${home}/scripts/"
     ]
-    # ++ lib.optional config.hostSpec.isWork secrets.work.extraPaths
+    # ++ lib.optional osConfig.hostSpec.isWork secrets.work.extraPaths
     );
   };
 }

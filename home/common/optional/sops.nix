@@ -2,6 +2,7 @@
 {
   inputs,
   config,
+  osConfig,
   lib,
   ...
 }:
@@ -17,7 +18,7 @@ let
   ];
   yubikeySecrets =
     # extract to default pam-u2f authfile location for passwordless sudo. see modules/common/yubikey
-    lib.optionalAttrs config.hostSpec.useYubikey (
+    lib.optionalAttrs osConfig.hostSpec.useYubikey (
       {
         "keys/u2f" = {
           sopsFile = "${sopsFolder}/shared.yaml";
@@ -40,7 +41,7 @@ in
     # This is the location of the host specific age-key for ta and will to have been extracted to this location via hosts/common/core/sops.nix on the host
     age.keyFile = "${homeDirectory}/.config/sops/age/keys.txt";
 
-    defaultSopsFile = "${sopsFolder}/${config.hostSpec.hostName}.yaml";
+    defaultSopsFile = "${sopsFolder}/${osConfig.hostSpec.hostName}.yaml";
     validateSopsFiles = false;
 
     secrets = {

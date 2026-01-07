@@ -1,6 +1,7 @@
 # LSP
 {
   config,
+  osConfig,
   lib,
   ...
 }:
@@ -63,7 +64,7 @@ in
                   };
                   home_manager = {
                     expr = ''
-                      (builtins.getFlake "${flakeRoot}").nixosConfigurations.${config.hostSpec.hostName}.options.home-manager.users.value.${config.hostSpec.username}
+                      (builtins.getFlake "${flakeRoot}").nixosConfigurations.${osConfig.hostSpec.hostName}.options.home-manager.users.value.${osConfig.hostSpec.username}
                     '';
                   };
                   darwin = {

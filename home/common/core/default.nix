@@ -1,8 +1,6 @@
 {
   lib,
   pkgs,
-  monitors,
-  hostSpec,
   inputs,
   ...
 }:
@@ -10,7 +8,6 @@
   imports = lib.flatten [
     inputs.introdus.homeManagerModules.default
     (map lib.custom.relativeToRoot [
-      "modules/common"
       "modules/home"
     ])
     (lib.custom.scanPathsFilterPlatform ./.)
@@ -20,7 +17,6 @@
   # inherit common modules passed through from hosts
   # be sure to import the respective module above as well
   # see hosts/common/users/default.nix
-  inherit hostSpec monitors;
 
   #FIXME: move to xdg module
   home.preferXdgDirectories = true; # whether to make programs use XDG directories whenever supported

@@ -1,10 +1,10 @@
 {
   lib,
-  config,
+  osConfig,
   ...
 }:
 {
-  config = lib.mkIf config.hostSpec.isAutoStyled {
+  config = lib.mkIf osConfig.hostSpec.isAutoStyled {
     stylix.targets.zellij.enable = true;
   };
 }
