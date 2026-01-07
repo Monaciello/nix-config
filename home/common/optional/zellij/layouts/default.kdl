@@ -27,4 +27,5 @@ layout {
             plugin location="compact-bar"
         }
         pane cwd="$HOME"
+    }
 }
