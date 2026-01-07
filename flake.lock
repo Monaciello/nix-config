@@ -339,8 +339,8 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1767631538,
-        "narHash": "sha256-Vh94G8yoW6RAZOZstaDZ83olmApH5360xb6h7phGJcs=",
+        "lastModified": 1767758918,
+        "narHash": "sha256-5aolWxFa0BVls04k+2yJw+oyvGXxsO+Xj5Wpoc1DHzM=",
         "path": "/home/ta/src/nix/introdus/ta",
         "type": "path"
       },
