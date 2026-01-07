@@ -15,15 +15,6 @@ in
     default_stages = [ "pre-commit" ];
     # NOTE: Hooks are run in alphabetical order
     hooks = lib.recursiveUpdate (introdusLib.checks.mkPreCommitHooks pkgs formatter) {
-      # ========== General ==========
-      check-added-large-files = {
-        enable = true;
-        excludes = [
-          "\\.png"
-          "\\.jpg"
-        ];
-      };
-
       forbid-submodules = {
         enable = true;
         name = "forbid submodules";
@@ -41,9 +32,6 @@ in
         entry = "${inputs.pre-commit-hooks.checks.${system}.pre-commit-hooks}/bin/destroyed-symlinks";
         types = [ "symlink" ];
       };
-
-      # ========== python ==========
-      ruff.enable = true;
     };
   };
 }
