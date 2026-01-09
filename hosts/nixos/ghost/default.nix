@@ -39,7 +39,7 @@
         # ========== Optional common modules ==========
         (map (f: "hosts/common/optional/${f}") [
           # Desktop environment and login manager
-          "hyprland.nix" # enable as service below
+          #"hyprland.nix" # enable as service below
           "gnome.nix" # window manager
 
           # Services
@@ -68,6 +68,8 @@
         ])
     ))
   ];
+  desktops.hyprland.enable = true;
+
   introdus.services = {
     sddm.enable = true;
     x11.enable = true;

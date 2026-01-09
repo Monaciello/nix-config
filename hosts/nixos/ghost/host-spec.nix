@@ -18,6 +18,7 @@
     useYubikey = lib.mkForce true;
 
     # Graphical
+    defaultDesktop = "hyprland-uwsm";
     hdr = lib.mkForce true;
     scaling = "2";
     isAutoStyled = lib.mkForce true;
