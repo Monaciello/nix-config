@@ -41,50 +41,9 @@
     # NOTE: zsh module will load *.plugin.zsh files by default if they are located in the src=<folder>, so
     # supply the full folder path to the plugin in src=. To find the correct path, atm you must check the
     # plugins derivation until PR XXXX (file issue) is fixed
-    plugins =
-      [
-        {
-          name = "zhooks";
-          src = "${pkgs.zsh-zhooks}/share/zsh/zhooks";
-        }
-        {
-          name = "you-should-use";
-          src = "${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use";
-        }
-        # Allow zsh to be used in nix-shell
-        {
-          name = "zsh-nix-shell";
-          file = "nix-shell.plugin.zsh";
-          src = pkgs.fetchFromGitHub {
-            owner = "chisui";
-            repo = "zsh-nix-shell";
-            rev = "v0.8.0";
-            sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
-          };
-        }
-      ]
-
-      # The iso doesn't use our overlays, so don't add custom packages
-      #FIXME:move these to an optional custom plugins module and remove iso check
-      ++ [
-        {
-          name = "zsh-term-title";
-          src = "${pkgs.zsh-term-title}/share/zsh/zsh-term-title/";
-        }
-        {
-          name = "cd-gitroot";
-          src = "${pkgs.cd-gitroot}/share/zsh/cd-gitroot";
-        }
-        {
-          name = "zsh-deep-autocd";
-          src = "${pkgs.zsh-deep-autocd}/share/zsh/zsh-deep-autocd";
-        }
-        {
-          name = "zsh-autols";
-          src = "${pkgs.zsh-autols}/share/zsh/zsh-autols";
-        }
-      ]
-      |> lib.optionals (osConfig.hostSpec.hostName != "iso" && pkgs ? "zsh-term-title");
+    plugins = import ./plugins.nix {
+      inherit pkgs;
+    };
 
     initContent = lib.mkAfter (lib.readFile ./zshrc);
     oh-my-zsh = {
