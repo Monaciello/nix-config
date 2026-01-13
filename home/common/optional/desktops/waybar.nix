@@ -55,8 +55,12 @@ in
 
         modules-left = [
           "hyprland/workspaces"
+          "niri/workspaces"
         ];
-        modules-center = [ "hyprland/window" ];
+        modules-center = [
+          "hyprland/window"
+          "niri/window"
+        ];
         modules-right =
           if osConfig.hostSpec.isRoaming then
             [
@@ -85,10 +89,20 @@ in
             ];
 
         # ========= Modules =========
-        #
-        #TODO
-        #"hyprland/window" ={};
+        # TODO: review options
+        "niri/window" = { };
+        # FIXME(niri): setup styles and what not see waybar wiki
+        "niri/workspaces" = {
+          all-outputs = false;
+          # format = "";
+          # format-icons ={};
+          disable-click = false;
+          disable-markup = false; # If set to true, button label will escape pango markup.
+          current-only = false; # If set to true, only the active or focused workspace will be shown.
+        };
 
+        #TODO
+        # "hyprland/window" = {}
         "hyprland/workspaces" = {
           all-outputs = false;
           disable-scroll = true;

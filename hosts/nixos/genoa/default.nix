@@ -48,6 +48,7 @@
         (map (f: "hosts/common/optional/${f}") [
           # Desktop environment and login manager
           #"hyprland.nix" # enable as service below
+          "niri.nix"
 
           # Services
           "services/bluetooth.nix" # bluetooth, blueman and bluez via wireplumber

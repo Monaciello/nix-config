@@ -5,6 +5,7 @@
 
     ./hyprland
     ./gnome
+    ./niri
 
     ########## Utilities ##########
     ./services/dunst.nix # Notification daemon
