@@ -11,7 +11,7 @@
     ./timers/trash-empty.nix
   ];
   home = {
-    packages = lib.optionals (osConfig.hostSpec.isProduction) (
+    packages = lib.optionals osConfig.hostSpec.isProduction (
       lib.attrValues {
         inherit (pkgs)
           e2fsprogs # lsattr, chattr
@@ -33,7 +33,13 @@
     '';
 
     sessionVariables = {
-
+      FLAKE = "$HOME/src/nix/nix-config";
+      SHELL = "zsh";
+      TERM = "ghostty";
+      TERMINAL = "ghostty";
+      VISUAL = "nvim";
+      EDITOR = "nvim";
+      #MANPAGER = "nvim +Man!";
     }
     // lib.optionalAttrs osConfig.hostSpec.useWayland {
       QT_QPA_PLATFORM = "wayland";
