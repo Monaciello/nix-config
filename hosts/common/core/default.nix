@@ -40,7 +40,6 @@ in
   #
   hostSpec = {
     primaryUsername = "ta";
-    username = "ta"; # FIXME: deprecate
     users = [ "ta" ];
     handle = "emergentmind";
     inherit (secrets)

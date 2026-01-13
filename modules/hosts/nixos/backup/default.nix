@@ -529,8 +529,8 @@ in
           {
             tmpfiles.rules =
               let
-                user = config.users.users.${config.hostSpec.username}.name;
-                group = config.users.users.${config.hostSpec.username}.group;
+                user = config.users.users.${config.hostSpec.primaryUsername}.name;
+                group = config.users.users.${config.hostSpec.primaryUsername}.group;
               in
               # https://www.man7.org/linux/man-pages/man5/tmpfiles.d.5.html
               [ "d ${homeDirectory}/mount/backup/ 0750 ${user} ${group} -" ];

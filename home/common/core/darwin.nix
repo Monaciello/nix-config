@@ -4,7 +4,7 @@
   home.sessionPath = [ "/opt/homebrew/bin" ];
 
   home = {
-    username = osConfig.hostSpec.username;
+    username = osConfig.hostSpec.primaryUsername;
     homeDirectory = osConfig.hostSpec.home;
   };
 }

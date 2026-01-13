@@ -57,7 +57,7 @@ lib.mkIf cfg.isAdmin {
       "moth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {
         host = "moth";
         hostname = "moth.${cfg.domain}";
-        user = "${cfg.username}";
+        user = "${cfg.primaryUsername}";
         port = cfg.networking.ports.tcp.moth;
       };
       # "myth" = lib.hm.dag.entryAfter [ "yubikey-hosts" ] {

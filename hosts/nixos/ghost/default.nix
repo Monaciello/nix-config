@@ -14,16 +14,13 @@
 }:
 {
   imports = lib.flatten [
-    #
+    (lib.custom.scanPaths ./.) # Load all host-specific *.nix files
+
     # ========== Hardware ==========
-    #
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
-    (lib.custom.scanPaths ./.) # Load all extra host-specific *.nix files
 
-    #
     # ========== Disk Layout ==========
-    #
     inputs.disko.nixosModules.disko
     (lib.custom.relativeToRoot "hosts/common/disks/ghost.nix")
 
@@ -134,12 +131,12 @@
     borgBackupStartTime = "02:00:00";
 
     borgServer = "${config.hostSpec.networking.subnets.grove.hosts.moth.ip}";
-    borgUser = "${config.hostSpec.username}";
+    borgUser = "${config.hostSpec.primaryUsername}";
     borgPort = "${toString config.hostSpec.networking.ports.tcp.moth}";
 
     borgRemotePath = "/run/current-system/sw/bin/borg";
 
-    borgBackupPath = "/mnt/storage/backup/${config.hostSpec.username}";
+    borgBackupPath = "/mnt/storage/backup/${config.hostSpec.primaryUsername}";
     borgNotifyFrom = "${config.hostSpec.email.notifier}";
     borgNotifyTo = "${config.hostSpec.email.backup}";
   };

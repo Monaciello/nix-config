@@ -87,8 +87,8 @@ in
   system.activationScripts.sopsSetAgeKeyOwnership =
     let
       ageFolder = "${config.hostSpec.home}/.config/sops/age";
-      user = config.users.users.${config.hostSpec.username}.name;
-      group = config.users.users.${config.hostSpec.username}.group;
+      user = config.users.users.${config.hostSpec.primaryUsername}.name;
+      group = config.users.users.${config.hostSpec.primaryUsername}.group;
     in
     ''
       mkdir -p ${ageFolder} || true

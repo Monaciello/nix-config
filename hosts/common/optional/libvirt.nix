@@ -96,7 +96,7 @@ in
     pkgs.qemu
   ];
 
-  users.users.${config.hostSpec.username} = {
+  users.users.${config.hostSpec.primaryUsername} = {
     extraGroups = [ "libvirtd" ];
   };
 }

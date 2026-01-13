@@ -64,7 +64,7 @@ in
                   };
                   home_manager = {
                     expr = ''
-                      (builtins.getFlake "${flakeRoot}").nixosConfigurations.${osConfig.hostSpec.hostName}.options.home-manager.users.value.${osConfig.hostSpec.username}
+                      (builtins.getFlake "${flakeRoot}").nixosConfigurations.${osConfig.hostSpec.hostName}.options.home-manager.users.value.${osConfig.hostSpec.primaryUsername}
                     '';
                   };
                   darwin = {

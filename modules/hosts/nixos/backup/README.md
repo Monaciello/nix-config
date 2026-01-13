@@ -95,9 +95,9 @@ nix-config/hosts/nixos/ghost/default.nix
     enable = true;
     borgBackupStartTime = "02:00:00";
     borgServer = "${config.hostSpec.networking.subnets.oops.ip}";
-    borgUser = "${config.hostSpec.username}";
+    borgUser = "${config.hostSpec.primaryUsername}";
     borgPort = "${toString config.hostSpec.networking.subnets.oops.port}";
-    borgBackupPath = "/var/services/homes/${config.hostSpec.username}/backups";
+    borgBackupPath = "/var/services/homes/${config.hostSpec.primaryUsername}/backups";
     borgNotifyFrom = "${config.hostSpec.email.notifier}";
     borgNotifyTo = "${config.hostSpec.email.backup}";
   };

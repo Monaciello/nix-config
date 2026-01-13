@@ -89,7 +89,7 @@ rec {
   };
 
   # FIXME: Seems like suspend disable in iso isn't always working
-  # home-manager.users.${hostSpec.username}.dconf.settings = {
+  # home-manager.users.${hostSpec.primaryUsername}.dconf.settings = {
   #   "org/gnome/settings-daemon/plugins/power" = {
   #     ambient-enabled = false;
   #     idle-dim = true;
@@ -103,8 +103,8 @@ rec {
 
   # root's ssh key are mainly used for remote deployment
   users.extraUsers.root = {
-    inherit (config.users.users.${config.hostSpec.username}) hashedPassword;
+    inherit (config.users.users.${config.hostSpec.primaryUsername}) hashedPassword;
     openssh.authorizedKeys.keys =
-      config.users.users.${config.hostSpec.username}.openssh.authorizedKeys.keys;
+      config.users.users.${config.hostSpec.primaryUsername}.openssh.authorizedKeys.keys;
   };
 }
