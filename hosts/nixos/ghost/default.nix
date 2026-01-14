@@ -38,6 +38,7 @@
           # Desktop environment and login manager
           #"hyprland.nix" # enable as service below
           "gnome.nix" # window manager
+          "niri.nix"
 
           # Services
           "services/bluetooth.nix" # bluetooth, blueman and bluez via wireplumber

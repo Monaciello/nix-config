@@ -9,10 +9,11 @@
 
     ########## Utilities ##########
     ./services/dunst.nix # Notification daemon
+    ./services/kanshi.nix # Monitor profiles
     ./waybar.nix # infobar
     ./rofi.nix # app launcher
+    #./wlogout # wayland logout menue (import as needed by specific WM)
     #./playerctl.nix # cli util and lib for controlling media players that implement MPRIS
-    #./gtk.nix # mainly in gnome
   ];
   home.packages = [
     pkgs.pulseaudio # add pulse audio to the user path

@@ -1,0 +1,72 @@
+
+// Floating windows have a bigger focus ring and have shadows.
+window-rule {
+	match is-floating=true
+	shadow {
+		on
+		spread 4
+		offset x=0 y=0
+	}
+	focus-ring { width 2; }
+}
+
+// Open certain windows as floating by default.
+window-rule {
+	match app-id=r#"galculator$"#
+	open-floating true
+}
+
+// Block out certain programs from screen capture.
+window-rule {
+	match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+	match app-id=r#"Proton Pass$"#
+	block-out-from "screen-capture"
+}
+
+// Block out certain programs from screencasts.
+window-rule {
+	match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+	match app-id=r#"Proton Pass$"#
+	block-out-from "screencast"
+}
+
+// Remove the focus ring of certain windows.
+window-rule {
+	match app-id=r#"foo"#
+	focus-ring { width 0; }
+}
+
+// Open certain windows in their full size.
+window-rule {
+	match app-id=r#"^gimp$"#
+	default-column-width { proportion 1.0; }
+}
+
+// Windows affected by variable refresh rate.
+// FIXME: make this monitor specific
+window-rule {
+	match app-id=r#"^steam_app_.*$"#
+	variable-refresh-rate true
+	open-fullscreen true
+}
+
+// Resize certain windows to specific sizes.
+window-rule {
+	match app-id=r#"foo"#
+	default-column-width { proportion 0.2475; }
+}
+
+// Place the background within the backdrop.
+// layer-rule {
+// 	match namespace="foo$"
+// 	place-within-backdrop true
+// }
+
+layer-rule {
+	match namespace="launcher"
+	shadow {
+		on
+		spread 4
+		offset x=0 y=0
+	}
+}

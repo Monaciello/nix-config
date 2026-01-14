@@ -11,7 +11,8 @@
       }
       {
         label = "logout";
-        action = "sleep 1; hyprctl dispatch exit";
+        #action = "sleep 1; hyprctl dispatch exit;";
+        action = "sleep 1; niri message action quit;";
         text = "[e]xit";
         keybind = "e";
       }
@@ -43,7 +44,7 @@
     #TODO(rice):
     style = ''
             * {
-              font-family: "FiraCode Nerd Font", sans-serif;
+              font-family: "FiraMono Nerd Font", sans-serif;
               background-image: none;
               transition: 20ms;
             }
