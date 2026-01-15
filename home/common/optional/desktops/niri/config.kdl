@@ -5,16 +5,29 @@ include "binds.kdl"
 include "rules.kdl"
 
 // Named Workspaces
-workspace "L" {
+workspace "8_l" {
     open-on-output "DP-2"
 }
-workspace "U" {
+workspace "9_u" {
     open-on-output "HDMI-A-1"
 }
-workspace "R" {
+workspace "0_r" {
     open-on-output "DP-3"
 }
-workspace "G" {
+// order needs to be descending
+workspace "5_gmz" {
+    open-on-output "DP-1"
+}
+workspace "4_gig" {
+    open-on-output "DP-1"
+}
+workspace "3_edu" {
+    open-on-output "DP-1"
+}
+workspace "2_uci" {
+    open-on-output "DP-1"
+}
+workspace "1_dev" {
     open-on-output "DP-1"
 }
 

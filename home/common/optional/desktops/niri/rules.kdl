@@ -143,25 +143,25 @@ window-rule {
 window-rule {
     match app-id=r#"^[Oo]bsidian$"#
 
-    open-on-workspace "L"
+    open-on-workspace "8_l"
 }
 window-rule {
     match app-id=r#"signal"#
     match app-id=r#"discord"#
     match app-id=r#"brave-browser"#
 
-    open-on-workspace "U"
+    open-on-workspace "9_u"
 }
 window-rule {
     match app-id=r#"^[Ss]potify$"#
     match app-id=r#"com.mitchellh.ghostty"# title="btop"
 
-    open-on-workspace "R"
+    open-on-workspace "0_r"
 }
 window-rule {
     match app-id=r#"steam"#
 
-    open-on-workspace "G"
+    open-on-workspace "5_gmz"
 }
 
 // ========== Tile on launch ==========
@@ -265,10 +265,9 @@ window-rule {
 window-rule {
       match title=r#"^()$"# app-id=r#"^([Ss]team)$"#
       match app-id=r#"^([S]team_app_*)$"#
-//      "match:class ^([Ss]team_app_*)$,immediate on"
 
       open-on-output "DP-1"
-//      open-on-workspace "G"
+      open-on-workspace "5_gmz"
   }
 // ========== Signal ==========
 // Resize certain windows to specific sizes.
@@ -276,9 +275,3 @@ window-rule {
 	match app-id=r#"^signal$"#
 	default-column-width { proportion 0.25; }
 }
-
-// Place the background within the backdrop.
-// layer-rule {
-// 	match namespace="foo$"
-// 	place-within-backdrop true
-// }

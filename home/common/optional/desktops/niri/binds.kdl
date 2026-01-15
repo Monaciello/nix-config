@@ -4,35 +4,59 @@ gestures {
     }
 }
 binds {
-
 	// Show a list of important bindings.
 	Super+Shift+Slash { show-hotkey-overlay; }
 
-	// Switch workspaces (numerical).
-	Super+1 { focus-workspace 1; }
-	Super+2 { focus-workspace 2; }
-	Super+3 { focus-workspace 3; }
-	Super+4 { focus-workspace 4; }
-	Super+5 { focus-workspace 5; }
+    // logout menu
+    Super+Shift+E   { spawn "wlogout"; }
+
+    //
+    // ========== Overview mode ==========
+    //
+	Super+O repeat=false { toggle-overview; }
+
+    //
+    // ========== Monitor actions ==========
+    //
+
+	Super+Ctrl+h { focus-monitor-left; }
+	Super+Ctrl+j { focus-monitor-down; }
+	Super+Ctrl+k { focus-monitor-up; }
+	Super+Ctrl+l { focus-monitor-right; }
+
+    //
+    // ========== Workspace actions ==========
+    //
+
+    // ========== Focus workspace ==========
+	Super+1 { focus-workspace "1_dev"; }
+	Super+2 { focus-workspace "2_uci"; }
+	Super+3 { focus-workspace "3_edu"; }
+	Super+4 { focus-workspace "4_gig"; }
+	Super+5 { focus-workspace "5_gmz"; }
 	Super+6 { focus-workspace 6; }
-	Super+7 { focus-workspace "G"; }
-	Super+8 { focus-workspace "L"; }
-	Super+9 { focus-workspace "U"; }
-	Super+0 { focus-workspace "R"; }
+	Super+7 { focus-workspace 7; }
+	Super+8 { focus-workspace "8_l"; }
+	Super+9 { focus-workspace "9_u"; }
+	Super+0 { focus-workspace "0_r"; }
 
-	// Move the active window to a workspace (numerical).
-	Super+Shift+1 { move-window-to-workspace 1; }
-	Super+Shift+2 { move-window-to-workspace 2; }
-	Super+Shift+3 { move-window-to-workspace 3; }
-	Super+Shift+4 { move-window-to-workspace 4; }
-	Super+Shift+5 { move-window-to-workspace 5; }
-	Super+Shift+6 { move-window-to-workspace 6; }
-	Super+Shift+7 { move-window-to-workspace "G"; }
-	Super+Shift+8 { move-window-to-workspace "L"; }
-	Super+Shift+9 { move-window-to-workspace "U"; }
-	Super+Shift+0 { move-window-to-workspace "R"; }
+    Super+Minus { focus-workspace-previous; }
+    Super+Comma { focus-workspace-up; }
+    Super+Period { focus-workspace-down; }
 
-	// Window focus switch.
+    // ==========  Move workspace ==========
+    Super+Shift+Comma { move-workspace-up; }
+    Super+Shift+Period { move-workspace-down; }
+
+    //
+    // ========== Window and column actions ==========
+    //
+
+	Super+Shift+Q { close-window; }
+
+    // ========== Focus windows/columns ==========
+	Super+Z { switch-focus-between-floating-and-tiling; }
+
 	Super+H { focus-column-or-monitor-left; }
 	Super+J { focus-window-or-monitor-down; }
 	Super+K { focus-window-or-monitor-up; }
@@ -40,88 +64,68 @@ binds {
 	Super+Home { focus-column-first; }
 	Super+End { focus-column-last; }
 
-	// Move windows.
+	Super+C { center-column; } // Center current column on screen
+	Super+Ctrl+C { center-visible-columns; } // Center all fully visible columns on screen
+
+    // ========== Move windows/columns ==========
+	Super+Shift+1 { move-window-to-workspace "1_dev"; }
+	Super+Shift+2 { move-window-to-workspace "2_uci"; }
+	Super+Shift+3 { move-window-to-workspace "3_edu"; }
+	Super+Shift+4 { move-window-to-workspace "4_gig"; }
+	Super+Shift+5 { move-window-to-workspace "5_gmz"; }
+	Super+Shift+8 { move-window-to-workspace "8_l"; }
+	Super+Shift+6 { move-window-to-workspace 6; }
+	Super+Shift+7 { move-window-to-workspace 7; }
+	Super+Shift+9 { move-window-to-workspace "9_u"; }
+	Super+Shift+0 { move-window-to-workspace "0_r"; }
+
 	Super+Shift+H { move-column-left; }
 	Super+Shift+J { move-window-down; }
 	Super+Shift+k { move-window-up; }
 	Super+Shift+L { move-column-right; }
+
+	Super+Apostrophe { consume-or-expel-window-left; }
+	Super+Semicolon { consume-or-expel-window-right; }
+
 	Super+Shift+Home  { move-column-to-first; }
 	Super+Shift+End   { move-column-to-last; }
 
-	// Monitor focus switch.
-	Super+Ctrl+h  { focus-monitor-left; }
-	Super+Ctrl+j  { focus-monitor-down; }
-	Super+Ctrl+k  { focus-monitor-up; }
-	Super+Ctrl+l { focus-monitor-right; }
-
-	// Move windows to a monitor.
 	Super+Ctrl+Shift+H { move-window-to-monitor-left; }
 	Super+Ctrl+Shift+J { move-window-to-monitor-down; }
 	Super+Ctrl+Shift+K { move-window-to-monitor-up; }
 	Super+Ctrl+Shift+L { move-window-to-monitor-right; }
 
-	// Finer adjustment to column width.
+    // ========== Window Tabs ==========
+    // Use `consume-or-expel-...` binds above to add/remove windows to a tabbed column
+	Super+G { toggle-column-tabbed-display; } // Toggle the focused column between normal and tabbed display
+
+    //
+    // ========== Window and column size ==========
+    //
+
+	Super+R { switch-preset-column-width; } // Presets are defined in rules.kdl
+    Super+Shift+R { switch-preset-window-height; } // Presets are defined in rules.kdl
+
+	Super+F { fullscreen-window; }
+	Super+Shift+F { toggle-window-floating; }
+
+	Super+Ctrl+F { maximize-column; } // Toggle maximized state of the focused column
+	Super+Shift+Ctrl+F { expand-column-to-available-width; } // Expand the focused column to space not taken up by other fully visible columns
+
 	Super+Equal { set-column-width "-1"; }
 	Super+Plus  { set-column-width "+1"; }
-
-	// Finer adjustment to window height.
 	Super+Shift+Equal { set-window-height "-1"; }
 	Super+Shift+Plus  { set-window-height "+1"; }
 
-	// Move the focused window in and out of a column.
-	Super+Apostrophe { consume-or-expel-window-left; }
-	Super+Semicolon { consume-or-expel-window-right; }
+    //
+    // ========== System controls ==========
+    //
 
-	// Toggle floating mode for the current window.
-	Super+Shift+F { toggle-window-floating; }
+    // ========== Brightness ==========
+	XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "0.01+"; }
+	XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "0.01-"; }
 
-	// Toggle fullscreen mode for the current window.
-	Super+F { fullscreen-window; }
-
-	// Toggle maximize mode for the current column.
-	Super+Ctrl+F { maximize-column; }
-
-	// Expand the current column to the available width.
-	Super+Shift+Ctrl+F { expand-column-to-available-width; }
-
-	// Switch focus between floating & tilling windows.
-	Super+Z { switch-focus-between-floating-and-tiling; }
-
-	//h
-	Super+R { switch-preset-column-width; }
-
-	// Toggle between the different preset window height options.
-    Super+Shift+R { switch-preset-window-height; }
-
-	// Center the current column.
-	Super+C { center-column; }
-
-	// Center all fully visible columns on screen.
-	Super+Ctrl+C { center-visible-columns; }
-
-	// Toggle the overview mode.
-	Super+O repeat=false { toggle-overview; }
-
-	// Toggle tabbed column display mode.
-	Super+G { toggle-column-tabbed-display; }
-
-	// Close the active window.
-	Super+Shift+Q { close-window; }
-
-	// Screen brightness control for integrated monitors.
-	XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "1%+"; }
-	XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "1%-"; }
-
-	// Screen brightness control for external monitors.
-	// https://github.com/rockowitz/ddcutil/issues/110
-	// Shift+XF86MonBrightnessUp   allow-when-locked=true {
-	// 	spawn "ddcutil" "--bus" "7" "--disable-dynamic-sleep" "--noverify" "--skip-ddc-checks" "--sleep-multiplier" "0.7" "setvcp" "10" "+" "2"
-	// }
-	// Shift+XF86MonBrightnessDown allow-when-locked=true {
-	// 	spawn "ddcutil" "--bus" "7" "--disable-dynamic-sleep" "--noverify" "--skip-ddc-checks" "--sleep-multiplier" "0.7" "setvcp" "10" "-" "2";
-	// }
-
-	// Media control.
+    // ========== Media Control==========
 	XF86AudioPlay    allow-when-locked=true { spawn "playerctl" "play-pause" "--ignore-player=firefox,chromium,brave"; }
 	XF86AudioStop    allow-when-locked=true { spawn "playerctl" "stop" "--ignore-player=firefox,chromium,brave"; }
 	XF86AudioPrev    allow-when-locked=true { spawn "playerctl" "previous" "--ignore-player=firefox,chromium,brave"; }
@@ -129,32 +133,34 @@ binds {
 	XF86AudioRewind  allow-when-locked=true { spawn "playerctl" "position" "2-" "--ignore-player=firefox,chromium,brave"; }
 	XF86AudioForward allow-when-locked=true { spawn "playerctl" "position" "2+" "--ignore-player=firefox,chromium,brave"; }
 
-	// Media audio control.
-	Shift+XF86AudioRaiseVolume allow-when-locked=true { spawn "playerctl" "volume" "0.01%+"; }
-	Shift+XF86AudioLowerVolume allow-when-locked=true { spawn "playerctl" "volume" "0.01%-"; }
+    // ========== Media audio control==========
+	Shift+XF86AudioRaiseVolume allow-when-locked=true { spawn "playerctl" "volume" "0.05%+"; }
+	Shift+XF86AudioLowerVolume allow-when-locked=true { spawn "playerctl" "volume" "0.05%-"; }
 
-	// Output audio control.
-	XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.01+"; }
-	XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.01-"; }
+    // ========== Output audio control==========
+	XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05+"; }
+	XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05-"; }
 	XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute"   "@DEFAULT_AUDIO_SINK@" "toggle"; }
 
-	// Input audio control.
-	Super+XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SOURCE@" "0.01+"; }
-	Super+XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SOURCE@" "0.01-"; }
+    // ========== Input audio control==========
+	Super+XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SOURCE@" "0.05+"; }
+	Super+XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SOURCE@" "0.05-"; }
 	Super+XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute"   "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 	XF86AudioMicMute           allow-when-locked=true { spawn "wpctl" "set-mute"   "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
-	// Power menu.
-	// XF86PowerOff allow-when-locked=true { spawn "/etc/nixos/scripts/power.sh"; }
-	// XF86Sleep    allow-when-locked=true { spawn "/etc/nixos/scripts/power.sh"; }
-	// XF86Suspend  allow-when-locked=true { spawn "/etc/nixos/scripts/power.sh"; }
+    // ========== Power menu ==========
+    // FIXME(niri): probably disable interrupting power?
+	// XF86PowerOff allow-when-locked=true { spawn "wlogout"; }
+	// XF86Sleep    allow-when-locked=true { spawn "wlogout"; }
+	// XF86Suspend  allow-when-locked=true { spawn "wlogout"; }
 
-	// Copying screenshots.
+    //
+    // ========== Screenshots ==========
+    //
+    // FIXME(niri): set this up
 	// Print       { spawn "/etc/nixos/scripts/screenshot.sh" "--copy" "area"; }
 	// Ctrl+Print  { spawn "/etc/nixos/scripts/screenshot.sh" "--copy" "monitor"; }
 	// Shift+Print { spawn "/etc/nixos/scripts/screenshot.sh" "--copy" "window"; }
-
-	// Saving screenshots.
 	// Super+Print       { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "area"; }
 	// Super+Ctrl+Print  { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "monitor"; }
 	// Super+Shift+Print { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "window"; }
@@ -173,19 +179,19 @@ binds {
 	Super+Shift+S { spawn "rofi" "-show" "ssh"; }
 	// Show window selector.
 	Super+Tab { spawn "rofi" "-show" "window"; }
+    // Thunar
+	Super+Ctrl+O { spawn "thunar"; }
 
-
+    //
+    // ========== Clipboard ==========
+    //
+    // FIXME(niri): setup with copyq
 	// Select from the clipboard.
-	Super+Shift+V { spawn "dash" "-c" "clipman pick -t CUSTOM -T 'fuzzel -d --no-icons --width 60'"; }
-
+	//Super+Shift+V { spawn "dash" "-c" "clipman pick -t CUSTOM -T 'fuzzel -d --no-icons --width 60'"; }
 	// Clear the clipboard.
-	Super+Control+V { spawn "dash" "-c" "clipman clear --all && dunstify 'Clipboard cleared.'"; }
-
+	//Super+Ctrl+V { spawn "dash" "-c" "clipman clear --all && dunstify 'Clipboard cleared.'"; }
 	// Opan a permanent "clipboard" file.
-	Alt+Shift+V { spawn "dash" "-c" "$TERMINAL -e micro $HOME/Documents/Clipboard.txt"; }
-
-	// logout menu
-	Super+Shift+E   { spawn "wlogout"; }
+	//Alt+Shift+V { spawn "dash" "-c" "$TERMINAL -e micro $HOME/Documents/Clipboard.txt"; }
 
 	// Applications such as remote-desktop clients and software KVM switches may
 	// request that niri stops processing the keyboard shortcuts defined here
