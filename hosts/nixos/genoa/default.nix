@@ -80,6 +80,11 @@
     x11.enable = true;
   };
 
+  system.impermanence = {
+    enable = false;
+    autoPersistHomes = true;
+  };
+
   boot.initrd = {
     systemd.enable = true;
     kernelModules = [

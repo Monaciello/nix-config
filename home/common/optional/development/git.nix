@@ -31,6 +31,7 @@ in
     ];
     workFolders = [
       "${home}/work/"
+      "${home}/persist/work/"
     ];
     workServers = secrets.work.git.servers;
     workRepos = secrets.git.work.repos;
