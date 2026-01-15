@@ -12,7 +12,6 @@
       ".config/niri/inputs.kdl".source = ./inputs.kdl;
       ".config/niri/outputs.kdl".source = ./outputs.kdl;
       ".config/niri/binds.kdl".source = ./binds.kdl;
-      ".config/niri/layout.kdl".source = ./layout.kdl;
       ".config/niri/rules.kdl".source = ./rules.kdl;
     };
   };

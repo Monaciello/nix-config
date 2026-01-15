@@ -1,15 +1,28 @@
+//order matters
 include "inputs.kdl"
 include "outputs.kdl"
 include "binds.kdl"
-include "layout.kdl"
 include "rules.kdl"
+
+// Named Workspaces
+workspace "L" {
+    open-on-output "DP-2"
+}
+workspace "U" {
+    open-on-output "HDMI-A-1"
+}
+workspace "R" {
+    open-on-output "DP-3"
+}
+workspace "G" {
+    open-on-output "DP-1"
+}
 
 //Switch Events
 switch-events {
     lid-close { spawn "notify-send" "The laptop lid is closed!"; }
     lid-open { spawn "notify-send" "The laptop lid is open!"; }
 }
-
 
 // Animation settings.
 animations {
@@ -20,14 +33,17 @@ animations {
 	slowdown 0.7
 }
 
-
-// Miscellaneous settings.
-
+//
+// ========== Miscellaneous ==========
+//
 // Programs that should appear on startup.
-spawn-at-startup "signal-desktop"
+spawn-at-startup "obsidian"
 spawn-at-startup "copyq"
+spawn-at-startup "signal-desktop"
+spawn-at-startup "brave"
+spawn-at-startup "ghostty --title=btop -e btop"
 spawn-at-startup "/run/current-system/sw/bin/protonvpn-app"
-spawn-at-startup "wl-paste" "-t" "text" "--watch" "clipman" "store" "--no-persist" "--max-items=100"
+spawn-at-startup "yubioath-flutter"
 
 // Whether to disable client-side decorations.
 prefer-no-csd

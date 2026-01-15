@@ -11,21 +11,21 @@ output "HDMI-A-1" {
     position x=3200 y=0
     transform "180"
     // 3840 - 2560 = 1280 / 2 = 640 + 2560 = 3200
- }
+}
 output "DP-2" {
     mode "2560x2880@60"
     scale 1
     position x=0 y=1440
- }
+}
 output "DP-1" {
     mode "3840x2160@60"
     scale 1
     position x=2560 y=1440
-    variable-refresh-rate // on-demand=true ???
+    variable-refresh-rate on-demand=true // vrr only enabled for window-rules that matcvh variable-refresh-rate
     focus-at-startup
- }
+}
 output "DP-3" {
     mode "2560x2880@60"
     scale 1
     position x=6400 y=1440
- }
+}

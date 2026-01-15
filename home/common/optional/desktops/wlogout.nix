@@ -11,8 +11,8 @@
       }
       {
         label = "logout";
-        #action = "sleep 1; hyprctl dispatch exit;";
-        action = "sleep 1; niri message action quit;";
+        action = "sleep 1; hyprctl dispatch exit; niri msg action quit;";
+        #action = "sleep 1; niri msg action quit;";
         text = "[e]xit";
         keybind = "e";
       }

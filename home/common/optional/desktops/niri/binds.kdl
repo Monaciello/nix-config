@@ -1,3 +1,8 @@
+gestures {
+    hot-corners {
+        off
+    }
+}
 binds {
 
 	// Show a list of important bindings.
@@ -10,10 +15,10 @@ binds {
 	Super+4 { focus-workspace 4; }
 	Super+5 { focus-workspace 5; }
 	Super+6 { focus-workspace 6; }
-	Super+7 { focus-workspace 7; }
-	Super+8 { focus-workspace 8; }
-	Super+9 { focus-workspace 9; }
-	Super+0 { focus-workspace 0; }
+	Super+7 { focus-workspace "G"; }
+	Super+8 { focus-workspace "L"; }
+	Super+9 { focus-workspace "U"; }
+	Super+0 { focus-workspace "R"; }
 
 	// Move the active window to a workspace (numerical).
 	Super+Shift+1 { move-window-to-workspace 1; }
@@ -22,32 +27,32 @@ binds {
 	Super+Shift+4 { move-window-to-workspace 4; }
 	Super+Shift+5 { move-window-to-workspace 5; }
 	Super+Shift+6 { move-window-to-workspace 6; }
-	Super+Shift+7 { move-window-to-workspace 7; }
-	Super+Shift+8 { move-window-to-workspace 8; }
-	Super+Shift+9 { move-window-to-workspace 9; }
-	Super+Shift+0 { move-window-to-workspace 0; }
+	Super+Shift+7 { move-window-to-workspace "G"; }
+	Super+Shift+8 { move-window-to-workspace "L"; }
+	Super+Shift+9 { move-window-to-workspace "U"; }
+	Super+Shift+0 { move-window-to-workspace "R"; }
 
 	// Window focus switch.
-	Super+H { focus-column-left; }
-	Super+J { focus-window-down; }
-	Super+K { focus-window-up; }
-	Super+L { focus-column-right; }
-	// Super+Home { focus-column-first; }
-	// Super+End { focus-column-last; }
+	Super+H { focus-column-or-monitor-left; }
+	Super+J { focus-window-or-monitor-down; }
+	Super+K { focus-window-or-monitor-up; }
+	Super+L { focus-column-or-monitor-right; }
+	Super+Home { focus-column-first; }
+	Super+End { focus-column-last; }
 
 	// Move windows.
 	Super+Shift+H { move-column-left; }
 	Super+Shift+J { move-window-down; }
 	Super+Shift+k { move-window-up; }
 	Super+Shift+L { move-column-right; }
-	// Super+Shift+Home  { move-column-to-first; }
-	// Super+Shift+End   { move-column-to-last; }
+	Super+Shift+Home  { move-column-to-first; }
+	Super+Shift+End   { move-column-to-last; }
 
 	// Monitor focus switch.
-	// Super+Ctrl+h  { focus-column-left; }
-	// Super+Ctrl+j  { focus-monitor-down; }
-	// Super+Ctrl+k  { focus-monitor-up; }
-	// Super+Ctrl+l { focus-column-right; }
+	Super+Ctrl+h  { focus-monitor-left; }
+	Super+Ctrl+j  { focus-monitor-down; }
+	Super+Ctrl+k  { focus-monitor-up; }
+	Super+Ctrl+l { focus-monitor-right; }
 
 	// Move windows to a monitor.
 	Super+Ctrl+Shift+H { move-window-to-monitor-left; }
@@ -72,7 +77,6 @@ binds {
 
 	// Toggle fullscreen mode for the current window.
 	Super+F { fullscreen-window; }
-
 
 	// Toggle maximize mode for the current column.
 	Super+Ctrl+F { maximize-column; }
@@ -155,12 +159,11 @@ binds {
 	// Super+Ctrl+Print  { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "monitor"; }
 	// Super+Shift+Print { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "window"; }
 
-
     //
     // ========== Quick Launch ==========
     //
 	// Open a terminal emulator.
-    //FIXME: hardcoding
+    //FIXME(niri): hardcoding
 	Super+Return { spawn "ghostty"; }
 	// Open drun launcher.
 	Super+Space { spawn "rofi" "-show" "drun"; }
@@ -181,9 +184,8 @@ binds {
 	// Opan a permanent "clipboard" file.
 	Alt+Shift+V { spawn "dash" "-c" "$TERMINAL -e micro $HOME/Documents/Clipboard.txt"; }
 
-	// Exit out of Niri.
+	// logout menu
 	Super+Shift+E   { spawn "wlogout"; }
-	// Ctrl+Alt+Delete { quit; }
 
 	// Applications such as remote-desktop clients and software KVM switches may
 	// request that niri stops processing the keyboard shortcuts defined here
