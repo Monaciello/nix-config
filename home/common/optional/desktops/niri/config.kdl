@@ -4,7 +4,9 @@ include "outputs.kdl"
 include "binds.kdl"
 include "rules.kdl"
 
-// Named Workspaces
+//
+// ========== Named Workspaces ==========
+//
 workspace "8_l" {
     open-on-output "DP-2"
 }
@@ -31,14 +33,11 @@ workspace "1_dev" {
     open-on-output "DP-1"
 }
 
-//Switch Events
-switch-events {
-    lid-close { spawn "notify-send" "The laptop lid is closed!"; }
-    lid-open { spawn "notify-send" "The laptop lid is open!"; }
-}
-
-// Animation settings.
+//
+// ========== Animations ==========
+//
 animations {
+    //FIXME(niri): go through available options
 	// Whether to disable animations.
 	//off
 
@@ -47,9 +46,25 @@ animations {
 }
 
 //
-// ========== Miscellaneous ==========
+// ========== Overview screen ==========
 //
-// Programs that should appear on startup.
+overview {
+    //FIXME(niri): go through available options
+	// Color of the backdrop.
+	backdrop-color "#17171a"
+
+	// Configuration of shadows around workspaces in the overview.
+	workspace-shadow {
+		softness 40
+		spread 20
+		offset x=0 y=0
+		color "#00000088"
+	}
+}
+
+//
+// ========== Startup ==========
+//
 spawn-at-startup "obsidian"
 spawn-at-startup "copyq"
 spawn-at-startup "signal-desktop"
@@ -57,22 +72,28 @@ spawn-at-startup "brave"
 spawn-at-startup "ghostty --title=btop -e btop"
 spawn-at-startup "/run/current-system/sw/bin/protonvpn-app"
 spawn-at-startup "yubioath-flutter"
+hotkey-overlay { skip-at-startup; }
 
-// Whether to disable client-side decorations.
+//
+// ========== Miscellaneous ==========
+//
+
+screenshot-path null
+//screenshot-path "~/downloads/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// Disable client-side decorations
+// FIXME(niri): test this on or off
 prefer-no-csd
 
-// Disable saving screenshots by default, letting scripts handle saving instead.
-screenshot-path null
+switch-events {
+    lid-close { spawn "notify-send" "The laptop lid is closed."; }
+    lid-open { spawn "notify-send" "The laptop lid is open."; }
+}
 
-// Environment variables.
 environment {
 	// Set the current desktop name.
 	XDG_CURRENT_DESKTOP "niri"
-
-	// GTK: Use wayland if available.
 	GDK_BACKEND "wayland"
-
-	// Qt: Use wayland if available.
 	QT_QPA_PLATFORM "wayland"
 
 	// Qt: Enable automatic scaling based on the monitor's pixel density.
@@ -87,29 +108,3 @@ environment {
 	// Force Clutter applications to use the Wayland backend.
 	CLUTTER_BACKEND "wayland"
 }
-
-// Cursor configuration.
-// cursor {
-// 	// Cursor theme.
-// 	xcursor-theme "Bibata-Modern-Ice"
-//
-// 	// Cursor size.
-// 	xcursor-size 24
-// }
-
-// Overview configuration.
-overview {
-	// Color of the backdrop.
-	backdrop-color "#17171a"
-
-	// Configuration of shadows around workspaces in the overview.
-	workspace-shadow {
-		softness 40
-		spread 20
-		offset x=0 y=0
-		color "#00000088"
-	}
-}
-
-// Whether to disable the hotkey overlay when starting niri.
-hotkey-overlay { skip-at-startup; }

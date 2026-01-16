@@ -107,6 +107,7 @@ binds {
     Super+Shift+R { switch-preset-window-height; } // Presets are defined in rules.kdl
 
 	Super+F { fullscreen-window; }
+	Super+Alt+F { toggle-windowed-fullscreen; } //tricks the window content into thinking its fullscreen
 	Super+Shift+F { toggle-window-floating; }
 
 	Super+Ctrl+F { maximize-column; } // Toggle maximized state of the focused column
@@ -157,13 +158,13 @@ binds {
     //
     // ========== Screenshots ==========
     //
-    // FIXME(niri): set this up
-	// Print       { spawn "/etc/nixos/scripts/screenshot.sh" "--copy" "area"; }
-	// Ctrl+Print  { spawn "/etc/nixos/scripts/screenshot.sh" "--copy" "monitor"; }
-	// Shift+Print { spawn "/etc/nixos/scripts/screenshot.sh" "--copy" "window"; }
-	// Super+Print       { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "area"; }
-	// Super+Ctrl+Print  { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "monitor"; }
-	// Super+Shift+Print { spawn "/etc/nixos/scripts/screenshot.sh" "--save" "window"; }
+
+    // NOTE: see config.kdl for screenshot-path
+    Print { screenshot; }
+    Super+Shift+P { screenshot; }
+    // Super+Ctrl+Shift+P { screenshot write-to-disk=true; }
+    // Super+Alt+P { screenshot show-pointer=false; }
+    // Super+Ctrl+Alt+P { screenshot show-pointer=true; }
 
     //
     // ========== Quick Launch ==========
