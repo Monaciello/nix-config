@@ -39,6 +39,7 @@ binds {
 	Super+8 { focus-workspace "8_l"; }
 	Super+9 { focus-workspace "9_u"; }
 	Super+0 { focus-workspace "0_r"; }
+	Super+Y { focus-workspace "Y_qrs"; }
 
     Super+Minus { focus-workspace-previous; }
     Super+Comma { focus-workspace-up; }
@@ -78,6 +79,7 @@ binds {
 	Super+Shift+7 { move-window-to-workspace 7; }
 	Super+Shift+9 { move-window-to-workspace "9_u"; }
 	Super+Shift+0 { move-window-to-workspace "0_r"; }
+	Super+Shift+Y { move-window-to-workspace "Y_qrs"; }
 
 	Super+Shift+H { move-column-left; }
 	Super+Shift+J { move-window-down; }

@@ -163,6 +163,11 @@ window-rule {
 
     open-on-workspace "5_gmz"
 }
+window-rule {
+    match app-id=r#"com.yubico.yubioath"#
+
+    open-on-workspace "Y_qrs"
+}
 
 // ========== Tile on launch ==========
 // FIXME: May want to make this proton vpn specific and specific starting geometry
