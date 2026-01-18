@@ -95,7 +95,7 @@
       consoleMode = "max";
     };
     efi.canTouchEfiVariables = true;
-    timeout = 3;
+    timeout = 5;
   };
   boot = {
     kernelParams = [
