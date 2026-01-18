@@ -92,7 +92,7 @@ iso-install DRIVE HOST=`hostname`:
 [group("misc")]
 disko DRIVE PASSWORD:
     echo "{{ PASSWORD }}" > /tmp/disko-password
-    sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
+    sudo nix --experimental-features "nix-command flakes pipe-operators" run github:nix-community/disko -- \
     	--mode disko \
     	hosts/common/disks/btrfs-luks-impermanence-disko.nix \
     	--arg disk '"{{ DRIVE }}"' \
@@ -214,7 +214,7 @@ sync USER HOST PATH:
 [group("admin")]
 facter HOST:
     #!/usr/bin/env bash
-    if ssh {{ HOST }} "sudo /bin/sh -c 'nix run --option experimental-features \"nix-command flakes\" nixpkgs#nixos-facter -- -o facter.json' && sudo chmod 644 facter.json" && \
+    if ssh {{ HOST }} "sudo /bin/sh -c 'nix run --option experimental-features \"nix-command flakes pipe-operators\" nixpkgs#nixos-facter -- -o facter.json' && sudo chmod 644 facter.json" && \
     scp {{ HOST }}:/home/$USER/facter.json hosts/nixos/{{ HOST }}/ && \
     chown $USER:$(id -g) hosts/nixos/{{ HOST }}/facter.json; then
         if ! grep facter .gitattributes | grep -q crypt; then
