@@ -192,6 +192,11 @@
           default = false;
           description = "Indicate a host that uses Wayland";
         };
+        useX11 = lib.mkOption {
+          type = lib.types.bool;
+          default = if config.hostSpec.useWindowManager && (!config.hostSpec.useWayland) then true else false;
+          description = "Indicate a host that uses X server";
+        };
         defaultBrowser = lib.mkOption {
           type = lib.types.str;
           default = "firefox";
