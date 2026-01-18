@@ -15,13 +15,10 @@
     ])
   ];
 
-  # Note, users will already be set by flake.nix
   hostSpec = {
+    isMinimal = lib.mkForce true;
     hostName = "installer";
     primaryUsername = "ta";
-    persistFolder = "/persist";
-    isMinimal = lib.mkForce true;
-    domain = "local";
   };
 
   fileSystems."/boot".options = [ "umask=0077" ]; # Removes permissions and security warnings.

@@ -112,7 +112,7 @@ fi
 
 3. Repeat step 2 for each yubikey you want to use.aiting-10-seconds-for-luks-device/33423
 
-This ended up being because I the kernel modules that seem to be specified by hardware configuration weren't applying
+This ended up being because I the kernel modules that seem to be specified by hard work configuration weren't applying
 properly, and I also found that there was a kernel modules definition of `availableKernelModules` rather than
 `kernelModules`. So I ended up hard coding the values directly into the configuration independent of the hardware
 configuration part, which ensured that the `virtio` drivers needed to access they qemu disks were available at the time
@@ -138,7 +138,7 @@ of luks decrypt.
   };
 ```
 
-I'm not entirely sure which parts of the above fix were entirely necessary, but it works for now so I haven't
+I'm not entirely sure which parts of the above fix were entirely necessary, but it works for now so I have an
 experimented further.
 
 ### btrfs subvolume labeling
@@ -151,7 +151,7 @@ will have to be adjusted to use that labeling.
 This isn't a strict convention but it's fairly common and I like the reasoning, you can find a jump pad to a bunch of
 discussions here: https://askubuntu.com/questions/987104/why-the-in-btrfs-subvolume-names
 
-It should be noted that even though I like this style I might not be using it the exact same way as some other set ups
+It should be noted that even though I like this style I might not be using it the exact same way is some other set ups
 because I think some people use @ as an actual root?
 
 ### Change LUKS2's passphrase and enroll yubikeys

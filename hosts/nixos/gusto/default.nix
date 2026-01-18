@@ -62,11 +62,6 @@
     ))
   ];
 
-  system.impermanence = {
-    enable = false;
-    autoPersistHomes = true;
-  };
-
   boot.initrd.systemd.enable = true;
 
   boot.loader.systemd-boot = {

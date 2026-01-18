@@ -1,9 +1,3 @@
-# FIXME(backup): Backups can silently fail if the exclusive.lock is not removed from a failed backup
-#                probably need a script to verify from a list if the lock is held, because backup itself
-#                will not return an error code if it fails to acquire the lock. Probably shouldn't auto
-#                break the lock, but should notify the user that the lock is held and they should break it
-# ❯ sudo borg-backup-list
-# Failed to create/acquire the lock /.cache/borg/34c1f55fdbfea2f94c932b089804f1cd0b3cca2f5294ef46383fe002a324539e/lock.exclusive (timeout).
 {
   pkgs,
   lib,
@@ -12,24 +6,21 @@
 }:
 let
   cfg = config.services.backup;
-  hasPerNetworkServices = lib.hasAttr "per-network-services" config.services;
-  hasImpermanence = config.system ? impermanence && config.system.impermanence.enable;
-
+  isImpermanent =
+    if config.system ? "impermanence" then
+      (pkgs.stdenv.isLinux && config.system.impermanence.enable)
+    else
+      false;
   hostName = config.networking.hostName;
   homeBase = if pkgs.stdenv.isLinux then "/home" else "/Users";
-  homeDirectory = config.hostSpec.home;
+  homeDirectory = "${config.hostSpec.home}";
   rootHome = if pkgs.stdenv.isLinux then config.users.users.root.home else "/var/root";
   excludes = lib.flatten [
-    "**/.devenv"
     "**/.direnv"
     "**/.cache"
-    "**/.parcel-cache" # node related
     "**/.npm"
-    "**/.pnpm"
     "**/.npm-global"
-    "**/.pnpm-global"
     "**/.node-gyp"
-    "**/node_modules"
     "**/.yarn"
     "**/.pnpm-store"
     "**/.m2"
@@ -116,12 +107,12 @@ in
     };
     borgNotifyFrom = lib.mkOption {
       type = lib.types.str;
-      default = config.hostSpec.email.notifier;
+      default = "box@${config.hostSpec.domain}";
       description = "The email address that msmtp notifications will be sent from";
     };
     borgNotifyTo = lib.mkOption {
       type = lib.types.str;
-      default = config.hostSpec.email.admin;
+      default = "admin@${config.hostSpec.domain}";
       description = "The email address that msmtp notifications will be sent to";
     };
     borgRemotePath = lib.mkOption {
@@ -134,11 +125,15 @@ in
       default = "${homeDirectory}/mount/backup";
       description = "The directory to mount backups to";
     };
-    borgCacheDir = lib.mkOption {
-      type = lib.types.str;
-      default = "${config.hostSpec.persistFolder}/.cache/borg";
-      description = "The cache directory for borg";
-    };
+    borgCacheDir =
+      let
+        persistFolder = lib.optionalString isImpermanent config.hostSpec.persistFolder;
+      in
+      lib.mkOption {
+        type = lib.types.str;
+        default = "${persistFolder}/.cache/borg";
+        description = "The cache directory for borg";
+      };
     borgBackupPaths = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ "${homeDirectory}" ];
@@ -190,6 +185,7 @@ in
       default = "${rootHome}/backup.log";
       description = "The log location for the backup";
     };
+    # Some of these shouldn't even be options probably? Just always exclude them, but allow for custom ones
     borgExcludes = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
@@ -206,27 +202,16 @@ in
         BORG_SERVER="''${BORG_SERVER:-${cfg.borgServer}}"
         BORG_PORT="''${BORG_PORT:-${cfg.borgPort}}"
         BORG_HOST="''${BORG_HOST:-${config.networking.hostName}}"
-        BORG_REMOTE_REPO="''${BORG_REMOTE_REPO:-${cfg.borgBackupPath}/$BORG_HOST}"
-        #shellcheck disable=SC2304
-        BORG_REMOTE="''${BORG_SERVER}:''${BORG_REMOTE_REPO}"
-        export BORG_REMOTE # hack to shutup shellcheck
+        BORG_REMOTE_REPO="''$BORG_SERVER:''${BORG_REMOTE_REPO:-${cfg.borgBackupPath}/$BORG_HOST}"
         BORG_SSH_KEY="''${BORG_SSH_KEY:-${cfg.borgSshKey}}"
-        BORG_REMOTE_PATH="''${BORG_REMOTE_PATH:-${cfg.borgRemotePath}}"
+        BORG_REMOTE_PATH="''${BORG_REMOTE_PATH:---remote-path ${cfg.borgRemotePath}}"
         BORG_BACKUP_NAME="''${BORG_BACKUP_NAME:-${cfg.borgBackupName}}"
         BORG_BACKUP_PATHS="''${BORG_BACKUP_PATHS:-${lib.concatStringsSep " " cfg.borgBackupPaths}}"
-        if [ -v BORG_TRACE ]; then
-          set -x
-        fi
 
         # Export variables not used directly in script, or only used in some scripts
         export BORG_BTRFS_VOLUME="''${BORG_BTRFS_VOLUME:-${cfg.borgBtrfsVolume}}"
         export BORG_BTRFS_SUBVOLUME="''${BORG_BTRFS_SUBVOLUME:-${cfg.borgBtrfsSubvolume}}"
         export BORG_PASSPHRASE="''${BORG_PASSPHRASE:-$(cat /etc/borg/passphrase)}"
-        if [ -z "$BORG_PASSPHRASE" ]; then
-          echo "No BORG_PASSPHRASE set, exiting"
-          exit 1
-        fi
-
         export BORG_RSH="ssh -i $BORG_SSH_KEY -l$BORG_USER -oport=$BORG_PORT"
         export BORG_EXPIRY="--keep-daily=${toString cfg.borgBackupExpiryDaily} \
           --keep-weekly=${toString cfg.borgBackupExpiryWeekly} \
@@ -241,32 +226,20 @@ in
         export BORG_RELOCATED_REPO_ACCESS_IS_OK=yes
         export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
       '';
+
       shellScriptEmail = ''
         function email_results() {
-          SUBJECT="${"1:-Backup"}"
           TMPDIR=$(mktemp -d)
           cat >"$TMPDIR"/backup-mail.txt <<-EOF
         From:${cfg.borgNotifyFrom}
-        Subject: [${config.networking.hostName}: backup] $(date) $SUBJECT"
+        Subject: [${config.networking.hostName}] $(date) Backup
 
         $(cat "$LOGFILE")
         EOF
           msmtp -t ${cfg.borgNotifyTo} <"$TMPDIR"/backup-mail.txt
         }
       '';
-
-      #TODO(borg): aska bout this
-      shellScriptCheckLock = ''
-        ${lib.getBin borg-backup-list}/bin/borg-backup-list > /dev/null 2>$LOGFILE
-        if grep -q "Failed to create/acquire the lock" $LOGFILE; then
-          # For now we don't auto-break the lock, but notify the user to do so
-          #borg-backup-break-lock
-          echo "Run borg-backup-break-lock to break the lock" >> $LOGFILE
-          email_results "Backup failed due to lock acquisition failure"
-        fi
-        echo > $LOGFILE
-      '';
-      # FIXME(borg): Check where this disappeared to
+      #TODO ask about this
       # On new systems doing their first backup, we may have to initialize a new repo.
       # This automates checking and initializing, instead of having to manually run
       # borg-backup-init
@@ -299,7 +272,6 @@ in
           ${shellScriptEmail}
           parse_args "0" "$@"
           LOGFILE="${cfg.borgBackupLogPath}"
-          ${shellScriptCheckLock}
           function borg_backup() {
             MOUNTDIR=$(mktemp -d)
             mount -t btrfs -o subvol=/ "$BORG_BTRFS_VOLUME" "$MOUNTDIR"
@@ -308,12 +280,12 @@ in
             # prevent it from showing up while doing recoveries
             cd "$BACKUP_PATH"
             #shellcheck disable=SC2086
-            if borg create --remote-path $BORG_REMOTE_PATH -v --stats --exclude-caches "$BORG_REMOTE::$BORG_BACKUP_NAME" $PWD \
+            if borg create $BORG_REMOTE_PATH -v --stats --exclude-caches "$BORG_REMOTE_REPO::$BORG_BACKUP_NAME" $PWD \
               --exclude-if-present .nobackup \
               ${if pkgs.stdenv.isDarwin then "--exclude-from ${darwinExcludesFile}" else " "} \
               --exclude-from ${borgExcludesFile}; then
               # NOTE: --glob-archives works like a tag, so we can rename pinned backups with a none matching prefix like pinned-...
-              borg prune --remote-path $BORG_REMOTE_PATH -v --list "$BORG_REMOTE" --glob-archives "$BORG_HOST-*" $BORG_EXPIRY
+              borg prune $BORG_REMOTE_PATH -v --list "$BORG_REMOTE_REPO" --glob-archives "$BORG_HOST-*" $BORG_EXPIRY
             fi
             cd -
             umount "$MOUNTDIR"
@@ -337,7 +309,6 @@ in
           parse_args "0" "$@"
           # FIXME(borg): Would be nice if this part could just be generic
           LOGFILE="${cfg.borgBackupLogPath}"
-          ${shellScriptCheckLock}
           function borg_backup() {
               # samba mounts that we want to exclude from the backup
               MOUNT_EXCLUDES=()
@@ -346,11 +317,11 @@ in
               done
               # FIXME(borg): Add a check to see if we need to run borg init
               #shellcheck disable=SC2096,SC2068,SC2086
-              if borg create --remote-path $BORG_REMOTE_PATH -v --stats --exclude-caches "$BORG_REMOTE::$BORG_BACKUP_NAME" \
+              if borg create $BORG_REMOTE_PATH -v --stats --exclude-caches "$BORG_REMOTE_REPO::$BORG_BACKUP_NAME" \
                 $BORG_BACKUP_PATHS \
                 --exclude-from ${borgExcludesFile} \
                 ''${MOUNT_EXCLUDES[@]}; then
-                borg prune --remote-path $BORG_REMOTE_PATH -v --list "$BORG_REMOTE" --glob-archives "$BORG_HOST-*" $BORG_EXPIRY
+                borg prune $BORG_REMOTE_PATH -v --list "$BORG_REMOTE_REPO" --glob-archives "$BORG_HOST-*" $BORG_EXPIRY
               fi
             }
           borg_backup >$LOGFILE 2>&1
@@ -376,7 +347,7 @@ in
           fi
 
           #shellcheck disable=SC2086
-          borg mount --remote-path $BORG_REMOTE_PATH -v "$BORG_REMOTE"::"$backup_name" "$BORG_MOUNT_PATH"
+          borg mount $BORG_REMOTE_PATH -v "$BORG_REMOTE_REPO"::"$backup_name" "$BORG_MOUNT_PATH"
           echo "Backup mounted at $BORG_MOUNT_PATH"
         '';
       };
@@ -419,21 +390,7 @@ in
           parse_args "0" "$@"
 
           #shellcheck disable=SC2086
-          borg list --remote-path $BORG_REMOTE_PATH $BORG_REMOTE
-        '';
-      };
-      borg-backup-break-lock = pkgs.writeShellApplication {
-        name = "borg-backup-break-lock";
-        runtimeInputs = [ pkgs.borgbackup ];
-        text = ''
-          TOOL_DESCRIPTION="Break a borg lock from a failed run"
-          ${shellScriptOptionHandling}
-          ${shellScriptHelpers}
-
-          parse_args "0" "$@"
-
-          #shellcheck disable=SC2086
-          borg break-lock --remote-path $BORG_REMOTE_PATH $BORG_REMOTE
+          borg list $BORG_REMOTE_PATH $BORG_REMOTE_REPO
         '';
       };
       borg-backup-init = pkgs.writeShellApplication {
@@ -447,14 +404,14 @@ in
           parse_args "0" "$@"
 
           #shellcheck disable=SC2086
-          borg init --remote-path $BORG_REMOTE_PATH --encryption=repokey "$BORG_REMOTE"
+          borg init $BORG_REMOTE_PATH --encryption=repokey "$BORG_REMOTE_REPO"
         '';
       };
       borg-backup-rename = pkgs.writeShellApplication {
         name = "borg-backup-rename";
         runtimeInputs = [ pkgs.borgbackup ];
         text = ''
-          TOOL_DESCRIPTION="Rename a borg backup"
+          TOOL_DESCRIPTION="List borg backups"
           USAGE="<backup_name> <new_name>"
           ${shellScriptOptionHandling}
           ${shellScriptHelpers}
@@ -464,7 +421,7 @@ in
           new_name="''${POSITIONAL_ARGS[1]}"
 
           #shellcheck disable=SC2086
-          borg rename --remote-path $BORG_REMOTE_PATH -v "$BORG_REMOTE"::"$backup_name" "$new_name"
+          borg rename $BORG_REMOTE_PATH -v "$BORG_REMOTE_REPO"::"$backup_name" "$new_name"
           echo "Renamed backup $backup_name with new_name $new_name"
         '';
       };
@@ -481,8 +438,8 @@ in
           backup_name="''${POSITIONAL_ARGS[0]}"
 
           #shellcheck disable=SC2086,SC2068
-          borg delete --dry-run --remote-path $BORG_REMOTE_PATH -v --list \
-            "$BORG_REMOTE"::"$backup_name" \
+          borg delete --dry-run $BORG_REMOTE_PATH -v --list \
+            "$BORG_REMOTE_REPO"::"$backup_name" \
             ''${POSITIONAL_ARGS[@]:1:''${#POSITIONAL_ARGS[@]}-1}
           echo "Deleted backup $backup_name"
         '';
@@ -501,8 +458,8 @@ in
           restore_path="''${POSITIONAL_ARGS[1]}"
 
           #shellcheck disable=SC2086,SC2068
-          borg extract --remote-path $BORG_REMOTE_PATH -v \
-            "$BORG_REMOTE"::"$backup_name" \
+          borg extract $BORG_REMOTE_PATH -v \
+            "$BORG_REMOTE_REPO"::"$backup_name" \
             --strip-components 1 -p "$restore_path" \
             --list \
             ''${POSITIONAL_ARGS[@]:2:''${#POSITIONAL_ARGS[@]}-1}
@@ -526,10 +483,10 @@ in
           borg-backup-test-email
           borg-backup-delete
           borg-backup-restore
-          borg-backup-break-lock
         ]
-        ++ lib.optional hasImpermanence borg-backup-btrfs-subvolume;
+        ++ lib.optional isImpermanent borg-backup-btrfs-subvolume;
         sops.secrets = {
+          #FIXME(borg): make this an optional path
           "keys/ssh/borg" = {
             # FIXME(borg): ATM this is required by nix-darwin PR I'm using
             owner = "root";
@@ -538,13 +495,12 @@ in
           };
         };
       }
-      # lib.mkIf needed here to avoid infinite recursion
       (lib.mkIf pkgs.stdenv.isLinux {
         # Linux specific
         systemd =
           let
-            backupTool = if hasImpermanence then borg-backup-btrfs-subvolume else borg-backup-paths;
-            backupToolName = if hasImpermanence then "borg-backup-btrfs-subvolume" else "borg-backup-paths";
+            backupTool = if isImpermanent then borg-backup-btrfs-subvolume else borg-backup-paths;
+            backupToolName = if isImpermanent then "borg-backup-btrfs-subvolume" else "borg-backup-paths";
             serviceEntries = {
               services."borg-backup" = {
                 description = "Run ${backupToolName} to backup system";
@@ -552,15 +508,8 @@ in
                 wants = [ "network-online.target" ];
                 restartIfChanged = false;
                 serviceConfig = {
-                  Type = "forking";
-                  ExecStart =
-                    pkgs.writeShellScript "borg-backup-forking"
-                      # bash
-                      ''
-                        ${lib.getBin backupTool}/bin/${backupToolName} &
-                        echo $! > /run/borg-backup.pid
-                      '';
-                  PIDFile = "/run/borg-backup.pid";
+                  Type = "oneshot";
+                  ExecStart = "${lib.getBin backupTool}/bin/${backupToolName}";
                   RemainAfterExit = false;
                 };
 
@@ -588,9 +537,7 @@ in
           }
           // serviceEntries;
 
-        services = lib.optionalAttrs hasPerNetworkServices {
-          per-network-services.trustedNetworkServices = [ "borg-backup" ];
-        };
+        #services.per-network-services.trustedNetworkServices = [ "borg-backup" ];
       })
     ]
   );
