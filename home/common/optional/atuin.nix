@@ -1,5 +1,7 @@
 #Note: ctrl+r to cycle filter modes
 {
+  lib,
+  pkgs,
   inputs,
   config,
   ...
@@ -14,7 +16,7 @@ in
     enable = true;
 
     enableBashIntegration = false;
-    enableZshIntegration = true;
+    enableZshIntegration = false; # NOTE: false because of zsh-vi-mode, see below
     enableFishIntegration = false;
 
     settings = {
@@ -51,9 +53,22 @@ in
     sopsFile = "${sopsFolder}/shared.yaml";
   };
 
-  programs.zsh.initContent = ''
-    # Bind down key for atuin, specifically because we use invert
-    bindkey "$key[Down]"  atuin-up-search
-  '';
+  programs.zsh.initContent =
+    let
+      flagsstr = lib.escapeShellArgs config.programs.atuin.flags;
+    in
+    ''
+      # bind down key for atuin, specifically because we use invert
+      bindkey "$key[down]"  atuin-up-search
+
+      # work around zsh-vi-mode bug
+      # https://github.com/atuinsh/atuin/issues/1826
+      if [[ $options[zle] = on ]]; then
+        function atuin_init() {
+          eval "$(${pkgs.atuin}/bin/atuin init zsh ${flagsstr})"
+        }
+        zvm_after_init_commands+=(atuin_init)
+      fi
+    '';
 
 }
