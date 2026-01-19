@@ -25,7 +25,6 @@
     inherit (pkgs)
 
       # Packages that don't have custom configs go here
-      copyq # clipboard manager
       coreutils # basic gnu utils
       curl
       eza # ls replacement
@@ -41,7 +40,6 @@
       pre-commit # git hooks
       p7zip # compression & encryption
       ripgrep # better grep
-      steam-run # for running non-NixOS-packaged binaries on Nix
       usbutils
       tree # cli dir tree viewer
       unzip # zip extraction
