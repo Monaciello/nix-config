@@ -86,8 +86,8 @@ binds {
 	Super+Shift+k { move-window-up; }
 	Super+Shift+L { move-column-right; }
 
-	Super+Apostrophe { consume-or-expel-window-left; }
-	Super+Semicolon { consume-or-expel-window-right; }
+	Super+Semicolon { consume-or-expel-window-left; }
+	Super+Apostrophe { consume-or-expel-window-right; }
 
 	Super+Shift+Home  { move-column-to-first; }
 	Super+Shift+End   { move-column-to-last; }

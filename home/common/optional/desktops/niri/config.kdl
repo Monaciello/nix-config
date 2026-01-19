@@ -16,23 +16,22 @@ workspace "9_u" {
 workspace "0_r" {
     open-on-output "DP-3"
 }
-// order needs to be descending
-workspace "Y_qrs" {
-    open-on-output "DP-1"
-}
-workspace "5_gmz" {
-    open-on-output "DP-1"
-}
-workspace "4_gig" {
-    open-on-output "DP-1"
-}
-workspace "3_edu" {
+workspace "1_dev" {
     open-on-output "DP-1"
 }
 workspace "2_uci" {
     open-on-output "DP-1"
 }
-workspace "1_dev" {
+workspace "3_edu" {
+    open-on-output "DP-1"
+}
+workspace "4_gig" {
+    open-on-output "DP-1"
+}
+workspace "5_gmz" {
+    open-on-output "DP-1"
+}
+workspace "Y_qrs" {
     open-on-output "DP-1"
 }
 

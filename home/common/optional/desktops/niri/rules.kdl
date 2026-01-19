@@ -41,7 +41,7 @@ layout {
 
     // FIXME: with this commented out apps will determine their own starting width
     // Need try it out and decide
-	// default-column-width { proportion 0.5; }
+	default-column-width { proportion 0.66667; }
 
 	// Cycled though using `switch-preset-window-column` action
     preset-column-widths {
