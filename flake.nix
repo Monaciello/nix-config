@@ -15,7 +15,7 @@
       namespace = "emergentmind"; # namespace for our custom modules. Snowfall lib style
 
       introdusLib = introdus.lib.mkIntrodusLib {
-        lib = nixpkgs.lib;
+        inherit (nixpkgs) lib;
         secrets = nix-secrets;
       };
       customLib = nixpkgs.lib.extend (
@@ -60,59 +60,57 @@
       # FIXME: Move this
       # Bare minimum configuration for a host for faster initial install testing
       mkMinimalHost = host: {
-        "${host}Minimal" = (
-          lib.nixosSystem {
-            # FIXME: This will break when we add aarch64, so set it via in hostSpec maybe?
-            system = "x86_64-linux";
-            # FIXME:This should merge with the above specialArgs
-            specialArgs = {
-              inherit
-                inputs
-                outputs
-                namespace
-                secrets
-                ;
-              lib = customLib;
-              isDarwin = false;
-            };
-            modules = lib.flatten (
-              [
-                # FIXME: See if we can lift this from elsewhere now that we aren't standalone
-                {
-                  nixpkgs.overlays = [
-                    (final: prev: {
-                      unstable = import inputs.nixpkgs-unstable {
-                        system = final.stdenv.hostPlatform.system;
-                        config.allowUnfree = true;
-                      };
-                    })
-                  ];
-                }
-                inputs.home-manager.nixosModules.home-manager
-              ]
-              ++
-                # FIXME: If this moves to introdus, the hosts path need to become relative to the caller
-                # not introdus
-                (map customLib.custom.relativeToRoot [
-                  # Minimal modules for quick setup
-                  "modules/common/host-spec.nix"
-                  # "modules/hosts/nixos/disks.nix"
-                  "modules/hosts/nixos/impermanence"
+        "${host}Minimal" = lib.nixosSystem {
+          # FIXME: This will break when we add aarch64, so set it via in hostSpec maybe?
+          system = "x86_64-linux";
+          # FIXME:This should merge with the above specialArgs
+          specialArgs = {
+            inherit
+              inputs
+              outputs
+              namespace
+              secrets
+              ;
+            lib = customLib;
+            isDarwin = false;
+          };
+          modules = lib.flatten (
+            [
+              # FIXME: See if we can lift this from elsewhere now that we aren't standalone
+              {
+                nixpkgs.overlays = [
+                  (final: prev: {
+                    unstable = import inputs.nixpkgs-unstable {
+                      inherit (final.stdenv.hostPlatform) system;
+                      config.allowUnfree = true;
+                    };
+                  })
+                ];
+              }
+              inputs.home-manager.nixosModules.home-manager
+            ]
+            ++
+              # FIXME: If this moves to introdus, the hosts path need to become relative to the caller
+              # not introdus
+              (map customLib.custom.relativeToRoot [
+                # Minimal modules for quick setup
+                "modules/common/host-spec.nix"
+                # "modules/hosts/nixos/disks.nix"
+                "modules/hosts/nixos/impermanence"
 
-                  "hosts/nixos/${host}/host-spec.nix"
-                  # "hosts/nixos/${host}/disks.nix"
+                "hosts/nixos/${host}/host-spec.nix"
+                # "hosts/nixos/${host}/disks.nix"
 
-                  "hosts/common/optional/minimal-configuration.nix"
-                ])
-              ++ lib.optional (lib.pathExists ./hosts/nixos/${host}/facter.json) [
-                inputs.nixos-facter-modules.nixosModules.facter
-                {
-                  config.facter.reportPath = customLib.custom.relativeToRoot "hosts/nixos/${host}/facter.json";
-                }
-              ]
-            );
-          }
-        );
+                "hosts/common/optional/minimal-configuration.nix"
+              ])
+            ++ lib.optional (lib.pathExists ./hosts/nixos/${host}/facter.json) [
+              inputs.nixos-facter-modules.nixosModules.facter
+              {
+                config.facter.reportPath = customLib.custom.relativeToRoot "hosts/nixos/${host}/facter.json";
+              }
+            ]
+          );
+        };
       };
 
       mkHostConfigs =
@@ -126,11 +124,9 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       flake = {
         # Custom modifications/overrides to upstream packages
-        overlays = (
-          import ./overlays {
-            inherit inputs lib secrets;
-          }
-        );
+        overlays = import ./overlays {
+          inherit inputs lib secrets;
+        };
         # Build host configs
         nixosConfigurations = mkHostConfigs (readHosts "nixos") false;
         # darwinConfigurations = mkHostConfigs (readHosts "darwin") true;
