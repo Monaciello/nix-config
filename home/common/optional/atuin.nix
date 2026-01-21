@@ -59,7 +59,7 @@ in
     in
     ''
       # bind down key for atuin, specifically because we use invert
-      bindkey "$key[down]" atuin-up-search
+      bindkey "$key[Down]" atuin-up-search
 
       # work around zsh-vi-mode bug
       # https://github.com/atuinsh/atuin/issues/1826
