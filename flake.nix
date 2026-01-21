@@ -104,7 +104,7 @@
 
                   "hosts/common/optional/minimal-configuration.nix"
                 ])
-              ++ lib.optional (builtins.pathExists ./hosts/nixos/${host}/facter.json) [
+              ++ lib.optional (lib.pathExists ./hosts/nixos/${host}/facter.json) [
                 inputs.nixos-facter-modules.nixosModules.facter
                 {
                   config.facter.reportPath = customLib.custom.relativeToRoot "hosts/nixos/${host}/facter.json";
@@ -255,8 +255,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     silentSDDM = {
-      # FIXME(sddm): Pinned because of https://github.com/uiriansan/SilentSDDM/issues/55
-      url = "github:uiriansan/SilentSDDM?rev=cfb0e3eb380cfc61e73ad4bce90e4dcbb9400291";
+      url = "github:uiriansan/SilentSDDM";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
