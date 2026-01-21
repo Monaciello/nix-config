@@ -67,5 +67,6 @@
         # New enough to get memory management improvements
         pkgs.unstable.nixVersions.git
       ];
+    inherit (checks.pre-commit-check) shellHook;
   };
 }
