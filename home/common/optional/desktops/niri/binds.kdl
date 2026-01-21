@@ -22,6 +22,10 @@ binds {
 	Super+Ctrl+k hotkey-overlay-title="Focus monitor up" { focus-monitor-up; }
 	Super+Ctrl+l hotkey-overlay-title="Focus monitor right" { focus-monitor-right; }
 
+    // Super+m {spawn toggleMonitors}
+    // Super+Shift+n {spawn toggleMonitorsNonPrimary}
+    Super+n { spawn "toggleMonitorZen"; }
+
     //
     // ========== Workspace actions ==========
     //

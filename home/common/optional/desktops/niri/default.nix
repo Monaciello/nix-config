@@ -1,5 +1,14 @@
 { lib, pkgs, ... }:
 {
+  imports = [
+    # extra settings
+    ./scripts.nix
+
+    # utilities
+    # TODO: lock screen
+
+    ../wlogout.nix # wayland logout menu
+  ];
   home = {
     packages = lib.attrValues {
       inherit (pkgs.unstable)
