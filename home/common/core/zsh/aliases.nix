@@ -130,7 +130,8 @@ in
   gd = "git diff";
   gp = "git push";
   gpf = "git push --force-with-lease";
-  gl = "git log";
+  gl = "git log --graph";
+  glo = "git log --graph --oneline";
   gc = "git clone";
 
 }
