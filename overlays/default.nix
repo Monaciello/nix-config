@@ -42,32 +42,27 @@ let
         inherit (final.stdenv.hostPlatform) system;
         config.allowUnfree = true;
         overlays = [
-          #        (unstable_final: unstable_prev: {
-          #          mesa = unstable_prev.mesa.overrideAttrs (
-          #            previousAttrs:
-          #            let
-          #              version = "25.2.2";
-          #              hashes = {
-          #                "25.2.2" = "sha256-9w/E5frSvCtPBI58ClXZyGyF59M+yVS4qi4khpfUZwk=";
-          #                "25.1.6" = "sha256-SHYYezt2ez9awvIATEC6wVMZMuJUsOYXxlugs1Q6q7U=";
-          #                "25.1.5" = "sha256-AZAd1/wiz8d0lXpim9obp6/K7ySP12rGFe8jZrc9Gl0=";
-          #                "25.1.4" = "sha256-DA6fE+Ns91z146KbGlQldqkJlvGAxhzNdcmdIO0lHK8=";
-          #                "25.1.3" = "sha256-BFncfkbpjVYO+7hYh5Ui6RACLq7/m6b8eIJ5B5lhq5Y=";
-          #                "25.1.2" = "sha256-oE1QZyCBFdWCFq5T+Unf0GYpvCssVNOEQtPQgPbatQQ=";
-          #              };
-          #            in
-          #            rec {
-          #              inherit version;
-          #              src = prev.fetchFromGitLab {
-          #                domain = "gitlab.freedesktop.org";
-          #                owner = "mesa";
-          #                repo = "mesa";
-          #                rev = "mesa-${version}";
-          #                sha256 = if hashes ? ${version} then hashes.${version} else "";
-          #              };
-          #            }
-          #          );
-          #        })
+          (unstable_final: unstable_prev: {
+            bootdev-cli = unstable_prev.bootdev-cli.overrideAttrs (
+              previousAttrs:
+              let
+                version = "1.23.1";
+                hashes = {
+                  "1.23.1" = "sha256-TAL5UHNwk0r1iWi6L9xnsmD3tzvN2JMki9V14H69sK0=";
+                };
+              in
+              rec {
+                inherit version;
+                src = prev.fetchFromGitHub {
+                  owner = "bootdotdev";
+                  repo = "bootdev";
+                  tag = "v${version}";
+                  hash = hashes.${version} or "";
+                };
+                vendorHash = "sha256-ZDioEU5uPCkd+kC83cLlpgzyOsnpj2S7N+lQgsQb8uY=";
+              }
+            );
+          })
         ];
       };
     };
