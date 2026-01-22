@@ -44,7 +44,6 @@
         # ========== Optional common modules ==========
         (map (f: "hosts/common/optional/${f}") [
           # Desktop environment and login manager
-          "services/sddm.nix"
           "gnome.nix"
 
           # Services
@@ -61,6 +60,10 @@
         ])
     ))
   ];
+
+  introdus.services = {
+    silent-sddm.enable = true;
+  };
 
   boot.initrd.systemd.enable = true;
 

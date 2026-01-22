@@ -69,8 +69,7 @@
   desktops.hyprland.enable = true;
 
   introdus.services = {
-    sddm.enable = true;
-    x11.enable = true;
+    silent-sddm.enable = true;
   };
 
   hardware = {
@@ -109,7 +108,7 @@
     ) config.monitors);
 
     # Fix for XBox controller disconnects
-    extraModprobeConfig = ''options bluetooth disable_ertm=1 '';
+    extraModprobeConfig = "options bluetooth disable_ertm=1 ";
   };
 
   #FIXME: move to ./disks.nix when we add the disks module

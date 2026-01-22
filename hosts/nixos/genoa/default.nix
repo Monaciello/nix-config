@@ -76,8 +76,7 @@
   desktops.hyprland.enable = true;
 
   introdus.services = {
-    sddm.enable = true;
-    x11.enable = true;
+    silent-sddm.enable = true;
   };
 
   boot.initrd = {
