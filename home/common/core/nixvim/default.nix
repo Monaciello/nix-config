@@ -53,6 +53,7 @@
 
       wrap = false; # Don't wrap lines
       linebreak = true; # Wrap lines at convenient points
+      textwidth = 80;
 
       # ========= Font =========
       guifont = lib.mkForce "NotoSansMono:h9"; # fontname:fontsize
