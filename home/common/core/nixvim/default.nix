@@ -73,9 +73,9 @@
       cindent = true; # automatically indent braces
       smartindent = true;
       smarttab = true;
-      shiftwidth = 2;
-      softtabstop = 2;
-      tabstop = 2;
+      shiftwidth = 4;
+      softtabstop = 4;
+      tabstop = 4;
       expandtab = true;
 
       # ================ Folds ============================
