@@ -280,3 +280,11 @@ window-rule {
 	match app-id=r#"^signal$"#
 	default-column-width { proportion 0.25; }
 }
+// ========== Signal ==========
+// Resize certain windows to specific sizes.
+window-rule {
+	match title=r#"pygame window"#
+
+	default-column-width { fixed 1280; }
+	default-window-height { fixed 720; }
+}
