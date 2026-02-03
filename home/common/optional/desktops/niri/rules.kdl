@@ -41,7 +41,7 @@ layout {
 
     // FIXME: with this commented out apps will determine their own starting width
     // Need try it out and decide
-	default-column-width { proportion 0.66667; }
+	default-column-width { proportion 0.75; }
 
 	// Cycled though using `switch-preset-window-column` action
     preset-column-widths {
@@ -50,6 +50,7 @@ layout {
 		proportion 0.5
 		proportion 0.66667
 		proportion 0.75
+		proportion 0.80
 		proportion 1.0
     }
 
@@ -116,7 +117,7 @@ window-rule {
 		inactive-color "#2D2D30"
 
 		// Color of the focus ring around windows that request your attention.
-		urgent-color "#ff0060"
+		urgent-color "#C03900"
 	}
 }
 // ========== Active windows ==========
@@ -153,7 +154,6 @@ window-rule {
     open-on-workspace "9_u"
 }
 window-rule {
-    match app-id=r#"^[Ss]potify$"#
     match app-id=r#"com.mitchellh.ghostty"# title="btop"
 
     open-on-workspace "0_r"
@@ -165,6 +165,8 @@ window-rule {
 }
 window-rule {
     match app-id=r#"com.yubico.yubioath"#
+    match app-id=r#"^(Proton VPN)$"#
+    match app-id=r#"^[Ss]potify$"#
 
     open-on-workspace "Y_qrs"
 }
@@ -274,13 +276,22 @@ window-rule {
       open-on-output "DP-1"
       open-on-workspace "5_gmz"
   }
+
 // ========== Signal ==========
 // Resize certain windows to specific sizes.
 window-rule {
 	match app-id=r#"^signal$"#
 	default-column-width { proportion 0.25; }
 }
-// ========== Signal ==========
+
+// ========== Brave ==========
+// Resize certain windows to specific sizes.
+window-rule {
+    match app-id=r#"brave-browser"#
+}
+
+
+// ========== Projects ==========
 // Resize certain windows to specific sizes.
 window-rule {
 	match title=r#"pygame window"#
