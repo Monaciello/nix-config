@@ -139,6 +139,14 @@
     borgBackupPath = "/mnt/storage/backup/${config.hostSpec.primaryUsername}";
     borgNotifyFrom = "${config.hostSpec.email.notifier}";
     borgNotifyTo = "${config.hostSpec.email.backup}";
+
+    borgBackupPaths = [
+      "${config.hostSpec.home}"
+    ];
+
+    borgExcludes = [
+      "${config.hostSpec.home}/.local/share/Steam"
+    ];
   };
 
   # Connect our NUT client to the UPS on the network

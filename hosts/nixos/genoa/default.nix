@@ -6,6 +6,7 @@
 ###############################################################
 
 {
+  config,
   inputs,
   lib,
   ...
@@ -93,6 +94,25 @@
     };
     efi.canTouchEfiVariables = true;
     timeout = 5;
+  };
+
+  services.backup = {
+    enable = true;
+    borgBackupStartTime = "00:10:00";
+
+    borgServer = "${config.hostSpec.networking.subnets.grove.hosts.moth.ip}";
+    borgUser = "${config.hostSpec.primaryUsername}";
+    borgPort = "${toString config.hostSpec.networking.ports.tcp.moth}";
+
+    borgRemotePath = "/run/current-system/sw/bin/borg";
+
+    borgBackupPath = "/mnt/storage/backup/${config.hostSpec.primaryUsername}";
+    borgNotifyFrom = "${config.hostSpec.email.notifier}";
+    borgNotifyTo = "${config.hostSpec.email.backup}";
+
+    borgExcludes = [
+      "${config.hostSpec.home}/.local/share/Steam"
+    ];
   };
 
   #Firmwareupdater

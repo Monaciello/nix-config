@@ -16,13 +16,18 @@ let
   homeDirectory = "${config.hostSpec.home}";
   rootHome = if pkgs.stdenv.isLinux then config.users.users.root.home else "/var/root";
   excludes = lib.flatten [
-    "**/.direnv"
     "**/.cache"
+    "**/.direnv"
+    "**/.devenv"
+    "**/.grunt"
     "**/.npm"
     "**/.npm-global"
     "**/.node-gyp"
     "**/.yarn"
+    "**/.vitepress/cache"
+    "**/.svelte-kit"
     "**/.pnpm-store"
+    "**/.parcel-cache"
     "**/.m2"
     "**/.gradle"
     "**/.opam"
