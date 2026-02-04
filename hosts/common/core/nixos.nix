@@ -34,6 +34,8 @@
     defaultSession = config.hostSpec.defaultDesktop;
   };
 
+  services.gnome.gnome-keyring.enable = config.hostSpec.useWindowManager;
+
   #
   # ========== Generation Pinning ==========
   #

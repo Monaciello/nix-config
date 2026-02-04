@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.niri = {
     enable = true;
@@ -7,14 +12,19 @@
   environment.systemPackages = lib.attrValues {
     inherit (pkgs)
       xwayland-satellite # xwayland support
-
-      #TODO(niri): decide
-      #swaylock
       ;
   };
 
-  # extras recommended by niri
-  services.gnome.gnome-keyring.enable = true;
-  #TODO(niri): decide
-  #security.services.pam.swaylock ={};
+  programs.uwsm = {
+    enable = true;
+    waylandCompositors = {
+      niri = {
+        prettyName = "niri";
+        comment = "Niri compositor managed by UWSM";
+        binPath = pkgs.writeShellScript "niri" ''
+          ${lib.getExe config.programs.niri.package} --session
+        '';
+      };
+    };
+  };
 }

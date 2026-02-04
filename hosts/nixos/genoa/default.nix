@@ -47,8 +47,7 @@
       ++
         # ========== Optional common modules ==========
         (map (f: "hosts/common/optional/${f}") [
-          # Desktop environment and login manager
-          #"hyprland.nix" # enable as service below
+          # Desktop environment
           "niri.nix"
 
           # Services
@@ -74,7 +73,6 @@
         ])
     ))
   ];
-  desktops.hyprland.enable = true;
 
   introdus.services = {
     silent-sddm.enable = true;
