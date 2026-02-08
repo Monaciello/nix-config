@@ -19,7 +19,7 @@
         (map (f: "home/common/optional/${f}") [
           "browsers"
           "comms"
-          "desktops" # default is hyprland
+          "desktops" # default is niri
           "development"
           #          "gaming"
           "helper-scripts"

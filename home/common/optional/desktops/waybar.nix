@@ -54,11 +54,9 @@ in
         #output = (map (m: "${m.name}") (osConfig.monitors));
 
         modules-left = [
-          "hyprland/workspaces"
           "niri/workspaces"
         ];
         modules-center = [
-          "hyprland/window"
           "niri/window"
         ];
         modules-right =
@@ -99,15 +97,6 @@ in
           disable-click = false;
           disable-markup = false; # If set to true, button label will escape pango markup.
           current-only = false; # If set to true, only the active or focused workspace will be shown.
-        };
-
-        #TODO
-        # "hyprland/window" = {}
-        "hyprland/workspaces" = {
-          all-outputs = false;
-          disable-scroll = true;
-          on-click = "activate";
-          show-special = true; # display special workspaces along side regular ones (scratch for example)
         };
         "clock#time" = {
           interval = 1;

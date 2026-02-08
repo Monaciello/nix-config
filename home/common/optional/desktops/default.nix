@@ -2,8 +2,6 @@
 {
   imports = [
     # Packages with custom configs go here
-
-    #./hyprland
     ./gnome
     ./niri
 

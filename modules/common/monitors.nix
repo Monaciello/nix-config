@@ -1,4 +1,7 @@
-# The options set using this module are intended for use with logic defined in specific workspace management configurations. For example, see nix-config/home/ta/common/optional/hyprland/
+# The options set using this module are intended for use with logic defined in
+# specific workspace management configurations. For example, see
+# nix-config/home/ta/common/optional/hyprland/
+
 { lib, config, ... }:
 let
   inherit (lib) mkOption types;
