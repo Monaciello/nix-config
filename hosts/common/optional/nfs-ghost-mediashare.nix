@@ -8,5 +8,11 @@ in
   fileSystems."/mnt/mediashare" = {
     device = "${ghostIP}:/mnt/extra/mediashare/";
     fsType = "nfs";
+    options = [
+      "noauto"
+      "x-systemd.automount"
+      "nofail"
+      "x-systemd.device-timeout=15s"
+    ];
   };
 }
