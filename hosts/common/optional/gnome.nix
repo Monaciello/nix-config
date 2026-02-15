@@ -14,6 +14,7 @@
       cheese # webcam tool
       atomix # puzzle game
       epiphany # web browser
+      papers # pdf viewer
       geary # email reader
       gnome-characters
       iagno # go game
