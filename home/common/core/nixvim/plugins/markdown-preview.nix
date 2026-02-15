@@ -2,6 +2,7 @@
 # https://github.com/iamcco/markdown-preview.nvim
 # nixvim docs:
 # https://nix-community.github.io/nixvim/stable/plugins/markdown-preview/index.html?highlight=markdown#markdown-preview
+# supports rendering uml (putting this note here in case I grep for uml again ;)
 { config, lib, ... }:
 {
   options = {
