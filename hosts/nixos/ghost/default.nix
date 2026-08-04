@@ -53,6 +53,7 @@
           "libvirt.nix" # vm tools
           "mail.nix" # for sending email notifications
           "nvtop.nix" # GPU monitor (not available in home-manager)
+          "cursor.nix" # Cursor AI editor (jacopone/code-cursor-nix)
           "obsidian.nix" # wiki
           "plymouth.nix" # boot graphics
           "protonvpn.nix" # vpn

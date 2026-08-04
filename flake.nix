@@ -272,5 +272,11 @@
       #url = "git+ssh://git@codeberg.org/fidgetingbits/introdus?shallow=1&ref=ta";
       url = "path:///home/ta/src/nix/introdus/ta";
     };
+    # Auto-updating Cursor AI editor package
+    # https://github.com/jacopone/code-cursor-nix
+    code-cursor-nix = {
+      url = "github:jacopone/code-cursor-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }
