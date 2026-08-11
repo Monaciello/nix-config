@@ -763,7 +763,8 @@
         "pre-commit-hooks": "pre-commit-hooks_2",
         "silentSDDM": "silentSDDM",
         "sops-nix": "sops-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "code-cursor-nix": "code-cursor-nix"
       }
     },
     "silentSDDM": {
@@ -985,6 +986,27 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "code-cursor-nix": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785752523,
+        "narHash": "sha256-pCMsazuvu2U/cMlDDa23EnFztubzIuoEGr/xNz2uQuU=",
+        "owner": "jacopone",
+        "repo": "code-cursor-nix",
+        "rev": "43c6d4df8dad08c6bdb5060bc7418624296c9a07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jacopone",
+        "repo": "code-cursor-nix",
         "type": "github"
       }
     }
