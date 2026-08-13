@@ -1,4 +1,9 @@
 # Core functionality for every nixos host
+#
+# INTRODUS GLUE: attachment point for shared NixOS modules (see anatomy_v5 hosts
+# "core" band). alice / nuc / rpi4-0x* should all import this so introdus.* options
+# stay one vocabulary. Upstream should own transitive flake inputs used by these
+# modules (https://codeberg.org/fidgetingbits/introdus/issues/44).
 {
   config,
   lib,

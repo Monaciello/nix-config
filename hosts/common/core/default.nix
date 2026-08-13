@@ -1,4 +1,11 @@
 # IMPORTANT: This is used by NixOS and nix-darwin so options must exist in both!
+#
+# INTRODUS GLUE (hosts lane of anatomy_v5 / nix-config.drawio):
+# Every fleet member (alice, rpi4-0x*, nuc, and later macbook via darwin) should
+# enter through this core so overlays land identically. Platform-specific introdus
+# modules attach in ./nixos.nix (and a future ./darwin.nix) — keep this file
+# cross-platform. Host hardware stays under hosts/<platform>/<name>; shared
+# behavior stays here or in introdus (that split enables one workstation → fleet).
 {
   inputs,
   outputs,
@@ -64,6 +71,7 @@ in
   nixpkgs = {
     overlays = [
       outputs.overlays.default
+      # INTRODUS GLUE: pkgs.introdus.* available for rebuild/bootstrap tooling on-box
       inputs.introdus.overlays.default
     ];
     config = {

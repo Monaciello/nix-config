@@ -7,6 +7,9 @@
   ...
 }:
 let
+  # INTRODUS GLUE: shared pre-commit/treefmt policy so alice, CI, and edge rebuilds
+  # agree on "what good looks like" for the fleet flake (anatomy's formatter/devshell
+  # lane). Local hooks below are repo policy on top of introdus defaults.
   introdusLib = inputs.introdus.lib.mkIntrodusLib { inherit lib; };
 in
 {

@@ -8,6 +8,10 @@
   ...
 }:
 
+# INTRODUS-ADJACENT GLUE (users band in anatomy_v5 / drawio):
+# Maps fleet hosts → HM user profiles. Keep user identity/keys here; push
+# reusable shell/editor/ssh behavior into introdus HM modules so alice and
+# macbook don't diverge when only the host file differs.
 let
   # Generate a list of public key contents to use by ssh
   genPubKeyList =
