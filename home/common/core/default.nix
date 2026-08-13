@@ -6,6 +6,9 @@
 }:
 {
   imports = lib.flatten [
+    # INTRODUS GLUE (home lane of anatomy_v5 / drawio): one HM module set so the
+    # same user environment lands on alice workstation, nuc sessions, and (via
+    # darwin HM) macbook — host files only pick optional desktops/comms/etc.
     inputs.introdus.homeManagerModules.default
     (map lib.custom.relativeToRoot [
       "modules/home"
@@ -13,7 +16,9 @@
     (lib.custom.scanPathsFilterPlatform ./.)
   ];
 
-  # FIXME: better way of handling the glue for this ?
+  # INTRODUS GLUE / FIXME: hosts/common/users passes hostSpec into HM; introdus
+  # should be the stable bridge for "fleet user core" (git/ssh/shell/editor) so
+  # we stop duplicating glue between this file and per-host home/*.nix profiles.
   # inherit common modules passed through from hosts
   # be sure to import the respective module above as well
   # see hosts/common/users/default.nix

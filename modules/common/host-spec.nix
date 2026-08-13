@@ -1,4 +1,14 @@
 # Specifications For Differentiating Hosts
+#
+# anatomy_v5 draws host *identity* (ghost/grief/…) separately from home profiles.
+# For a real fleet (alice workstation, rpi4-0x*, nuc, macbook), hostSpec is the
+# inventory + capability map that introdus auto-modules and local optional imports
+# should key off — not one-off if-hostname branches.
+#
+# INTRODUS GLUE TARGET: shrink boolean soup into a few fleet roles/profiles that
+# introdus modules can consume the same way on every machine, e.g.
+#   workstation (alice) | edge-arm (rpi4-0x) | mini (nuc) | darwin-laptop (macbook)
+# Keep secrets-shaped data (networking/email) injected here; keep behavior in modules.
 {
   config,
   pkgs,
@@ -87,6 +97,8 @@
         };
 
         # Configuration Settings
+        # Fleet-oriented flags (diagram "optional" arrows): prefer composing introdus
+        # + hosts/common/optional modules from these rather than per-host copy/paste.
         users = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           description = "An attribute set of all users on the host";

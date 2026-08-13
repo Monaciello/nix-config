@@ -1,4 +1,10 @@
 # Shell for bootstrapping flake-enabled nix and other tooling
+#
+# INTRODUS GLUE (ops plane — missing from anatomy_v5 drawings but required for fleet):
+# This devShell is the "one development machine" control seat: from alice, use
+# introdus bootstrap-nixos / rebuild-host to push the same flake to rpi4-0x*, nuc,
+# and (later) macbook. Per-host locks + connectivity checks:
+# https://codeberg.org/fidgetingbits/introdus/issues/30
 {
   pkgs,
   checks,
@@ -54,13 +60,13 @@
           gum # shell script ricing
           ;
         inherit (pkgs.introdus)
-          bootstrap-nixos # introdus script for bootstrapping new hosts
+          bootstrap-nixos # introdus: bring up a new fleet member (nuc/rpi/…) remotely
           check-sops
           ;
       }
       ++ [
-        # introdus script for rebuilding a remote/local hosts
-        # with optional per-host locking support
+        # introdus: rebuild any fleet host from this workstation
+        # enable perHostLocks when concurrent alice→rpi/nuc rebuilds collide (#30)
         (pkgs.introdus.rebuild-host.overrideAttrs (_: {
           perHostLocks = false;
         }))

@@ -1,5 +1,24 @@
 {
   description = "EmergentMind's Nix-Config";
+  #
+  # ========== Fleet glue (diagrams vs reality) ==========
+  #
+  # docs/diagrams/anatomy_v5{,.1}.png and docs/diagrams/nix-config.drawio describe a
+  # single-flake "one environment everywhere" design: flake inputs → host configs
+  # (./hosts) + home configs (./home), with core/optional mix-ins.
+  #
+  # Diagram hosts today: ghost / grief / guppy / gusto / iso (+ darwin modules drawn).
+  # Target fleet we actually want to drive from one workstation:
+  #   - alice   → primary workstation (diagram: ghost)
+  #   - rpi4-0x* → aarch64 edge nodes (NOT in anatomy_v5 — systems[] is x86_64-only)
+  #   - nuc     → small always-on box (diagram: gusto-class / optional server flags)
+  #   - macbook → darwin host (drawn in anatomy; darwinConfigurations still commented out)
+  #
+  # introdus is the interoperable glue across that fleet + collaborator flakes:
+  # shared nixos/hm modules, pkgs (rebuild-host, bootstrap-nixos), lib, checks, formatter.
+  # See https://codeberg.org/fidgetingbits/introdus/issues (esp. #30 per-host locks,
+  # #44 own transitive inputs like silentSDDM so consumers stay thin).
+  #
   outputs =
     {
       self,
@@ -14,6 +33,8 @@
       inherit (nixpkgs) lib;
       namespace = "emergentmind"; # namespace for our custom modules. Snowfall lib style
 
+      # INTRODUS GLUE: shared lib (scanPaths, network helpers, pre-commit hooks, …).
+      # Must stay secret-schema-compatible across alice/rpi/nuc/macbook consumers.
       introdusLib = introdus.lib.mkIntrodusLib {
         inherit (nixpkgs) lib;
         secrets = nix-secrets;
@@ -129,8 +150,11 @@
         };
         # Build host configs
         nixosConfigurations = mkHostConfigs (readHosts "nixos") false;
+        # FLEET: macbook — re-enable when darwin lane matches anatomy_v5 again
         # darwinConfigurations = mkHostConfigs (readHosts "darwin") true;
       };
+      # FLEET GAP: rpi4-0x* need aarch64-linux here (and matching host entries).
+      # macbook needs darwinConfigurations re-enabled (see anatomy_v5 darwin lane).
       systems = [
         "x86_64-linux"
       ];
@@ -140,10 +164,13 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
+              # INTRODUS GLUE: shared packages (helpers, bootstrap, zsh plugins, …)
+              # appear as pkgs.introdus.* on every fleet member that imports core.
               introdus.overlays.default
               self.overlays.default
             ];
           };
+          # INTRODUS GLUE: one formatter/check story for the whole fleet repo.
           formatter = inputs.introdus.formatter.${system};
         in
         rec {
@@ -268,6 +295,9 @@
     nix-assets = {
       url = "github:emergentmind/nix-assets";
     };
+    # INTRODUS GLUE INPUT — pin a shareable URL for fleet/CI; path:// is alice-local only.
+    # Prefer github/codeberg + lock (and eventually releases) so nuc/rpi/macbook/agents
+    # evaluate the same glue. Track input ownership cleanups upstream (#44).
     introdus = {
       #url = "git+ssh://git@codeberg.org/fidgetingbits/introdus?shallow=1&ref=ta";
       url = "path:///home/ta/src/nix/introdus/ta";
